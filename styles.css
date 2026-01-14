@@ -308,7 +308,7 @@ button {
   text-align: center;
   width: 100%;
   padding: 20px;
-  margin: 0 auto;
+  margin: 5rem 0 0;
 }
 
 .tagline {
@@ -407,69 +407,57 @@ button {
 .what_we_do {
   display: flex;
   align-items: center;
-  background-color: #ffffff;
-  padding: 50px;
-  width: 100%;
-  box-sizing: border-box;
-  margin-top: 4rem;
-  gap: 30px;
+  justify-content: center;
+  gap: 3rem;
+  margin: 5rem 3rem 0;
+  flex-wrap: wrap; /* IMPORTANT */
 }
 
+/* Image */
 .what_we_do_image-container {
-  flex: 0.7;
-  border-radius: 20px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 400px;
+  flex: 1 1 350px;
+  max-width: 500px;
 }
 
 .what_we_do_image-container img {
-  width: 30rem;
-  height: 50vh;
-  max-width: 100%;
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
   border-radius: 10px;
-  border: 12px solid #4f46e5;
-  transition: transform 0.4s ease;
 }
 
-.what_we_do_image-container:hover img {
-  transform: scale(1.1);
-}
-
+/* Content */
 .what_we_do_content {
-  flex: 0.7;
-  color: #2c2c2c;
+  flex: 1 1 350px;
+  max-width: 600px;
 }
 
 .what_we_do_content h2 {
-  color: #4a509c;
-  font-size: 36px;
-  font-weight: bold;
-  margin-bottom: 20px;
+  font-size: 3rem;
+  color: #3d4094;
 }
 
 .what_we_do_content p {
-  font-size: 16px;
-  line-height: 1.6;
-  color: #555555;
+  margin-top: 1.2rem;
+  font-size: 1.1rem;
+  font-family: Helvetica, sans-serif;
+  line-height: 1.5;
 }
 
-@media (max-width: 768px) {
-  .what_we_do {
-    flex-direction: column;
-    padding: 20px;
-  }
-  .what_we_do_image-container {
-    width: 100%;
-    margin-right: 0;
-    margin-bottom: 30px;
-    height: auto;
-    padding: 20px;
-  }
-  .what_we_do_content {
-    width: 100%;
-    text-align: center;
-  }
+/* packaging solution */
+.packaging_soultion {
+  margin-top: 10rem;
+  text-align: center;
+}
+
+.packaging_soultion h1 {
+  margin-bottom: 3rem;
+  font-size: 3rem;
+  color: #3d4094;
+  font-family: Helvetica, sans-serif;
+}
+
+.packaging_soultion img {
+  width: 100%;
+  object-fit: contain;
 }
