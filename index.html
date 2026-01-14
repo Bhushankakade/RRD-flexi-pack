@@ -35,6 +35,12 @@
             color: #1f2937;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            /* Hide overflow initially for loader */
+            overflow: hidden;
+        }
+
+        body.loaded {
+            overflow: auto;
         }
 
         a {
@@ -47,17 +53,102 @@
             cursor: pointer;
         }
 
+        /* --- Loader Styles --- */
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s ease-out, visibility 0.6s;
+        }
+
+        .loader-container.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
         .rrd_logo {
             width: 6rem;
             margin-top: 8px;
+        }
+
+        /* Spinning Box Animation */
+        .box-spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #3d4094;
+            border-top: 5px solid #00a859;
+            border-right: 5px solid #ed3338;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            animation: box-morph 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .loader-text {
+            font-family: "Fredoka", sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #3d4094;
+            letter-spacing: 1px;
+            animation: pulse-text 1.5s ease-in-out infinite;
+        }
+
+        .loader-text span {
+            color: #ed3338;
+        }
+
+        @keyframes box-morph {
+            0% {
+                transform: rotate(0deg) scale(1);
+                border-radius: 8px;
+            }
+
+            50% {
+                transform: rotate(180deg) scale(1.15);
+                border-radius: 50%;
+                border-width: 3px;
+            }
+
+            100% {
+                transform: rotate(360deg) scale(1);
+                border-radius: 8px;
+            }
+        }
+
+        @keyframes pulse-text {
+
+            0%,
+            100% {
+                opacity: 0.6;
+                transform: scale(0.98);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.02);
+            }
         }
 
         /* --- Animations --- */
         /* Reveal on Scroll Class */
         .reveal {
             opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease-out;
+            transform: translateY(60px);
+            transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .reveal.active {
@@ -412,7 +503,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
             z-index: 1;
             display: flex;
             align-items: center;
@@ -616,7 +707,7 @@
 
             .tagline_buttons button {
                 width: 100%;
-                max-width: 200px;
+                max-width: 320px;
             }
 
             .what_we_do {
@@ -678,12 +769,19 @@
 
 <body>
 
+    <!-- Loader -->
+    <div id="loader" class="loader-container">
+        <div class="loader-content">
+            <div class="box-spinner"></div>
+            <img src="./asset/RRD_LOGO.png" class="rrd_logo" alt="">
+        </div>
+    </div>
+
     <nav id="navbar" class="navbar">
         <div class="container">
             <div class="nav-content">
 
                 <div class="logo-container">
-                    <!-- Replaced Image with Text for Reliability in Preview -->
                     <img src="./asset/RRD_LOGO.png" class="rrd_logo" alt="">
                 </div>
 
@@ -811,14 +909,12 @@
 
     <header>
         <div class="video-header">
-            <!-- Using a placeholder video since local files won't work -->
             <video autoplay muted loop playsinline>
                 <source src="./asset/Home page.mp4" type="video/mp4">
                 Your browser does not support the video.
             </video>
 
             <div class="video-overlay">
-                <!-- Overlay content if needed -->
             </div>
         </div>
 
@@ -861,6 +957,21 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Loader Logic ---
+            const loader = document.getElementById('loader');
+
+            // Artificial delay to ensure loader is seen (looks better than instant flicker)
+            setTimeout(() => {
+                if (loader) {
+                    loader.classList.add('hidden');
+                    document.body.classList.add('loaded'); // Enable scrolling
+                    // Remove loader from DOM after fade out
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                    }, 600);
+                }
+            }, 2500); // 2.5 seconds load time
+
             // --- Mobile Menu Toggle Logic ---
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -912,19 +1023,24 @@
                 });
             });
 
-            // --- Scroll Animation (Intersection Observer) ---
+            // --- Scroll Animation (Bidirectional with Shake Fix) ---
             const observerOptions = {
-                root: null, // use the viewport
+                root: null,
                 rootMargin: '0px',
-                threshold: 0.15 // trigger when 15% of element is visible
+                threshold: 0.15
             };
 
-            const observer = new IntersectionObserver((entries, observer) => {
+            const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
-                        // Optional: Stop observing once revealed if you want it to happen only once
-                        // observer.unobserve(entry.target);
+                    } else {
+                        // Fix for shaking: Only remove 'active' if the element is exiting 
+                        // from the bottom (i.e., we are scrolling up).
+                        // If it exits from the top (scrolling down past it), keep it active.
+                        if (entry.boundingClientRect.top > 0) {
+                            entry.target.classList.remove('active');
+                        }
                     }
                 });
             }, observerOptions);
