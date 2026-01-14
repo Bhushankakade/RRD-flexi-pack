@@ -459,5 +459,6 @@ button {
 
 .packaging_soultion img {
   width: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  height: 400px;
 }
