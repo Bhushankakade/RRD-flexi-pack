@@ -409,7 +409,7 @@ button {
   align-items: center;
   justify-content: center;
   gap: 3rem;
-  margin: 5rem 3rem 0;
+  margin: 5rem 2rem 0;
   flex-wrap: wrap; /* IMPORTANT */
 }
 
