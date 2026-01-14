@@ -4,6 +4,10 @@
   padding: 0;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   font-family: "Roboto", sans-serif;
   background-color: #f9fafb;
@@ -296,6 +300,7 @@ button {
   height: 100%;
   object-fit: cover;
   object-position: top center;
+  display: block;
 }
 
 /* tagline */
