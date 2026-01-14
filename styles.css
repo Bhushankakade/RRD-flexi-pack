@@ -446,7 +446,7 @@ button {
 
 /* packaging solution */
 .packaging_soultion {
-  margin-top: 10rem;
+  margin-top: 5rem;
   text-align: center;
 }
 
@@ -458,7 +458,7 @@ button {
 }
 
 .packaging_soultion img {
-  width: 100%;
+  width: 80%;
+  height: auto;
   object-fit: cover;
-  height: 400px;
 }

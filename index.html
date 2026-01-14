@@ -4,16 +4,676 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Responsive Navbar</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <title>RRD Packaging Solutions</title>
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Comic+Neue:wght@400;700&family=Fredoka:wght@400;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* --- Reset & Base Styles --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Roboto", sans-serif;
+            background-color: #f9fafb;
+            color: #1f2937;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            all: unset;
+            cursor: pointer;
+        }
+
+        .rrd_logo {
+            width: 6rem;
+            margin-top: 8px;
+        }
+
+        /* --- Animations --- */
+        /* Reveal on Scroll Class */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered delay for children */
+        .reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        /* --- Navbar Container --- */
+        .navbar {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 50;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            position: relative;
+        }
+
+        /* --- Logo --- */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 900;
+            font-size: 24px;
+            color: #3d4094;
+            letter-spacing: -1px;
+        }
+
+        .logo-text {
+            font-family: "Fredoka", sans-serif;
+            font-size: 28px;
+        }
+
+        .logo-text span {
+            color: #ed3338;
+        }
+
+        /* --- Desktop Menu --- */
+        .desktop-menu {
+            display: none;
+            /* Hidden on mobile by default */
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-link {
+            color: #4b5563;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #3d4094;
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover,
+        .dropdown-trigger:hover {
+            color: #3d4094;
+        }
+
+        .dropdown-trigger {
+            display: flex;
+            align-items: center;
+            color: #4b5563;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+            gap: 4px;
+        }
+
+        .caret-icon {
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        /* --- Desktop Dropdown --- */
+        .dropdown-parent {
+            position: relative;
+            padding: 10px 0;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 0px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f3f4f6;
+            overflow: hidden;
+
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.2s ease;
+
+            min-width: 180px;
+            z-index: 100;
+        }
+
+        .dropdown-menu.right-align {
+            left: auto;
+            right: 0;
+        }
+
+        .dropdown-menu.wide {
+            width: 288px;
+        }
+
+        .dropdown-menu.medium {
+            width: 240px;
+        }
+
+        .dropdown-parent:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-parent:hover .caret-icon {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 10px 16px;
+            font-size: 14px;
+            color: #374151;
+            margin: 4px;
+            border-radius: 8px;
+            transition: background-color 0.15s, color 0.15s;
+            white-space: nowrap;
+        }
+
+        .dropdown-item:hover {
+            background-color: #eef2ff;
+            color: #4f46e5;
+        }
+
+        /* --- Mobile Menu Button --- */
+        .mobile-menu-btn-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .mobile-menu-btn {
+            color: #4b5563;
+            padding: 8px;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-menu-btn:hover {
+            color: #111827;
+        }
+
+        /* Responsive Breakpoint for Navbar */
+        @media (min-width: 1200px) {
+            .desktop-menu {
+                display: flex;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .mobile-menu-btn-container {
+                display: none;
+            }
+        }
+
+        /* --- Mobile Menu Styles --- */
+        .mobile-menu {
+            display: block;
+            background-color: white;
+            border-bottom: 1px solid #f3f4f6;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-in-out;
+        }
+
+        .mobile-menu.open {
+            max-height: 80vh;
+            opacity: 1;
+            overflow-y: auto;
+        }
+
+        /* Hide mobile menu on large screens */
+        @media (min-width: 1200px) {
+            .mobile-menu {
+                display: none;
+            }
+        }
+
+        .mobile-nav-container {
+            padding: 8px 16px 24px 16px;
+        }
+
+        .mobile-link {
+            display: block;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #111827;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+            border-bottom: 1px solid #f9fafb;
+        }
+
+        .mobile-link:hover {
+            background-color: #f9fafb;
+        }
+
+        .mobile-dropdown-btn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #111827;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+            border-bottom: 1px solid #f9fafb;
+        }
+
+        .mobile-dropdown-btn:hover {
+            background-color: #f9fafb;
+        }
+
+        .mobile-dropdown-content {
+            display: none;
+            padding-left: 16px;
+            padding-right: 8px;
+            margin-top: 4px;
+            background-color: #fcfcfc;
+            border-left: 2px solid #e5e7eb;
+            margin-left: 12px;
+        }
+
+        .mobile-dropdown-content.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-sub-link {
+            display: block;
+            padding: 10px 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            border-radius: 6px;
+            transition: color 0.2s, background-color 0.2s;
+        }
+
+        .mobile-sub-link:hover {
+            color: #4f46e5;
+            background-color: #f3f4f6;
+        }
+
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+
+        /* --- Header Section --- */
+        .video-header {
+            width: 100%;
+            height: 90vh;
+            overflow: hidden;
+            position: relative;
+            background-color: #000;
+        }
+
+        .video-header video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            opacity: 0.6;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        /* --- Tagline --- */
+        .tagline_container {
+            text-align: center;
+            width: 100%;
+            padding: 80px 20px;
+            background-color: #fff;
+            max-width: 100%;
+            overflow: hidden;
+            /* Prevent horizontal scroll triggers */
+        }
+
+        .tagline {
+            font-family: "Comic Neue", "Fredoka", cursive, sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            line-height: 1.2;
+            margin: 0 0 1.5rem 0;
+            font-weight: 700;
+            color: #222;
+        }
+
+        .tagline span {
+            color: #ed3338;
+            display: inline-block;
+        }
+
+        .sub_tagline {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            font-family: "Roboto", sans-serif;
+            margin: 0 auto 3rem auto;
+            font-weight: 400;
+            color: #545454;
+            line-height: 1.6;
+            max-width: 800px;
+        }
+
+        .tagline_buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tagline_buttons button {
+            border: none;
+            font-family: "Roboto", sans-serif;
+            font-size: 1.1rem;
+            padding: 16px 36px;
+            border-radius: 50px;
+            border: 2px solid #ed3338;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        .tagline_buttons button:first-child {
+            color: #fff;
+            background-color: #ed3338;
+        }
+
+        .tagline_buttons button:first-child:hover {
+            color: #ed3338;
+            background-color: #fff;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(237, 51, 56, 0.2);
+        }
+
+        .tagline_buttons button:last-child {
+            color: #545454;
+        }
+
+        .tagline_buttons button:last-child:hover {
+            color: #fff;
+            background-color: #ed3338;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(237, 51, 56, 0.2);
+        }
+
+        /* --- What We Do --- */
+        .what_we_do {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5rem;
+            margin: 8rem auto;
+            padding: 0 2rem;
+            max-width: 1400px;
+            flex-wrap: wrap;
+        }
+
+        .what_we_do_image-container {
+            flex: 1 1 450px;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .what_we_do_image-container::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: -30px;
+            width: 100%;
+            height: 100%;
+            background-color: #e0e7ff;
+            border-radius: 10px;
+            z-index: -1;
+            transition: transform 0.4s ease;
+        }
+
+        .what_we_do_image-container:hover::before {
+            transform: translate(10px, -10px);
+        }
+
+        .what_we_do_image-container img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .what_we_do_content {
+            flex: 1 1 400px;
+            max-width: 600px;
+        }
+
+        .what_we_do_content h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: #3d4094;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            font-family: "Fredoka", sans-serif;
+        }
+
+        .what_we_do_content p {
+            font-size: 1.125rem;
+            color: #4b5563;
+            line-height: 1.8;
+        }
+
+        /* --- Packaging Solution --- */
+        .packaging_soultion {
+            margin: 6rem 0;
+            padding: 6rem 2rem;
+            background-color: #f3f4f6;
+            text-align: center;
+        }
+
+        .packaging_soultion h1 {
+            margin-bottom: 4rem;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: #3d4094;
+            font-family: "Fredoka", sans-serif;
+            font-weight: 700;
+        }
+
+        .packaging_soultion img {
+            width: 100%;
+            max-width: 1100px;
+            height: auto;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transition: transform 0.4s ease;
+        }
+
+        .packaging_soultion img:hover {
+            transform: scale(1.02);
+        }
+
+        .spacer {
+            height: 100px;
+        }
+
+        /* --- Responsive Styles --- */
+        @media (max-width: 1024px) {
+            .what_we_do {
+                gap: 3rem;
+            }
+
+            .what_we_do_image-container::before {
+                top: 20px;
+                left: -20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .tagline_buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .tagline_buttons button {
+                width: 100%;
+                max-width: 200px;
+            }
+
+            .what_we_do {
+                margin: 4rem auto;
+                flex-direction: column-reverse;
+                /* Put image on top on mobile, or bottom */
+                gap: 3rem;
+            }
+
+            .what_we_do_image-container {
+                flex: auto;
+                width: 100%;
+                max-width: 100%;
+                padding: 0 1rem;
+            }
+
+            .what_we_do_image-container::before {
+                display: none;
+                /* Hide decorative background on small mobile to save space */
+            }
+
+            .what_we_do_image-container img {
+                height: 300px;
+            }
+
+            .what_we_do_content {
+                text-align: center;
+                padding: 0 1rem;
+            }
+
+            .video-header {
+                height: 70vh;
+            }
+
+            .packaging_soultion {
+                padding: 4rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-content {
+                height: 70px;
+            }
+
+            .logo-text {
+                font-size: 24px;
+            }
+
+            .tagline_container {
+                padding: 50px 16px;
+            }
+
+            .mobile-menu-btn {
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -23,7 +683,8 @@
             <div class="nav-content">
 
                 <div class="logo-container">
-                    <img src="./asset/RRD_LOGO.png" alt="RRD Logo" class="logo-img">
+                    <!-- Replaced Image with Text for Reliability in Preview -->
+                    <img src="./asset/RRD_LOGO.png" class="rrd_logo" alt="">
                 </div>
 
                 <div class="desktop-menu">
@@ -81,7 +742,7 @@
 
                 <!-- Mobile Menu Button -->
                 <div class="mobile-menu-btn-container">
-                    <button id="mobile-menu-btn" class="mobile-menu-btn">
+                    <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle menu">
                         <i id="menu-icon" class="ph ph-list"></i>
                     </button>
                 </div>
@@ -150,20 +811,26 @@
 
     <header>
         <div class="video-header">
-            <video autoplay muted loop playsinline>
+            <!-- Using a placeholder video since local files won't work -->
+            <video autoplay muted loop playsinline
+                poster="https://images.unsplash.com/photo-1598514983318-2f64f8f4796c?q=80&w=2070">
                 <source src="./asset/Home page.mp4" type="video/mp4">
                 Your browser does not support the video.
             </video>
+
+            <div class="video-overlay">
+                <!-- Overlay content if needed -->
+            </div>
         </div>
 
-        <section class="tagline_container">
+        <section class="tagline_container reveal">
             <h1 class="tagline">The Packaging which <span>binds together…</span> <br> All your needs..!</h1>
 
-            <p class="sub_tagline">
+            <p class="sub_tagline reveal reveal-delay-1">
                 High-quality flexible packaging solutions engineered for durability, clarity, and shelf appeal
             </p>
 
-            <div class="tagline_buttons">
+            <div class="tagline_buttons reveal reveal-delay-2">
                 <button>Request a Quote</button>
                 <button>View our Product</button>
             </div>
@@ -171,31 +838,103 @@
 
 
         <div class="what_we_do">
-            <div class="what_we_do_image-container">
-                <img src="./asset/printing_machine.png" class="zoom-img" alt="Printing Machine">
+            <div class="what_we_do_image-container reveal">
+                <!-- Replaced with placeholder image -->
+                <img src="./asset/printing_machine.png" class="zoom-img" alt="Industrial Printing Machine">
             </div>
-            <div class="what_we_do_content">
+            <div class="what_we_do_content reveal reveal-delay-2">
                 <h2>What We Do</h2>
                 <p>We design and manufacture flexible packaging that combines strong material performance with
-                    high-definition
-                    printing to protect products and enhance brand visibility.</p>
+                    high-definition printing to protect products and enhance brand visibility.</p>
             </div>
         </div>
 
-        <div class="packaging_soultion">
+        <div class="packaging_soultion reveal">
             <h1>Packaging Solutions</h1>
-            <img src="./asset/packaging.jpg"  alt="">
+            <!-- Replaced with placeholder image -->
+            <img src="./asset/packaging.jpg" alt="Various Packaging Solutions">
         </div>
 
     </header>
 
-
-
     <!-- Spacer -->
     <div class="spacer"></div>
 
-</body>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Mobile Menu Toggle Logic ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
 
-<script src="script.js"></script>
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('open');
+
+                    // Toggle Icon between List and X (Close)
+                    const isOpen = mobileMenu.classList.contains('open');
+                    if (isOpen) {
+                        menuIcon.classList.remove('ph-list');
+                        menuIcon.classList.add('ph-x');
+                    } else {
+                        menuIcon.classList.remove('ph-x');
+                        menuIcon.classList.add('ph-list');
+                    }
+                });
+            }
+
+            // --- Mobile Dropdown Toggle Logic ---
+            const mobileDropdownBtns = document.querySelectorAll('.mobile-dropdown-btn');
+
+            mobileDropdownBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const content = this.nextElementSibling;
+                    const icon = this.querySelector('.caret-icon');
+
+                    if (content) {
+                        content.classList.toggle('show');
+                    }
+
+                    if (icon) {
+                        icon.classList.toggle('rotate-180');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking a regular link
+            const mobileLinks = document.querySelectorAll('.mobile-link, .mobile-sub-link');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mobileMenu.classList.contains('open')) {
+                        mobileMenu.classList.remove('open');
+                        menuIcon.classList.remove('ph-x');
+                        menuIcon.classList.add('ph-list');
+                    }
+                });
+            });
+
+            // --- Scroll Animation (Intersection Observer) ---
+            const observerOptions = {
+                root: null, // use the viewport
+                rootMargin: '0px',
+                threshold: 0.15 // trigger when 15% of element is visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Optional: Stop observing once revealed if you want it to happen only once
+                        // observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => observer.observe(el));
+        });
+    </script>
+
+</body>
 
 </html>
