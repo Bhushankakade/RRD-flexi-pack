@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Responsive Navbar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+    <nav id="navbar" class="navbar">
+        <div class="container">
+            <div class="nav-content">
+
+                <div class="logo-container">
+                    <img src="./asset/RRD_LOGO.png" alt="RRD Logo" class="logo-img">
+                </div>
+
+                <div class="desktop-menu">
+                    <a href="#" class="nav-link">Home</a>
+                    <a href="#" class="nav-link">About</a>
+
+                    <div class="dropdown-parent">
+                        <button class="dropdown-trigger">
+                            <span>Products</span>
+                            <i class="ph ph-caret-down caret-icon"></i>
+                        </button>
+                        <div class="dropdown-menu wide">
+                            <a href="#" class="dropdown-item">Stand Up Pouches</a>
+                            <a href="#" class="dropdown-item">Zipper Pouches</a>
+                            <a href="#" class="dropdown-item">Gussetted Pouches</a>
+                            <a href="#" class="dropdown-item">Vacuum Pouches</a>
+                            <a href="#" class="dropdown-item">Shrink Film</a>
+                            <a href="#" class="dropdown-item">D Cut & Euro Hole Pouches</a>
+                            <a href="#" class="dropdown-item">Centre Seal Pouches</a>
+                            <a href="#" class="dropdown-item">3 Side Seal Pouches</a>
+                            <a href="#" class="dropdown-item">Spout Pouches</a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown-parent">
+                        <button class="dropdown-trigger">
+                            <span>Ecosystem</span>
+                            <i class="ph ph-caret-down caret-icon"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">Technology Infrastructure</a>
+                            <a href="#" class="dropdown-item">Manufacturing Process</a>
+                            <a href="#" class="dropdown-item">Strategic Ventures</a>
+                        </div>
+                    </div>
+
+                    <a href="#" class="nav-link">Quality</a>
+                    <a href="#" class="nav-link">Ventures</a>
+                    <a href="#" class="nav-link">Careers</a>
+                    <a href="#" class="nav-link">Contact</a>
+
+                    <!-- Knowledge Center Dropdown -->
+                    <div class="dropdown-parent">
+                        <button class="dropdown-trigger">
+                            <span>Knowledge Center</span>
+                            <i class="ph ph-caret-down caret-icon"></i>
+                        </button>
+                        <div class="dropdown-menu medium right-align">
+                            <a href="#" class="dropdown-item">Insights & Blogs</a>
+                            <a href="#" class="dropdown-item">News & Updates</a>
+                            <a href="#" class="dropdown-item">Certifications & Compliance</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="mobile-menu-btn-container">
+                    <button id="mobile-menu-btn" class="mobile-menu-btn">
+                        <i id="menu-icon" class="ph ph-list"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu">
+            <div class="mobile-nav-container">
+                <a href="#" class="mobile-link">Home</a>
+                <a href="#" class="mobile-link">About</a>
+
+                <!-- Mobile Dropdown: Products -->
+                <div>
+                    <button class="mobile-dropdown-btn">
+                        <span>Products</span>
+                        <i class="ph ph-caret-down caret-icon"></i>
+                    </button>
+                    <div class="mobile-dropdown-content">
+                        <a href="#" class="mobile-sub-link">Stand Up Pouches</a>
+                        <a href="#" class="mobile-sub-link">Zipper Pouches</a>
+                        <a href="#" class="mobile-sub-link">Gussetted Pouches</a>
+                        <a href="#" class="mobile-sub-link">Vacuum Pouches</a>
+                        <a href="#" class="mobile-sub-link">Shrink Film</a>
+                        <a href="#" class="mobile-sub-link">D Cut & Euro Hole Pouches</a>
+                        <a href="#" class="mobile-sub-link">Centre Seal Pouches</a>
+                        <a href="#" class="mobile-sub-link">3 Side Seal Pouches</a>
+                        <a href="#" class="mobile-sub-link">Spout Pouches</a>
+                    </div>
+                </div>
+
+                <!-- Mobile Dropdown: Ecosystem -->
+                <div>
+                    <button class="mobile-dropdown-btn">
+                        <span>Ecosystem</span>
+                        <i class="ph ph-caret-down caret-icon"></i>
+                    </button>
+                    <div class="mobile-dropdown-content">
+                        <a href="#" class="mobile-sub-link">Technology Infrastructure</a>
+                        <a href="#" class="mobile-sub-link">Manufacturing Process</a>
+                        <a href="#" class="mobile-sub-link">Strategic Ventures</a>
+                    </div>
+                </div>
+
+                <a href="#" class="mobile-link">Quality</a>
+                <a href="#" class="mobile-link">Ventures</a>
+                <a href="#" class="mobile-link">Careers</a>
+                <a href="#" class="mobile-link">Contact</a>
+
+                <!-- Mobile Dropdown: Knowledge Center -->
+                <div>
+                    <button class="mobile-dropdown-btn">
+                        <span>Knowledge Center</span>
+                        <i class="ph ph-caret-down caret-icon"></i>
+                    </button>
+                    <div class="mobile-dropdown-content">
+                        <a href="#" class="mobile-sub-link">Insights & Blogs</a>
+                        <a href="#" class="mobile-sub-link">News & Updates</a>
+                        <a href="#" class="mobile-sub-link">Certifications & Compliance</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="video-header">
+            <video autoplay muted loop playsinline>
+                <source src="./asset/Home page.mp4" type="video/mp4">
+                Your browser does not support the video.
+            </video>
+        </div>
+
+        <section class="tagline_container">
+            <h1 class="tagline">The Packaging which <span>binds together…</span> <br> All your needs..!</h1>
+
+            <p class="sub_tagline">
+                High-quality flexible packaging solutions engineered for durability, clarity, and shelf appeal
+            </p>
+
+            <div class="tagline_buttons">
+                <button>Request a Quote</button>
+                <button>View our Product</button>
+            </div>
+        </section>
+
+
+    </header>
+
+
+
+    <!-- Spacer -->
+    <div class="spacer"></div>
+
+</body>
+
+<script src="script.js"></script>
+
+</html>
