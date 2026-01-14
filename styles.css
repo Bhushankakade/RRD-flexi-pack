@@ -307,7 +307,6 @@ button {
 .tagline_container {
   text-align: center;
   width: 100%;
-  max-width: 1200px;
   padding: 20px;
   margin: 0 auto;
 }
@@ -383,6 +382,7 @@ button {
 @media (max-width: 600px) {
   .tagline_container {
     padding: 40px 20px;
+    text-align: center;
   }
 
   .tagline {
@@ -393,11 +393,12 @@ button {
     flex-direction: column;
     gap: 15px;
     width: 100%;
+    padding: 12px 15px;
   }
 
   .tagline_buttons button {
     width: 100%;
-    max-width: 300px;
+    max-width: 150px;
     font-size: 1.1rem;
   }
 }
