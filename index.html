@@ -16,6 +16,9 @@
     <!-- Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
+    <!-- Lenis Smooth Scroll Script -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
     <style>
         /* --- Reset & Base Styles --- */
         * {
@@ -26,7 +29,42 @@
 
         html {
             overflow-x: hidden;
-            scroll-behavior: smooth;
+            /* scroll-behavior: smooth;  <-- Removing native smooth scroll to let Lenis handle it better */
+        }
+
+        /* --- Lenis Recommended CSS --- */
+        html.lenis,
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        /* --- COMPLETELY HIDE SCROLLBAR --- */
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        ::-webkit-scrollbar {
+            display: none;
+            width: 0 !important;
+            height: 0 !important;
+            background: transparent;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        html {
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
         }
 
         body {
@@ -37,10 +75,15 @@
             -webkit-font-smoothing: antialiased;
             /* Hide overflow initially for loader */
             overflow: hidden;
+            width: 100%;
+            padding-top: 80px;
+            /* Added to compensate for fixed navbar */
         }
 
         body.loaded {
-            overflow: auto;
+            /* Changed to visible to ensure position: sticky works perfectly relative to viewport */
+            overflow-y: visible;
+            overflow-x: hidden;
         }
 
         a {
@@ -51,6 +94,12 @@
         button {
             all: unset;
             cursor: pointer;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
         }
 
         /* --- Loader Styles --- */
@@ -81,8 +130,9 @@
         }
 
         .rrd_logo {
-            width: 6rem;
-            margin-top: 8px;
+            width: 8rem;
+            margin-top: 16px;
+            height: auto;
         }
 
         /* Spinning Box Animation */
@@ -96,19 +146,6 @@
             margin-bottom: 20px;
             animation: box-morph 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .loader-text {
-            font-family: "Fredoka", sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            color: #3d4094;
-            letter-spacing: 1px;
-            animation: pulse-text 1.5s ease-in-out infinite;
-        }
-
-        .loader-text span {
-            color: #ed3338;
         }
 
         @keyframes box-morph {
@@ -129,31 +166,49 @@
             }
         }
 
-        @keyframes pulse-text {
+        /* --- Animations Optimized --- */
+        /* Changed 'all' to specific properties for better performance */
 
-            0%,
-            100% {
-                opacity: 0.6;
-                transform: scale(0.98);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1.02);
-            }
-        }
-
-        /* --- Animations --- */
-        /* Reveal on Scroll Class */
+        /* Reveal on Scroll Class (Bottom to Top - Default) */
         .reveal {
             opacity: 0;
             transform: translateY(60px);
-            transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            /* Increased from 0.8s to 1.2s for slower rise */
+            transition: opacity 1.2s cubic-bezier(0.215, 0.61, 0.355, 1), transform 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+            will-change: opacity, transform;
         }
 
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        /* Reveal Left (Left to Right) */
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-80px);
+            /* Increased from 1s to 1.6s for slower entry */
+            transition: opacity 1.6s cubic-bezier(0.215, 0.61, 0.355, 1), transform 1.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Reveal Right (Right to Left) */
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(80px);
+            /* Increased from 1s to 1.6s for slower entry */
+            transition: opacity 1.6s cubic-bezier(0.215, 0.61, 0.355, 1), transform 1.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
         }
 
         /* Staggered delay for children */
@@ -171,7 +226,8 @@
 
         /* --- Navbar Container --- */
         .navbar {
-            position: sticky;
+            position: fixed;
+            /* Changed to fixed to guarantee sticking */
             top: 0;
             left: 0;
             width: 100%;
@@ -194,6 +250,7 @@
             align-items: center;
             height: 80px;
             position: relative;
+            transition: height 0.3s ease;
         }
 
         /* --- Logo --- */
@@ -207,13 +264,9 @@
             letter-spacing: -1px;
         }
 
-        .logo-text {
-            font-family: "Fredoka", sans-serif;
-            font-size: 28px;
-        }
-
-        .logo-text span {
-            color: #ed3338;
+        .logo-img {
+            width: 6rem;
+            margin-top: 8px;
         }
 
         /* --- Desktop Menu --- */
@@ -370,23 +423,41 @@
             }
         }
 
-        /* --- Mobile Menu Styles --- */
+        /* --- Mobile Menu Styles (Redesigned) --- */
         .mobile-menu {
             display: block;
-            background-color: white;
-            border-bottom: 1px solid #f3f4f6;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            /* Fixed position for full screen height */
+            top: 80px;
+            /* Starts exactly below the navbar */
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 80px);
+            /* Occupy remaining screen space */
+            background-color: rgba(255, 255, 255, 0.98);
+            /* High opacity white */
+            backdrop-filter: blur(12px);
+            /* Glassmorphism effect */
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 49;
+            /* Below navbar (50) */
 
-            max-height: 0;
+            /* Animation States */
+            transform: translateX(100%);
+            /* Hidden to the right */
             opacity: 0;
-            overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease-in-out;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+
+            overflow-y: auto;
+            /* Scrollable content */
+            border-top: 1px solid #e5e7eb;
+            box-shadow: none;
         }
 
         .mobile-menu.open {
-            max-height: 80vh;
+            transform: translateX(0);
+            /* Slide in */
             opacity: 1;
-            overflow-y: auto;
         }
 
         /* Hide mobile menu on large screens */
@@ -397,50 +468,77 @@
         }
 
         .mobile-nav-container {
-            padding: 8px 16px 24px 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            /* Spacing between main items */
+            padding-bottom: 100px;
+            /* Extra space at bottom for scrolling */
         }
 
+        /* Main Links styling as clickable cards */
         .mobile-link {
             display: block;
-            padding: 12px;
-            font-size: 16px;
-            font-weight: 500;
-            color: #111827;
-            border-radius: 6px;
-            transition: background-color 0.2s;
-            border-bottom: 1px solid #f9fafb;
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+            background-color: #ffffff;
+            border: 1px solid #f3f4f6;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
         }
 
         .mobile-link:hover {
             background-color: #f9fafb;
+            border-color: #3d4094;
+            color: #3d4094;
+            transform: translateX(4px);
         }
 
+        /* Dropdown Button Styling */
         .mobile-dropdown-btn {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
+            /* Icon next to text */
+            gap: 12px;
             align-items: center;
             width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            font-weight: 500;
-            color: #111827;
-            border-radius: 6px;
-            transition: background-color 0.2s;
-            border-bottom: 1px solid #f9fafb;
+            padding: 16px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+            background-color: #ffffff;
+            border: 1px solid #f3f4f6;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
         }
 
         .mobile-dropdown-btn:hover {
             background-color: #f9fafb;
+            border-color: #3d4094;
+            color: #3d4094;
+            transform: translateX(4px);
         }
 
+        /* Dropdown Content Area */
         .mobile-dropdown-content {
             display: none;
-            padding-left: 16px;
-            padding-right: 8px;
-            margin-top: 4px;
-            background-color: #fcfcfc;
-            border-left: 2px solid #e5e7eb;
-            margin-left: 12px;
+            margin-top: 8px;
+            background-color: #f8fafc;
+            /* Slightly darker inner bg */
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-left: 0;
+            /* Reset margin */
+            padding-left: 0;
+            /* Reset padding */
+            border-left: none;
         }
 
         .mobile-dropdown-content.show {
@@ -451,7 +549,7 @@
         @keyframes slideDown {
             from {
                 opacity: 0;
-                transform: translateY(-5px);
+                transform: translateY(-10px);
             }
 
             to {
@@ -462,17 +560,24 @@
 
         .mobile-sub-link {
             display: block;
-            padding: 10px 12px;
-            font-size: 14px;
+            padding: 14px 24px;
+            /* Comfortable touch target */
+            font-size: 0.95rem;
             font-weight: 500;
-            color: #6b7280;
-            border-radius: 6px;
-            transition: color 0.2s, background-color 0.2s;
+            color: #4b5563;
+            border-bottom: 1px solid #e2e8f0;
+            transition: color 0.2s, background-color 0.2s, padding-left 0.2s;
+        }
+
+        .mobile-sub-link:last-child {
+            border-bottom: none;
         }
 
         .mobile-sub-link:hover {
-            color: #4f46e5;
-            background-color: #f3f4f6;
+            color: #3d4094;
+            background-color: #e0e7ff;
+            padding-left: 30px;
+            /* Slight indentation on hover */
         }
 
         .rotate-180 {
@@ -483,34 +588,38 @@
         .video-header {
             width: 100%;
             height: 100vh;
-            overflow: hidden;
             position: relative;
-            background-color: #000;
+            overflow: hidden;
+            background: #000;
         }
 
         .video-header video {
-            width: 100%;
-            height: 100vh;
             object-fit: cover;
             object-position: top center;
-            display: block;
-            opacity: 0.8;
+
         }
 
-        .video-overlay {
+        .bg-video {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 20px;
+            object-fit: cover;
+            /* important */
+            opacity: 0.9;
         }
+
+        .video-overlay {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom,
+                    rgba(0, 0, 0, 0.2),
+                    rgba(0, 0, 0, 0.2));
+        }
+
 
         /* --- Tagline --- */
         .tagline_container {
@@ -609,6 +718,10 @@
             position: relative;
         }
 
+        .printing_machine {
+            object-fit: contain;
+        }
+
         .what_we_do_image-container::before {
             content: '';
             position: absolute;
@@ -676,6 +789,11 @@
             border-radius: 16px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             transition: transform 0.4s ease;
+            margin: 0 auto;
+            /* Added to center the image */
+            display: block;
+            /* Ensures margin: auto works */
+            object-fit: cover;
         }
 
         .packaging_soultion img:hover {
@@ -686,15 +804,485 @@
             height: 100px;
         }
 
-        /* --- Responsive Styles --- */
+        /* =================================================================
+           NEW PRODUCT GRID SECTION STYLES
+           Scoped to .pkg-section to prevent global conflicts
+           ================================================================= */
+
+        .pkg-section {
+            /* Background Gradient from user code */
+            background: linear-gradient(180deg, #00b0f0 0%, #b1eaff 100%);
+            padding-bottom: 50px;
+            padding-top: 50px;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Main Container - Unique Class */
+        .pkg-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        /* Heading Styles Scoped */
+        .pkg-section h1 {
+            color: #ffffff;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-weight: 700;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Override Fredoka */
+        }
+
+        /* Grid Layout: 3 Columns x 3 Rows - Unique Class */
+        .pkg-product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        /* Grid Box Styling - Unique Class */
+        .pkg-product-card {
+            /* Flexbox width calc: (100% - (gap * (cols - 1))) / cols */
+            /* 3 Columns: (100% - 50px) / 3 */
+            width: calc(33.333% - 17px);
+            background-color: rgba(247, 241, 241, 0.38);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            position: relative;
+            /* Enabled relative for potential positioning */
+        }
+
+        /* Hover Effect */
+        .pkg-product-card:hover {
+            transform: translateY(-5px) !important;
+            /* Force override of JS if needed */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            background-color: rgba(247, 241, 241, 0.55);
+        }
+
+        /* Image Styling - Unique Class */
+        .pkg-product-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Text Styling - Unique Class */
+        .pkg-product-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #004d66;
+            text-transform: capitalize;
+        }
+
+        /* Arrow Icon Styling for Interactivity */
+        .arrow-icon {
+            margin-top: 8px;
+            font-size: 24px;
+            color: #ed3338;
+            /* Accent color */
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .pkg-product-card:hover .arrow-icon {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Button Container - Unique Class */
+        .pkg-button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        /* View All Button - Unique Class */
+        .pkg-view-all-btn {
+            background-color: #ffffff;
+            color: #00b0f0;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pkg-view-all-btn:hover {
+            background-color: #005f82;
+            color: #ffffff;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* New Custom Info Heading Styles */
+        .pkg-custom-info {
+            background-color: #ed3338;
+            color: white;
+            border-radius: 15px;
+            padding: 15px 30px;
+            margin-top: 30px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* --- NEW SECTION: Industries We Serve --- */
+        .industries-section {
+            padding: 80px 20px;
+            background-color: #ffffff;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .industries-title {
+            font-family: "Fredoka", sans-serif;
+            font-size: 2.5rem;
+            color: #3d4094;
+            margin-bottom: 40px;
+        }
+
+        /* Layout for Image + Orange Box */
+        .industries-header-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-bottom: 60px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .industries-orange-box {
+            background-color: #f58733;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .industries-orange-box h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .industries-orange-box p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Small Grid Boxes */
+        .industries-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .industry-card {
+            /* 4 Columns: (100% - 60px) / 4 = calc(25% - 15px) */
+            width: calc(25% - 15px);
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f3f4f6;
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .industry-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .industry-img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+        }
+
+        .industry-name {
+            padding: 15px 10px;
+            font-weight: 600;
+            color: #4b5563;
+            font-size: 1rem;
+            background-color: #f9fafb;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- NEW SECTION: Quality / Promise --- */
+        .quality-section {
+            background: linear-gradient(135deg, #3d4094 0%, #9296ff 100%);
+            padding: 80px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .quality-image-container {
+            max-width: 1000px;
+            margin: 0 auto 40px auto;
+        }
+
+        .quality-img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .promise-box {
+            background-color: #ed3338;
+            color: #fff;
+            padding: 20px 40px;
+            border-radius: 5px;
+            /* User specified 5px */
+            display: inline-block;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .promise-box h2 {
+            margin: 0;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-family: "Fredoka", sans-serif;
+            font-weight: 700;
+        }
+
+        /* --- NEW SECTION: Contact CTA --- */
+        .contact-cta-section {
+            padding: 100px 20px;
+            text-align: center;
+            background-color: #ffffff;
+        }
+
+        .contact-cta-heading {
+            font-family: Helvetica, Arial, sans-serif;
+            color: #3d4094;
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-cta-text {
+            font-family: Helvetica, Arial, sans-serif;
+            color: #545454;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .contact-cta-btn {
+            background-color: #ed3338;
+            color: white;
+            border-radius: 40px;
+            padding: 18px 48px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: Helvetica, Arial, sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(237, 51, 56, 0.3);
+        }
+
+        .contact-cta-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(237, 51, 56, 0.4);
+            background-color: #d12025;
+        }
+
+        /* --- NEW SECTION: Footer --- */
+        .footer-section {
+            background-color: #1f2937;
+            color: #f3f4f6;
+            padding: 80px 0 30px 0;
+            font-family: "Roboto", sans-serif;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h3 {
+            color: #ffffff;
+            font-family: "Fredoka", sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #ed3338;
+            border-radius: 2px;
+        }
+
+        /* Logo Col */
+        .footer-logo img {
+            height: 50px;
+            width: auto;
+            margin-bottom: 20px;
+            /* Invert filter to make dark text logo visible on dark bg if needed, 
+               or assuming logo is adapted. Using filter brightness for placeholder */
+            filter: brightness(0) invert(1);
+        }
+
+        .footer-about-text {
+            color: #9ca3af;
+            line-height: 1.8;
+            font-size: 1rem;
+            max-width: 300px;
+        }
+
+        /* Links Col */
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #d1d5db;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links a:hover {
+            color: #ed3338;
+            padding-left: 5px;
+        }
+
+        /* Contact Col */
+        .footer-contact {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-contact li {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            color: #d1d5db;
+            align-items: flex-start;
+        }
+
+        .footer-contact i {
+            color: #ed3338;
+            font-size: 1.5rem;
+            margin-top: 3px;
+        }
+
+        .footer-contact span {
+            line-height: 1.6;
+        }
+
+        /* Copyright Bar */
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 30px;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.95rem;
+        }
+
+
+        /* --- Responsive Styles (Existing & Improved) --- */
         @media (max-width: 1024px) {
             .what_we_do {
-                gap: 3rem;
+                gap: 0 !important;
+                /* REMOVED GAP for tablet */
+                flex-direction: column-reverse;
+                /* Ensure Text is Top, Image is Bottom on tablets/mobile */
+                margin: 2rem auto;
+                /* Reduced margin */
+                text-align: center;
+                /* Center text when stacked */
+                align-items: center;
+            }
+
+            .what_we_do_content {
+                margin-bottom: 0 !important;
+                flex: none !important;
+                width: 100%;
             }
 
             .what_we_do_image-container::before {
-                top: 20px;
-                left: -20px;
+                display: none;
+                /* Hide decoration on tablet to reduce visual spacing */
+            }
+
+            /* Remove decorative offset on smaller screens to keep it clean */
+            .what_we_do_image-container {
+                max-width: 800px;
+                /* Limit width when stacked */
+                width: 100%;
+                margin-top: 0 !important;
+                flex: none !important;
+            }
+        }
+
+        @media (max-width: 992px) {
+
+            /* Packaging: Switch to 2 columns */
+            .pkg-product-card {
+                /* 2 Columns: (100% - 25px) / 2 */
+                width: calc(50% - 13px);
+            }
+
+            /* Industries: Switch to 3 columns */
+            .industry-card {
+                /* 3 Columns: (100% - 40px) / 3 */
+                width: calc(33.333% - 14px);
             }
         }
 
@@ -709,43 +1297,172 @@
                 max-width: 320px;
             }
 
+            /* Tagline padding */
+            .tagline_container {
+                padding: 30px 16px;
+            }
+
             .what_we_do {
-                margin: 4rem auto;
-                flex-direction: column-reverse;
-                /* Put image on top on mobile, or bottom */
-                gap: 3rem;
+                margin: 1rem auto 2rem auto;
+                /* Reduced top margin significantly */
+                /* Ensure consistent column layout: Text first, Image second */
+                flex-direction: column-reverse !important;
+                gap: 0 !important;
+                /* Remove gap completely on container, control via margin */
+                align-items: center;
+            }
+
+            /* Remove extra margin from content on mobile to tighten layout */
+            .what_we_do_content {
+                text-align: left;
+                /* Modernized: Left align text for better readability on mobile */
+                padding: 0 1rem;
+                margin-bottom: 1.5rem !important;
+                /* Re-added comfortable gap */
+                flex: none !important;
+                /* Force content to shrink wrap height */
+                width: 100%;
+                height: auto !important;
+            }
+
+            .what_we_do_content h2 {
+                margin-bottom: 0.5rem;
+                /* Tighter heading spacing */
+                font-size: 1.8rem;
+            }
+
+            .what_we_do_content p {
+                margin-bottom: 0 !important;
+                /* Keep internal margin tight */
+                padding-bottom: 0;
             }
 
             .what_we_do_image-container {
-                flex: auto;
+                flex: none !important;
+                /* Force container to shrink wrap height */
                 width: 100%;
                 max-width: 100%;
                 padding: 0 1rem;
+                margin-top: 0 !important;
+                /* ensure no top margin */
+                height: auto !important;
             }
 
             .what_we_do_image-container::before {
                 display: none;
-                /* Hide decorative background on small mobile to save space */
             }
 
             .what_we_do_image-container img {
-                height: 300px;
+                height: 250px;
+                /* Slightly smaller image height for better proportion */
+                margin-top: 0;
             }
-
-            .what_we_do_content {
-                text-align: center;
-                padding: 0 1rem;
-            }
-
 
             .packaging_soultion {
-                padding: 4rem 1.5rem;
+                padding: 3rem 1rem;
+                margin: 2rem 0;
+            }
+
+            /* Industries: Switch to 2 columns */
+            .industry-card {
+                /* 2 Columns: (100% - 20px) / 2 */
+                width: calc(50% - 10px);
+            }
+
+            .industries-header-layout {
+                margin-bottom: 40px;
+            }
+
+            /* Pkg Section Padding */
+            .pkg-section {
+                padding-top: 30px;
+                padding-bottom: 30px;
+            }
+
+            .pkg-section h1 {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+
+            /* New sections padding adjust */
+            .industries-section {
+                padding: 40px 16px;
+            }
+
+            .industries-title {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+
+            .quality-section {
+                padding: 40px 16px;
+            }
+
+            .contact-cta-section {
+                padding: 50px 16px;
+            }
+
+            .footer-section {
+                padding: 50px 0 20px 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            /* Packaging: 2 columns with tighter gap (15px) */
+            .pkg-product-grid {
+                gap: 15px;
+            }
+
+            .pkg-product-card {
+                /* 2 Columns: (100% - 15px) / 2 */
+                width: calc(50% - 8px);
+            }
+
+            .pkg-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .pkg-product-card {
+                padding: 10px;
+            }
+
+            .pkg-product-image {
+                height: 180px;
+                /* Smaller images on mobile */
+                margin-bottom: 10px;
+            }
+
+            .pkg-product-title {
+                font-size: 0.95rem;
+            }
+
+            .pkg-view-all-btn {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+
+            .pkg-custom-info {
+                font-size: 1rem;
+                padding: 12px 20px;
             }
         }
 
         @media (max-width: 480px) {
+
+            /* Navbar height changes, so adjust body padding */
+            body {
+                padding-top: 70px;
+            }
+
             .nav-content {
                 height: 70px;
+            }
+
+            /* Adjust mobile menu top to match new nav height */
+            .mobile-menu {
+                top: 70px;
+                height: calc(100vh - 70px);
             }
 
             .logo-text {
@@ -759,6 +1476,43 @@
             .mobile-menu-btn {
                 font-size: 24px;
             }
+
+            /* Industries Grid on Small Mobile: Keep 2 cols, tighter gap */
+            .industries-grid {
+                gap: 10px;
+            }
+
+            .industry-card {
+                width: calc(50% - 5px);
+            }
+
+            .industry-img {
+                height: 100px;
+            }
+
+            .industry-name {
+                font-size: 0.85rem;
+                padding: 10px 5px;
+            }
+
+            /* Promise Box */
+            .promise-box {
+                padding: 15px 20px;
+            }
+
+            .promise-box h2 {
+                font-size: 1.3rem;
+            }
+
+            /* Contact CTA */
+            .contact-cta-heading {
+                font-size: 1.5rem;
+            }
+
+            .contact-cta-btn {
+                padding: 14px 30px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -769,7 +1523,9 @@
     <div id="loader" class="loader-container">
         <div class="loader-content">
             <div class="box-spinner"></div>
-            <img src="./asset/RRD_LOGO.png" class="rrd_logo" alt="">
+            <!-- Using Placehold.co for logo placeholder if asset is missing -->
+            <img src="https://placehold.co/200x80/transparent/3d4094?text=RRD+PACKAGING" class="rrd_logo"
+                alt="RRD Logo">
         </div>
     </div>
 
@@ -778,7 +1534,8 @@
             <div class="nav-content">
 
                 <div class="logo-container">
-                    <img src="./asset/RRD_LOGO.png" class="rrd_logo" alt="">
+                    <!-- Using Placehold.co for logo -->
+                    <img src="./asset/RRD_LOGO.png" class="logo-img" alt="RRD Logo">
                 </div>
 
                 <div class="desktop-menu">
@@ -905,14 +1662,16 @@
 
     <header>
         <div class="video-header">
-            <video autoplay muted loop playsinline>
+            <video autoplay muted loop playsinline class="bg-video">
                 <source src="./asset/Home page.mp4" type="video/mp4">
-                Your browser does not support the video.
+                Your browser does not support the video tag.
             </video>
 
             <div class="video-overlay">
+                <!-- overlay content -->
             </div>
         </div>
+
 
         <section class="tagline_container reveal">
             <h1 class="tagline">The Packaging which <span>binds together…</span> <br> All your needs..!</h1>
@@ -929,9 +1688,11 @@
 
 
         <div class="what_we_do">
-            <div class="what_we_do_image-container reveal">
-                <!-- Replaced with placeholder image -->
-                <img src="./asset/printing_machine.png" class="zoom-img" alt="Industrial Printing Machine">
+            <!-- Changed 'reveal' to 'reveal-left' for the image container -->
+            <div class="what_we_do_image-container reveal-left">
+                <!-- Updated with a new, highly reliable image of industrial packaging machinery/rolls -->
+                <img src="./asset/printing_machine.png" class="zoom-img printing_machine alt=" Industrial Printing
+                    Machine">
             </div>
             <div class="what_we_do_content reveal reveal-delay-2">
                 <h2>What We Do</h2>
@@ -940,19 +1701,298 @@
             </div>
         </div>
 
-        <div class="packaging_soultion reveal">
-            <h1>Packaging Solutions</h1>
-            <!-- Replaced with placeholder image -->
-            <img src="./asset/packaging.jpg" alt="Various Packaging Solutions">
+        <!-- Removed 'reveal' from parent to animate children separately -->
+        <div class="packaging_soultion">
+            <h1 class="reveal">Packaging Solutions</h1>
+            <!-- Updated to match the What We Do image as requested -->
+            <img src="./asset/packaging.jpg" alt="Various Packaging Solutions" class="reveal-right">
         </div>
 
     </header>
 
-    <!-- Spacer -->
-    <div class="spacer"></div>
+    <!-- NEW SECTION ADDED AS REQUESTED -->
+    <!-- Added 'reveal' class for scroll animation (Bottom Up - Default) -->
+    <div class="pkg-section reveal">
+        <div class="pkg-container">
+            <!-- Heading -->
+            <h1 class="reveal">Explore Our High-Quality Packaging Products</h1>
+
+            <!-- Grid Layout -->
+            <div class="pkg-product-grid">
+                <!-- Item 1: Vacuum Pouches -->
+                <div class="pkg-product-card reveal" onclick="logClick('Vacuum Pouches')">
+                    <img src="./asset/pouches/1.png" alt="Vacuum Pouches" class="pkg-product-image">
+                    <div class="pkg-product-title">Vacuum Pouches</div>
+                    <i class="ph ph-arrow-right arrow-icon"></i>
+                </div>
+
+                <!-- Item 2: Shrink Film -->
+                <div class="pkg-product-card reveal" onclick="logClick('Shrink Film')">
+                    <img src="./asset/pouches/2.png" alt="Shrink Film" class="pkg-product-image">
+                    <div class="pkg-product-title">Shrink Film</div>
+                    <i class="ph ph-arrow-right arrow-icon"></i>
+                </div>
+
+                <!-- Item 3: D Cut & Euro Hole -->
+                <div class="pkg-product-card reveal" onclick="logClick('D Cut & Euro Hole')">
+                    <img src="./asset/pouches/3.png" alt="D Cut & Euro hole pouches" class="pkg-product-image">
+                    <div class="pkg-product-title">D Cut & Euro hole</div>
+                    <i class="ph ph-arrow-right arrow-icon"></i>
+                </div>
+
+                <!-- Item 4: 3 Side Seal -->
+                <div class="pkg-product-card reveal" onclick="logClick('3 Side Seal')">
+                    <img src="./asset/pouches/4.png" alt="3 side seal Pouches" class="pkg-product-image">
+                    <div class="pkg-product-title">3 side seal</div>
+                    <i class="ph ph-arrow-right arrow-icon"></i>
+                </div>
+
+                <!-- Item 5: Spout Pouches -->
+                <div class="pkg-product-card reveal" onclick="logClick('Spout Pouches')">
+                    <img src="./asset/pouches/5.png" alt="Spout Pouches" class="pkg-product-image">
+                    <div class="pkg-product-title">Spout Pouches</div>
+                    <i class="ph ph-arrow-right arrow-icon"></i>
+                </div>
+
+                <!-- Item 6: Stand Up -->
+                <div class="pkg-product-card reveal" onclick="logClick('Stand Up')">
+                    <img src="./asset/pouches/6.png" alt="Stand Up Pouches" class="pkg-product-image">
+                    <div class="pkg-product-title">Stand Up Pouches</div>
+                    <i class="ph ph-arrow-right arrow-icon"></i>
+                </div>
+
+                <!-- Item 7: Zipper Pouches -->
+                <div class="pkg-product-card reveal" onclick="logClick('Zipper Pouches')">
+                    <img src="./asset/pouches/7.png" alt="Zipper Pouches" class="pkg-product-image">
+                    <div class="pkg-product-title">Zipper Pouches</div>
+                    <i class="ph ph-arrow-right arrow-icon"></i>
+                </div>
+
+                <!-- Item 8: Gussetted Pouches -->
+                <div class="pkg-product-card reveal" onclick="logClick('Gussetted Pouches')">
+                    <img src="./asset/pouches/8.png" alt="Gussetted Pouches" class="pkg-product-image">
+                    <div class="pkg-product-title">Gussetted Pouches</div>
+                    <i class="ph ph-arrow-right arrow-icon"></i>
+                </div>
+
+                <!-- Item 9: Laminated Rolls -->
+                <div class="pkg-product-card reveal" onclick="logClick('Laminated Rolls')">
+                    <img src="./asset/pouches/9.png" alt="Laminated Rolls" class="pkg-product-image">
+                    <div class="pkg-product-title">Laminated Rolls</div>
+                    <i class="ph ph-arrow-right arrow-icon"></i>
+                </div>
+            </div>
+
+            <!-- Button -->
+            <div class="pkg-button-container">
+                <button class="pkg-view-all-btn" id="viewAllBtn">View All</button>
+            </div>
+
+            <!-- New Custom Info Heading -->
+            <h3 class="pkg-custom-info">Custom sizes, materials, and laminations available.</h3>
+        </div>
+    </div>
+
+    <!-- NEW SECTION: Industries We Serve -->
+    <section class="industries-section reveal">
+        <h2 class="industries-title">Industries We Serve</h2>
+
+        <!-- Image + Orange Box Layout -->
+        <div class="industries-header-layout">
+            <video autoplay muted loop playsinline>
+                <source src="./asset/Industries we serve.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+
+            <div class="industries-orange-box">
+                <h3>Versatile Packaging for Every Sector</h3>
+                <p>We provide specialized packaging solutions tailored to the unique requirements of diverse industries.
+                </p>
+            </div>
+        </div>
+
+        <!-- Small Grid Boxes -->
+        <div class="industries-grid">
+            <!-- 1. Food & Snacks -->
+            <div class="industry-card">
+                <img src="https://images.unsplash.com/photo-1621939514649-28b5fe22d8bb?auto=format&fit=crop&w=300&q=80"
+                    alt="Food & Snacks" class="industry-img">
+                <div class="industry-name">Food & Snacks</div>
+            </div>
+
+            <!-- 2. Spices & Grains -->
+            <div class="industry-card">
+                <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80"
+                    alt="Spices & Grains" class="industry-img">
+                <div class="industry-name">Spices & Grains</div>
+            </div>
+
+            <!-- 3. Dry Fruits -->
+            <div class="industry-card">
+                <img src="https://images.unsplash.com/photo-1509456578036-7495d43c8d38?auto=format&fit=crop&w=300&q=80"
+                    alt="Dry Fruits" class="industry-img">
+                <div class="industry-name">Dry Fruits</div>
+            </div>
+
+            <!-- 4. Tea & Coffee -->
+            <div class="industry-card">
+                <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=300&q=80"
+                    alt="Tea & Coffee" class="industry-img">
+                <div class="industry-name">Tea & Coffee</div>
+            </div>
+
+            <!-- 5. FMCG Products -->
+            <div class="industry-card">
+                <img src="https://images.unsplash.com/photo-1626806775351-538af7101402?auto=format&fit=crop&w=300&q=80"
+                    alt="FMCG Products" class="industry-img">
+                <div class="industry-name">FMCG Products</div>
+            </div>
+
+            <!-- 6. Pharmaceuticals -->
+            <div class="industry-card">
+                <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=300&q=80"
+                    alt="Pharmaceuticals" class="industry-img">
+                <div class="industry-name">Pharmaceuticals</div>
+            </div>
+
+            <!-- 7. Seeds & Fertilizers -->
+            <div class="industry-card">
+                <img src="https://images.unsplash.com/photo-1492496913980-501348b61469?auto=format&fit=crop&w=300&q=80"
+                    alt="Seeds & Fertilizers" class="industry-img">
+                <div class="industry-name">Seeds & Fertilizers</div>
+            </div>
+
+            <!-- 8. Industrial Packaging -->
+            <div class="industry-card">
+                <img src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=300&q=80"
+                    alt="Industrial Packaging" class="industry-img">
+                <div class="industry-name">Industrial Packaging</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: Quality & Promise -->
+    <section class="quality-section reveal">
+        <div class="container">
+            <!-- Image: Quality Inspection -->
+            <div class="quality-image-container">
+                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80"
+                    alt="Quality Inspection" class="quality-img">
+            </div>
+
+            <!-- Red Box Heading -->
+            <div class="promise-box">
+                <h2>Under Promise, Over Delivery</h2>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: Contact CTA -->
+    <section class="contact-cta-section reveal">
+        <div class="container">
+            <h2 class="contact-cta-heading">Looking for dependable flexible packaging for your products?</h2>
+            <p class="contact-cta-text">Contact Us today to discuss your requirements.</p>
+            <button class="contact-cta-btn">Get In Touch</button>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: Footer -->
+    <!-- Added 'reveal' class for scroll animation -->
+    <footer class="footer-section reveal">
+        <div class="container">
+            <div class="footer-content">
+                <!-- Column 1: Logo & About -->
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <!-- Using Placehold.co for logo -->
+                        <img src="https://placehold.co/200x80/transparent/3d4094?text=RRD+PACKAGING" alt="RRD Logo">
+                    </div>
+                    <p class="footer-about-text">
+                        Flexible Packaging Manufacturer delivering quality-driven packaging solutions.
+                    </p>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Products</a></li>
+                        <li><a href="#">Quality</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Contact Info -->
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="ph ph-map-pin"></i>
+                            <span>
+                                <strong>Factory Address:</strong><br>
+                                A-13/14, Old MIDC Area,<br>
+                                Jalna – 431203, Maharashtra, India
+                            </span>
+                        </li>
+                        <li>
+                            <i class="ph ph-phone"></i>
+                            <span>
+                                <strong>Phone:</strong><br>
+                                +91 9422291368
+                            </span>
+                        </li>
+                        <li>
+                            <i class="ph ph-envelope"></i>
+                            <span>
+                                <strong>Email:</strong><br>
+                                info@rrflexipack.com
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p>&copy; R.R.D. Flexi Pack. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Spacer removed as Footer is now the bottom -->
+    <!-- <div class="spacer"></div> -->
+
+
+
 
     <script>
+        // --- Added Log Logic from new code ---
+        function logClick(productName) {
+            console.log("User clicked on product: " + productName);
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Initialize Lenis Smooth Scroll ---
+            const lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential easing
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                mouseMultiplier: 1,
+                smoothTouch: false,
+                touchMultiplier: 2,
+            });
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+
+            requestAnimationFrame(raf);
+
             // --- Loader Logic ---
             const loader = document.getElementById('loader');
 
@@ -966,7 +2006,11 @@
                         loader.style.display = 'none';
                     }, 600);
                 }
-            }, 2500); // 2.5 seconds load time
+
+                // Manual card animation logic removed. 
+                // Now handled by scroll observer via 'reveal' class added to HTML elements.
+
+            }, 1500); // 1.5 seconds load time
 
             // --- Mobile Menu Toggle Logic ---
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -1023,7 +2067,7 @@
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.15
+                threshold: 0.1 // Reduced slightly to ensure it triggers easier on mobile
             };
 
             const observer = new IntersectionObserver((entries) => {
@@ -1034,6 +2078,7 @@
                         // Fix for shaking: Only remove 'active' if the element is exiting 
                         // from the bottom (i.e., we are scrolling up).
                         // If it exits from the top (scrolling down past it), keep it active.
+                        // We check if boundingClientRect.top > 0, which implies it's below viewport.
                         if (entry.boundingClientRect.top > 0) {
                             entry.target.classList.remove('active');
                         }
@@ -1041,8 +2086,25 @@
                 });
             }, observerOptions);
 
-            const revealElements = document.querySelectorAll('.reveal');
+            // Updated selector to include new animation classes
+            const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
             revealElements.forEach(el => observer.observe(el));
+
+            // --- View All Button Logic from new code ---
+            const viewAllBtn = document.getElementById('viewAllBtn');
+            if (viewAllBtn) {
+                viewAllBtn.addEventListener('click', function () {
+                    this.textContent = "Loading...";
+
+                    setTimeout(() => {
+                        // Using custom alert or modal would be better, but sticking to logic
+                        // Using console to avoid blocking UI in iframe if possible
+                        console.log("Redirecting to full catalog...");
+                        // Use a non-blocking toast/alert if possible, or just revert text
+                        this.textContent = "View All";
+                    }, 500);
+                });
+            }
         });
     </script>
 
