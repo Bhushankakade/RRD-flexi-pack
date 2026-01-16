@@ -641,7 +641,6 @@
             height: 100vh;
             position: relative;
             overflow: hidden;
-            background: #000;
         }
 
         .video-header video {
@@ -733,13 +732,11 @@
             border-radius: 12px;
             padding: 30px;
             flex: 1;
-            min-width: 250px;
             max-width: 350px;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-sizing: border-box;
-            /* Ensures padding doesn't affect width calculations */
         }
 
         .card:hover {
@@ -988,6 +985,21 @@
             .mobile-menu {
                 top: 70px;
                 height: calc(100vh - 70px);
+            }
+        }
+
+        /* Prevent cards from shrinking on small mobile screens */
+        @media (max-width: 600px) {
+            .card {
+                flex: 0 0 100%;
+                min-width: 100%;
+                max-width: 100%;
+            }
+
+            .image-placeholder {
+                flex: 0 0 100%;
+                min-width: 100%;
+                max-width: 100%;
             }
         }
     </style>
