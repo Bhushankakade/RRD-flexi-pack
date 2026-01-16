@@ -102,32 +102,6 @@
             display: block;
         }
 
-        /* --- Loader Styles --- */
-        .loader-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #ffffff;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.6s ease-out, visibility 0.6s;
-        }
-
-        .loader-container.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .loader-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
 
         .rrd_logo {
             width: 8rem;
@@ -1064,6 +1038,7 @@
             object-fit: cover;
             border-radius: 12px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            object-position: top center;
         }
 
         .promise-box {
@@ -1165,12 +1140,7 @@
 
         /* Logo Col */
         .footer-logo img {
-            height: 50px;
-            width: auto;
-            margin-bottom: 20px;
-            /* Invert filter to make dark text logo visible on dark bg if needed, 
-               or assuming logo is adapted. Using filter brightness for placeholder */
-            filter: brightness(0) invert(1);
+            width: 6rem;
         }
 
         .footer-about-text {
@@ -1519,15 +1489,7 @@
 
 <body>
 
-    <!-- Loader -->
-    <div id="loader" class="loader-container">
-        <div class="loader-content">
-            <div class="box-spinner"></div>
-            <!-- Using Placehold.co for logo placeholder if asset is missing -->
-            <img src="https://placehold.co/200x80/transparent/3d4094?text=RRD+PACKAGING" class="rrd_logo"
-                alt="RRD Logo">
-        </div>
-    </div>
+
 
     <nav id="navbar" class="navbar">
         <div class="container">
@@ -1539,8 +1501,8 @@
                 </div>
 
                 <div class="desktop-menu">
-                    <a href="#" class="nav-link">Home</a>
-                    <a href="#" class="nav-link">About</a>
+                    <a href="./index.html" class="nav-link">Home</a>
+                    <a href="./Aboutus/index.html" class="nav-link">About</a>
 
                     <div class="dropdown-parent">
                         <button class="dropdown-trigger">
@@ -1551,12 +1513,15 @@
                             <a href="#" class="dropdown-item">Stand Up Pouches</a>
                             <a href="#" class="dropdown-item">Zipper Pouches</a>
                             <a href="#" class="dropdown-item">Gussetted Pouches</a>
-                            <a href="#" class="dropdown-item">Vacuum Pouches</a>
-                            <a href="#" class="dropdown-item">Shrink Film</a>
-                            <a href="#" class="dropdown-item">D Cut & Euro Hole Pouches</a>
                             <a href="#" class="dropdown-item">Centre Seal Pouches</a>
                             <a href="#" class="dropdown-item">3 Side Seal Pouches</a>
                             <a href="#" class="dropdown-item">Spout Pouches</a>
+                            <a href="#" class="dropdown-item">Vacuum Pouches</a>
+                            <a href="#" class="dropdown-item">D Cut & Euro Hole Pouches</a>
+                            <a href="#" class="dropdown-item">Shrink Film</a>
+                            <a href="#" class="dropdown-item">Mulching Film</a>
+                            <a href="#" class="dropdown-item">LD Liners</a>
+                            <a href="#" class="dropdown-item">Stretch Film</a>
                         </div>
                     </div>
 
@@ -1572,7 +1537,7 @@
                         </div>
                     </div>
 
-                    <a href="#" class="nav-link">Quality</a>
+                    <a href="./Quality-assurance/index.html" class="nav-link">Quality</a>
                     <a href="#" class="nav-link">Ventures</a>
                     <a href="#" class="nav-link">Careers</a>
                     <a href="#" class="nav-link">Contact</a>
@@ -1604,7 +1569,7 @@
         <div id="mobile-menu" class="mobile-menu">
             <div class="mobile-nav-container">
                 <a href="#" class="mobile-link">Home</a>
-                <a href="#" class="mobile-link">About</a>
+                <a href="./Aboutus/index.html" class="mobile-link">About</a>
 
                 <!-- Mobile Dropdown: Products -->
                 <div>
@@ -1613,15 +1578,18 @@
                         <i class="ph ph-caret-down caret-icon"></i>
                     </button>
                     <div class="mobile-dropdown-content">
-                        <a href="#" class="mobile-sub-link">Stand Up Pouches</a>
-                        <a href="#" class="mobile-sub-link">Zipper Pouches</a>
-                        <a href="#" class="mobile-sub-link">Gussetted Pouches</a>
-                        <a href="#" class="mobile-sub-link">Vacuum Pouches</a>
-                        <a href="#" class="mobile-sub-link">Shrink Film</a>
-                        <a href="#" class="mobile-sub-link">D Cut & Euro Hole Pouches</a>
-                        <a href="#" class="mobile-sub-link">Centre Seal Pouches</a>
-                        <a href="#" class="mobile-sub-link">3 Side Seal Pouches</a>
-                        <a href="#" class="mobile-sub-link">Spout Pouches</a>
+                        <a href="#" class="dropdown-item">Stand Up Pouches</a>
+                        <a href="#" class="dropdown-item">Zipper Pouches</a>
+                        <a href="#" class="dropdown-item">Gussetted Pouches</a>
+                        <a href="#" class="dropdown-item">Centre Seal Pouches</a>
+                        <a href="#" class="dropdown-item">3 Side Seal Pouches</a>
+                        <a href="#" class="dropdown-item">Spout Pouches</a>
+                        <a href="#" class="dropdown-item">Vacuum Pouches</a>
+                        <a href="#" class="dropdown-item">D Cut & Euro Hole Pouches</a>
+                        <a href="#" class="dropdown-item">Shrink Film</a>
+                        <a href="#" class="dropdown-item">Mulching Film</a>
+                        <a href="#" class="dropdown-item">LD Liners</a>
+                        <a href="#" class="dropdown-item">Stretch Film</a>
                     </div>
                 </div>
 
@@ -1638,7 +1606,7 @@
                     </div>
                 </div>
 
-                <a href="#" class="mobile-link">Quality</a>
+                <a href="./Quality-assurance/index.html" class="mobile-link">Quality</a>
                 <a href="#" class="mobile-link">Ventures</a>
                 <a href="#" class="mobile-link">Careers</a>
                 <a href="#" class="mobile-link">Contact</a>
@@ -1876,8 +1844,7 @@
         <div class="container">
             <!-- Image: Quality Inspection -->
             <div class="quality-image-container">
-                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80"
-                    alt="Quality Inspection" class="quality-img">
+                <img src="./asset/quality_assurance.png" alt="Quality Inspection" class="quality-img">
             </div>
 
             <!-- Red Box Heading -->
@@ -1905,7 +1872,7 @@
                 <div class="footer-col">
                     <div class="footer-logo">
                         <!-- Using Placehold.co for logo -->
-                        <img src="https://placehold.co/200x80/transparent/3d4094?text=RRD+PACKAGING" alt="RRD Logo">
+                        <img src="./asset/RRD_LOGO.png" alt="RRD Logo">
                     </div>
                     <p class="footer-about-text">
                         Flexible Packaging Manufacturer delivering quality-driven packaging solutions.
@@ -1917,9 +1884,9 @@
                     <h3>Quick Links</h3>
                     <ul class="footer-links">
                         <li><a href="#">Home</a></li>
-                        <li><a href="#">About Us</a></li>
+                        <li><a href="./Aboutus/index.html">About Us</a></li>
                         <li><a href="#">Products</a></li>
-                        <li><a href="#">Quality</a></li>
+                        <li><a href="./Quality-assurance/index.html">Quality</a></li>
                         <li><a href="#">Contact Us</a></li>
                     </ul>
                 </div>

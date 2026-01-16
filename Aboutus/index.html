@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - RRD Packaging Solutions</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Comic+Neue:wght@400;700&family=Fredoka:wght@400;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Lenis Smooth Scroll Script -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <style>
+        /* --- Reset & Base Styles --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        /* --- Lenis Recommended CSS --- */
+        html.lenis,
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        /* --- COMPLETELY HIDE SCROLLBAR --- */
+        ::-webkit-scrollbar {
+            display: none;
+            width: 0 !important;
+            height: 0 !important;
+            background: transparent;
+        }
+
+        html {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body {
+            font-family: "Roboto", sans-serif;
+            background-color: #f9fafb;
+            color: #1f2937;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 80px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        body.loaded {
+            overflow-y: visible;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            all: unset;
+            cursor: pointer;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* --- Loader Styles --- */
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s ease-out, visibility 0.6s;
+        }
+
+        .loader-container.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .rrd_logo {
+            width: 8rem;
+            margin-top: 16px;
+            height: auto;
+        }
+
+        /* Spinning Box Animation */
+        .box-spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #3d4094;
+            border-top: 5px solid #00a859;
+            border-right: 5px solid #ed3338;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            animation: box-morph 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes box-morph {
+            0% {
+                transform: rotate(0deg) scale(1);
+                border-radius: 8px;
+            }
+
+            50% {
+                transform: rotate(180deg) scale(1.15);
+                border-radius: 50%;
+                border-width: 3px;
+            }
+
+            100% {
+                transform: rotate(360deg) scale(1);
+                border-radius: 8px;
+            }
+        }
+
+        /* --- Animations Optimized --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: opacity 1.2s cubic-bezier(0.215, 0.61, 0.355, 1), transform 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-80px);
+            transition: opacity 1.6s cubic-bezier(0.215, 0.61, 0.355, 1), transform 1.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(80px);
+            transition: opacity 1.6s cubic-bezier(0.215, 0.61, 0.355, 1), transform 1.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        /* --- Navbar Container --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 50;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            position: relative;
+            transition: height 0.3s ease;
+        }
+
+        /* --- Logo --- */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 900;
+            font-size: 24px;
+            color: #3d4094;
+            letter-spacing: -1px;
+        }
+
+        .logo-img {
+            width: 8rem;
+            margin-top: 8px;
+            object-fit: contain;
+        }
+
+        /* --- Desktop Menu --- */
+        .desktop-menu {
+            display: none;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-link {
+            color: #4b5563;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .nav-link.active {
+            /* Removed font-weight: 600; as requested */
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #3d4094;
+            transition: width 0.3s;
+        }
+
+        /* Changed: Removed .nav-link.active::after to prevent persistent underline */
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: #3d4094;
+        }
+
+        .dropdown-trigger {
+            display: flex;
+            align-items: center;
+            color: #4b5563;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+            gap: 4px;
+        }
+
+        .dropdown-trigger:hover {
+            color: #3d4094;
+        }
+
+        .caret-icon {
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        /* --- Desktop Dropdown --- */
+        .dropdown-parent {
+            position: relative;
+            padding: 10px 0;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 0px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f3f4f6;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.2s ease;
+            min-width: 180px;
+            z-index: 100;
+        }
+
+        .dropdown-menu.right-align {
+            left: auto;
+            right: 0;
+        }
+
+        .dropdown-menu.wide {
+            width: 288px;
+        }
+
+        .dropdown-menu.medium {
+            width: 240px;
+        }
+
+        .dropdown-parent:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-parent:hover .caret-icon {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 10px 16px;
+            font-size: 14px;
+            color: #374151;
+            margin: 4px;
+            border-radius: 8px;
+            transition: background-color 0.15s, color 0.15s;
+            white-space: nowrap;
+        }
+
+        .dropdown-item:hover {
+            background-color: #eef2ff;
+            color: #4f46e5;
+        }
+
+        /* --- Mobile Menu Button --- */
+        .mobile-menu-btn-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .mobile-menu-btn {
+            color: #4b5563;
+            padding: 8px;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-menu-btn:hover {
+            color: #111827;
+        }
+
+        /* Responsive Breakpoint for Navbar */
+        @media (min-width: 1200px) {
+            .desktop-menu {
+                display: flex;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .mobile-menu-btn-container {
+                display: none;
+            }
+        }
+
+        /* --- Mobile Menu Styles --- */
+        .mobile-menu {
+            display: block;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 80px);
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 49;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            border-top: 1px solid #e5e7eb;
+            box-shadow: none;
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        /* Hide mobile menu on large screens */
+        @media (min-width: 1200px) {
+            .mobile-menu {
+                display: none;
+            }
+        }
+
+        .mobile-nav-container {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-bottom: 100px;
+        }
+
+        .mobile-link {
+            display: block;
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+            background-color: #ffffff;
+            border: 1px solid #f3f4f6;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
+        }
+
+        .mobile-link:hover {
+            background-color: #f9fafb;
+            border-color: #3d4094;
+            color: #3d4094;
+            transform: translateX(4px);
+        }
+
+        .mobile-dropdown-btn {
+            display: flex;
+            justify-content: flex-start;
+            gap: 12px;
+            align-items: center;
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+            background-color: #ffffff;
+            border: 1px solid #f3f4f6;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
+        }
+
+        .mobile-dropdown-btn:hover {
+            background-color: #f9fafb;
+            border-color: #3d4094;
+            color: #3d4094;
+            transform: translateX(4px);
+        }
+
+        .mobile-dropdown-content {
+            display: none;
+            margin-top: 8px;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-left: 0;
+            padding-left: 0;
+            border-left: none;
+        }
+
+        .mobile-dropdown-content.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-sub-link {
+            display: block;
+            padding: 14px 24px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #4b5563;
+            border-bottom: 1px solid #e2e8f0;
+            transition: color 0.2s, background-color 0.2s, padding-left 0.2s;
+        }
+
+        .mobile-sub-link:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-sub-link:hover {
+            color: #3d4094;
+            background-color: #e0e7ff;
+            padding-left: 30px;
+        }
+
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+
+        /* --- ABOUT PAGE SPECIFIC STYLES --- */
+
+        /* About Header */
+        .page-header {
+            width: 100%;
+            height: 60vh;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .header-bg-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+        }
+
+        .header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(61, 64, 148, 0.6));
+            z-index: 1;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            padding: 20px;
+            max-width: 800px;
+        }
+
+        .header-content h1 {
+            font-family: "Fredoka", sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .header-content p {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        /* --- Who We Are Section --- */
+        .about {
+            padding: 80px 20px;
+            background: #fff;
+        }
+
+        .about-container {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            gap: 60px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-box {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .img-placeholder {
+            width: 300px;
+            height: 380px;
+            background: #f7f7d9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .img-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .corner {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            z-index: 2;
+        }
+
+        .top-left {
+            top: -10px;
+            left: -10px;
+            border-top: 4px solid orange;
+            border-left: 4px solid orange;
+        }
+
+        .bottom-right {
+            bottom: -10px;
+            right: -10px;
+            border-bottom: 4px solid #00aaff;
+            border-right: 4px solid #00aaff;
+        }
+
+        .about-content h2 {
+            font-size: 36px;
+            color: #3f3fa0;
+            line-height: 1.3;
+            margin: 20px 0;
+            font-family: "Fredoka", sans-serif;
+        }
+
+        .who-we-are {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #555;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        .who-we-are .line {
+            width: 40px;
+            height: 3px;
+            background: orange;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+            background: #eef4ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3f3fa0;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        /* --- MISSION & VISION SECTION STYLES --- */
+        .mv-section {
+            padding: 80px 20px;
+            background: #fff;
+        }
+
+        .mv-container {
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+
+        .mv-card {
+            border: 2px solid #111;
+            border-radius: 18px;
+            padding: 40px 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .mv-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .mv-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .mv-icon.blue {
+            background: #eaf1ff;
+            color: #3f3fa0;
+        }
+
+        .mv-icon.orange {
+            background: #fff0e1;
+            color: #ff8a00;
+        }
+
+        .mv-card h3 {
+            font-size: 26px;
+            color: #3f3fa0;
+            margin-bottom: 15px;
+            font-family: "Fredoka", sans-serif;
+        }
+
+        .mv-card p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        /* --- DIRECTOR SECTION STYLES --- */
+        .director-section {
+            background: linear-gradient(120deg, #0b2540 60%, #0f3b66 40%);
+            padding: 90px 0;
+            color: #fff;
+        }
+
+        .director-overlay {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .label {
+            color: #ff8a00;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .director-overlay h2 {
+            font-size: 42px;
+            margin-bottom: 40px;
+        }
+
+        .director-card {
+            max-width: 500px;
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .message {
+            font-style: italic;
+            line-height: 1.7;
+            color: #e5e5e5;
+        }
+
+        .divider {
+            height: 2px;
+            background: #7a8a9a;
+            margin: 25px 0 15px;
+        }
+
+        .name {
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .designation {
+            color: #ff8a00;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* --- INFRASTRUCTURE SECTION STYLES --- */
+        .infra-section {
+            padding: 80px 0;
+            background: #fff;
+        }
+
+        .infra-container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        .infra-container h2 {
+            text-align: center;
+            color: #3f3fa0;
+            font-size: 30px;
+            font-family: "Fredoka", sans-serif;
+        }
+
+        .underline {
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: orange;
+            margin: 12px auto 40px;
+        }
+
+        .infra-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .infra-card {
+            background: #f5f6f8;
+            border-radius: 12px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .infra-card .icon {
+            font-size: 26px;
+            color: #2563eb;
+            background: none;
+            width: auto;
+            height: auto;
+            border-radius: 0;
+            display: block;
+        }
+
+        .tech h3 {
+            color: #3f3fa0;
+            font-size: 26px;
+            margin-bottom: 15px;
+            font-family: "Fredoka", sans-serif;
+        }
+
+        .tech p {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        /* --- NEW SECTION: Footer --- */
+        .footer-section {
+            background-color: #1f2937;
+            color: #f3f4f6;
+            padding: 80px 0 30px 0;
+            font-family: "Roboto", sans-serif;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h3 {
+            color: #ffffff;
+            font-family: "Fredoka", sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #ed3338;
+            border-radius: 2px;
+        }
+
+        .footer-logo img {
+            height: 50px;
+            width: auto;
+            margin-bottom: 20px;
+            filter: brightness(0) invert(1);
+        }
+
+        .footer-about-text {
+            color: #9ca3af;
+            line-height: 1.8;
+            font-size: 1rem;
+            max-width: 300px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #d1d5db;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links a:hover {
+            color: #ed3338;
+            padding-left: 5px;
+        }
+
+        .footer-contact {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-contact li {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            color: #d1d5db;
+            align-items: flex-start;
+        }
+
+        .footer-contact i {
+            color: #ed3338;
+            font-size: 1.5rem;
+            margin-top: 3px;
+        }
+
+        .footer-contact span {
+            line-height: 1.6;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 30px;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.95rem;
+        }
+
+        /* --- Responsive Styles --- */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                font-size: 24px;
+            }
+
+            .footer-section {
+                padding: 50px 0 20px 0;
+            }
+
+            .about-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .who-we-are {
+                justify-content: center;
+            }
+
+            .features {
+                text-align: left;
+            }
+
+            .mv-container {
+                grid-template-columns: 1fr;
+            }
+
+            .director-overlay h2 {
+                font-size: 32px;
+            }
+
+            .director-card {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .infra-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding-top: 70px;
+            }
+
+            .nav-content {
+                height: 70px;
+            }
+
+            .mobile-menu {
+                top: 70px;
+                height: calc(100vh - 70px);
+            }
+
+            .logo-text {
+                font-size: 24px;
+            }
+
+            .mobile-menu-btn {
+                font-size: 24px;
+            }
+
+            .page-header {
+                height: 50vh;
+            }
+
+            .header-content h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Loader -->
+    <div id="loader" class="loader-container">
+        <div class="loader-content">
+            <div class="box-spinner"></div>
+            <img src="https://placehold.co/200x80/transparent/3d4094?text=RRD+PACKAGING" class="rrd_logo"
+                alt="RRD Logo">
+        </div>
+    </div>
+
+    <nav id="navbar" class="navbar">
+        <div class="container">
+            <div class="nav-content">
+
+                <div class="logo-container">
+                    <img src="https://placehold.co/200x80/transparent/3d4094?text=RRD+PACKAGING" class="logo-img"
+                        alt="RRD Logo">
+                </div>
+
+                <div class="desktop-menu">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <!-- Set About as Active -->
+                    <a href="#" class="nav-link active">About</a>
+
+                    <div class="dropdown-parent">
+                        <button class="dropdown-trigger">
+                            <span>Products</span>
+                            <i class="ph ph-caret-down caret-icon"></i>
+                        </button>
+                        <div class="dropdown-menu wide">
+                            <a href="#" class="dropdown-item">Stand Up Pouches</a>
+                            <a href="#" class="dropdown-item">Zipper Pouches</a>
+                            <a href="#" class="dropdown-item">Gussetted Pouches</a>
+                            <a href="#" class="dropdown-item">Centre Seal Pouches</a>
+                            <a href="#" class="dropdown-item">3 Side Seal Pouches</a>
+                            <a href="#" class="dropdown-item">Spout Pouches</a>
+                            <a href="#" class="dropdown-item">Vacuum Pouches</a>
+                            <a href="#" class="dropdown-item">D Cut & Euro Hole Pouches</a>
+                            <a href="#" class="dropdown-item">Shrink Film</a>
+                            <a href="#" class="dropdown-item">Mulching Film</a>
+                            <a href="#" class="dropdown-item">LD Liners</a>
+                            <a href="#" class="dropdown-item">Stretch Film</a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown-parent">
+                        <button class="dropdown-trigger">
+                            <span>Ecosystem</span>
+                            <i class="ph ph-caret-down caret-icon"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">Technology Infrastructure</a>
+                            <a href="#" class="dropdown-item">Manufacturing Process</a>
+                            <a href="#" class="dropdown-item">Strategic Ventures</a>
+                        </div>
+                    </div>
+
+                    <a href="#" class="nav-link">Quality</a>
+                    <a href="#" class="nav-link">Ventures</a>
+                    <a href="#" class="nav-link">Careers</a>
+                    <a href="#" class="nav-link">Contact</a>
+
+                    <!-- Knowledge Center Dropdown -->
+                    <div class="dropdown-parent">
+                        <button class="dropdown-trigger">
+                            <span>Knowledge Center</span>
+                            <i class="ph ph-caret-down caret-icon"></i>
+                        </button>
+                        <div class="dropdown-menu medium right-align">
+                            <a href="#" class="dropdown-item">Insights & Blogs</a>
+                            <a href="#" class="dropdown-item">News & Updates</a>
+                            <a href="#" class="dropdown-item">Certifications & Compliance</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="mobile-menu-btn-container">
+                    <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle menu">
+                        <i id="menu-icon" class="ph ph-list"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu" data-lenis-prevent>
+            <div class="mobile-nav-container">
+                <a href="index.html" class="mobile-link">Home</a>
+                <a href="#" class="mobile-link" style="color:#3d4094; border-color:#3d4094;">About</a>
+
+                <!-- Mobile Dropdown: Products -->
+                <div>
+                    <button class="mobile-dropdown-btn">
+                        <span>Products</span>
+                        <i class="ph ph-caret-down caret-icon"></i>
+                    </button>
+                    <div class="mobile-dropdown-content">
+                        <a href="#" class="dropdown-item">Stand Up Pouches</a>
+                        <a href="#" class="dropdown-item">Zipper Pouches</a>
+                        <a href="#" class="dropdown-item">Gussetted Pouches</a>
+                        <a href="#" class="dropdown-item">Centre Seal Pouches</a>
+                        <a href="#" class="dropdown-item">3 Side Seal Pouches</a>
+                        <a href="#" class="dropdown-item">Spout Pouches</a>
+                        <a href="#" class="dropdown-item">Vacuum Pouches</a>
+                        <a href="#" class="dropdown-item">D Cut & Euro Hole Pouches</a>
+                        <a href="#" class="dropdown-item">Shrink Film</a>
+                        <a href="#" class="dropdown-item">Mulching Film</a>
+                        <a href="#" class="dropdown-item">LD Liners</a>
+                        <a href="#" class="dropdown-item">Stretch Film</a>
+                    </div>
+                </div>
+
+                <!-- Mobile Dropdown: Ecosystem -->
+                <div>
+                    <button class="mobile-dropdown-btn">
+                        <span>Ecosystem</span>
+                        <i class="ph ph-caret-down caret-icon"></i>
+                    </button>
+                    <div class="mobile-dropdown-content">
+                        <a href="#" class="mobile-sub-link">Technology Infrastructure</a>
+                        <a href="#" class="mobile-sub-link">Manufacturing Process</a>
+                        <a href="#" class="mobile-sub-link">Strategic Ventures</a>
+                    </div>
+                </div>
+
+                <a href="#" class="mobile-link">Quality</a>
+                <a href="#" class="mobile-link">Ventures</a>
+                <a href="#" class="mobile-link">Careers</a>
+                <a href="#" class="mobile-link">Contact</a>
+
+                <!-- Mobile Dropdown: Knowledge Center -->
+                <div>
+                    <button class="mobile-dropdown-btn">
+                        <span>Knowledge Center</span>
+                        <i class="ph ph-caret-down caret-icon"></i>
+                    </button>
+                    <div class="mobile-dropdown-content">
+                        <a href="#" class="mobile-sub-link">Insights & Blogs</a>
+                        <a href="#" class="mobile-sub-link">News & Updates</a>
+                        <a href="#" class="mobile-sub-link">Certifications & Compliance</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- NEW CONTENT START -->
+
+    <!-- About Header -->
+    <header class="page-header">
+        <div class="header-overlay"></div>
+        <!-- Machinery Image in Header -->
+        <img src="https://images.unsplash.com/photo-1565514020176-892eb1036e67?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+            class="header-bg-img" alt="Packaging Machinery">
+
+        <div class="header-content reveal">
+            <h1>We Are RRD Packaging</h1>
+            <p>Innovating the future of flexible packaging with state-of-the-art technology.</p>
+        </div>
+    </header>
+
+    <!-- NEW ADDED SECTION: Who We Are -->
+    <section class="about reveal">
+        <div class="about-container">
+            <!-- Left Image Box -->
+            <div class="image-box reveal-left">
+                <div class="corner top-left"></div>
+                <div class="corner bottom-right"></div>
+                <div class="img-placeholder">
+                    <img src="https://images.unsplash.com/photo-1577412647305-991150c7d163?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        alt="Office Interior">
+                </div>
+            </div>
+
+            <!-- Right Content -->
+            <div class="about-content reveal-right">
+                <div class="who-we-are">
+                    <span class="line"></span>
+                    <p>Who We Are</p>
+                </div>
+
+                <h2>
+                    Innovative Packaging<br>
+                    Solutions Since<br>
+                    Inception
+                </h2>
+
+                <div class="features">
+                    <div class="feature">
+                        <!-- Replaced Emoji with Phosphor Icon: Check Circle -->
+                        <span class="icon"><i class="ph ph-check-circle"></i></span>
+                        <p>Precision Based</p>
+                    </div>
+                    <div class="feature">
+                        <!-- Replaced Emoji with Phosphor Icon: Shield Check -->
+                        <span class="icon"><i class="ph ph-shield-check"></i></span>
+                        <p>Highly Durable</p>
+                    </div>
+                    <div class="feature">
+                        <!-- Replaced Emoji with Phosphor Icon: Clock -->
+                        <span class="icon"><i class="ph ph-clock"></i></span>
+                        <p>Timely Delivery</p>
+                    </div>
+                    <div class="feature">
+                        <!-- Replaced Emoji with Phosphor Icon: Lightning -->
+                        <span class="icon"><i class="ph ph-lightning"></i></span>
+                        <p>State-of-the-Art Tech</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW ADDED SECTION: Mission & Vision -->
+    <section class="mv-section reveal">
+        <div class="mv-container">
+
+            <div class="mv-card reveal-left">
+                <div class="mv-icon blue">
+                    <i class="ph ph-target"></i>
+                </div>
+                <h3>Our Mission</h3>
+                <p>
+                    We propose to deliver unique values in our products to gain long term
+                    satisfaction and in the process provide world standard goods.
+                </p>
+            </div>
+
+            <div class="mv-card reveal-right">
+                <div class="mv-icon orange">
+                    <i class="ph ph-eye"></i>
+                </div>
+                <h3>Our Vision</h3>
+                <p>
+                    We will strive to be the nation's flagship brand in providing packaging
+                    solutions and in the process provide opportunities for unlimited and
+                    unparallel growth to one and all.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- NEW ADDED SECTION: Director's Desk -->
+    <section class="director-section reveal">
+        <div class="director-overlay">
+
+            <p class="label">LEADERSHIP</p>
+            <h2>From the Director's Desk</h2>
+
+            <div class="director-card">
+                <p class="message">
+                    We take great pride in being torch bearers in providing innovative
+                    solutions for all your packaging needs. We are set to make a difference
+                    in the world of packaging by keeping the team motivated & in line with
+                    the latest development around the world. We pride ourselves on the
+                    timely delivery of prescheduled world-standard goods.
+                </p>
+
+                <div class="divider"></div>
+
+                <p class="name">Amit Ganatra & Bhavesh Ganatra</p>
+                <p class="designation">Directors, RRD Flexi Pack</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- NEW ADDED SECTION: Infrastructure & Applications -->
+    <section class="infra-section">
+        <div class="infra-container">
+
+            <h2>Our Infrastructure & Applications</h2>
+            <span class="underline"></span>
+
+            <div class="infra-grid">
+                <div class="infra-card">
+                    <div class="icon"><i class="ph ph-list"></i></div>
+                    <p>Lamination</p>
+                </div>
+                <div class="infra-card">
+                    <div class="icon"><i class="ph ph-printer"></i></div>
+                    <p>Roto-Gravure</p>
+                </div>
+                <div class="infra-card">
+                    <div class="icon"><i class="ph ph-square"></i></div>
+                    <p>Pouches</p>
+                </div>
+                <div class="infra-card">
+                    <div class="icon"><i class="ph ph-film-strip"></i></div>
+                    <p>PVC Sleeves</p>
+                </div>
+            </div>
+
+            <div class="tech">
+                <h3>State-of-the-Art Technology</h3>
+                <p>
+                    We have a well-established and modern production support system that helps
+                    us successfully handle present and emerging packaging material requirements.
+                    Our high-speed machines, including the <strong>PELICAN SOLOMARK 6450</strong>,
+                    allow us to achieve perfection in every production activity.
+                </p>
+                <p>
+                    We produce a wide range of custom-designed film, foil, and paper-based laminate
+                    structures for primary packaging of products in solid, powder, or liquid form.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- NEW CONTENT END -->
+
+    <!-- Footer -->
+    <footer class="footer-section reveal">
+        <div class="container">
+            <div class="footer-content">
+                <!-- Column 1: Logo & About -->
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <img src="https://placehold.co/200x80/transparent/3d4094?text=RRD+PACKAGING" alt="RRD Logo">
+                    </div>
+                    <p class="footer-about-text">
+                        Flexible Packaging Manufacturer delivering quality-driven packaging solutions.
+                    </p>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Products</a></li>
+                        <li><a href="#">Quality</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Contact Info -->
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="ph ph-map-pin"></i>
+                            <span>
+                                <strong>Factory Address:</strong><br>
+                                A-13/14, Old MIDC Area,<br>
+                                Jalna – 431203, Maharashtra, India
+                            </span>
+                        </li>
+                        <li>
+                            <i class="ph ph-phone"></i>
+                            <span>
+                                <strong>Phone:</strong><br>
+                                +91 9422291368
+                            </span>
+                        </li>
+                        <li>
+                            <i class="ph ph-envelope"></i>
+                            <span>
+                                <strong>Email:</strong><br>
+                                info@rrflexipack.com
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p>&copy; R.R.D. Flexi Pack. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Added Log Logic from new code ---
+        function logClick(productName) {
+            console.log("User clicked on product: " + productName);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Initialize Lenis Smooth Scroll ---
+            const lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential easing
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                mouseMultiplier: 1,
+                smoothTouch: false,
+                touchMultiplier: 2,
+            });
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+
+            requestAnimationFrame(raf);
+
+            // --- Loader Logic ---
+            const loader = document.getElementById('loader');
+
+            // Artificial delay to ensure loader is seen (looks better than instant flicker)
+            setTimeout(() => {
+                if (loader) {
+                    loader.classList.add('hidden');
+                    document.body.classList.add('loaded'); // Enable scrolling
+                    // Remove loader from DOM after fade out
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                    }, 600);
+                }
+
+                // Manual card animation logic removed. 
+                // Now handled by scroll observer via 'reveal' class added to HTML elements.
+
+            }, 1500); // 1.5 seconds load time
+
+            // --- Mobile Menu Toggle Logic ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('open');
+
+                    // Toggle Icon between List and X (Close)
+                    const isOpen = mobileMenu.classList.contains('open');
+
+                    // Stop/Start Lenis scroll to prevent body scrolling when menu is open
+                    if (isOpen) {
+                        lenis.stop();
+                        menuIcon.classList.remove('ph-list');
+                        menuIcon.classList.add('ph-x');
+                    } else {
+                        lenis.start();
+                        menuIcon.classList.remove('ph-x');
+                        menuIcon.classList.add('ph-list');
+                    }
+                });
+            }
+
+            // --- Mobile Dropdown Toggle Logic ---
+            const mobileDropdownBtns = document.querySelectorAll('.mobile-dropdown-btn');
+
+            mobileDropdownBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const content = this.nextElementSibling;
+                    const icon = this.querySelector('.caret-icon');
+
+                    if (content) {
+                        content.classList.toggle('show');
+                    }
+
+                    if (icon) {
+                        icon.classList.toggle('rotate-180');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking a regular link
+            const mobileLinks = document.querySelectorAll('.mobile-link, .mobile-sub-link');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mobileMenu.classList.contains('open')) {
+                        mobileMenu.classList.remove('open');
+                        lenis.start(); // Resume scroll
+                        menuIcon.classList.remove('ph-x');
+                        menuIcon.classList.add('ph-list');
+                    }
+                });
+            });
+
+            // --- Scroll Animation (Bidirectional with Shake Fix) ---
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 // Reduced slightly to ensure it triggers easier on mobile
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    } else {
+                        // Fix for shaking: Only remove 'active' if the element is exiting 
+                        // from the bottom (i.e., we are scrolling up).
+                        // If it exits from the top (scrolling down past it), keep it active.
+                        // We check if boundingClientRect.top > 0, which implies it's below viewport.
+                        if (entry.boundingClientRect.top > 0) {
+                            entry.target.classList.remove('active');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            // Updated selector to include new animation classes
+            const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+            revealElements.forEach(el => observer.observe(el));
+
+            // --- View All Button Logic from new code ---
+            const viewAllBtn = document.getElementById('viewAllBtn');
+            if (viewAllBtn) {
+                viewAllBtn.addEventListener('click', function () {
+                    this.textContent = "Loading...";
+
+                    setTimeout(() => {
+                        // Using custom alert or modal would be better, but sticking to logic
+                        // Using console to avoid blocking UI in iframe if possible
+                        console.log("Redirecting to full catalog...");
+                        // Use a non-blocking toast/alert if possible, or just revert text
+                        this.textContent = "View All";
+                    }, 500);
+                });
+            }
+        });
+    </script>
+
+</body>
+
+</html>

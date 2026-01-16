@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quality Assurance - R.R.D. Flexi Pack</title>
+
+    <!-- Fonts: Updated to include weights 300 and 600 as requested in the new code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=Comic+Neue:wght@400;700&family=Fredoka:wght@400;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Lenis Smooth Scroll Script -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <style>
+        /* --- Reset & Base Styles --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            overflow-x: hidden;
+            /* scroll-behavior: smooth;  <-- Removing native smooth scroll to let Lenis handle it better */
+            height: 100%;
+            /* Ensure full height for sticky footer alignment */
+        }
+
+        /* --- Lenis Recommended CSS --- */
+        html.lenis,
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        /* --- COMPLETELY HIDE SCROLLBAR --- */
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        ::-webkit-scrollbar {
+            display: none;
+            width: 0 !important;
+            height: 0 !important;
+            background: transparent;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        html {
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        body {
+            font-family: "Roboto", sans-serif;
+            background-color: #f9fafb;
+            color: #1f2937;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            width: 100%;
+            padding-top: 80px;
+            /* Added to compensate for fixed navbar */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.loaded {
+            /* Changed to visible to ensure position: sticky works perfectly relative to viewport */
+            overflow-y: visible;
+            overflow-x: hidden;
+        }
+
+        /* Main content wrapper to push footer down */
+        main {
+            flex: 1;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            all: unset;
+            cursor: pointer;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* --- Animations Optimized --- */
+        /* Changed 'all' to specific properties for better performance */
+
+        /* Reveal on Scroll Class (Bottom to Top - Default) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            /* Increased from 0.8s to 1.2s for slower rise */
+            transition: opacity 1.2s cubic-bezier(0.215, 0.61, 0.355, 1), transform 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Reveal Left (Left to Right) */
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-80px);
+            /* Increased from 1s to 1.6s for slower entry */
+            transition: opacity 1.6s cubic-bezier(0.215, 0.61, 0.355, 1), transform 1.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Reveal Right (Right to Left) */
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(80px);
+            /* Increased from 1s to 1.6s for slower entry */
+            transition: opacity 1.6s cubic-bezier(0.215, 0.61, 0.355, 1), transform 1.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Staggered delay for children */
+        .reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        /* --- Navbar Container --- */
+        .navbar {
+            position: fixed;
+            /* Changed to fixed to guarantee sticking */
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 50;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            position: relative;
+            transition: height 0.3s ease;
+        }
+
+        /* --- Logo --- */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 900;
+            font-size: 24px;
+            color: #3d4094;
+            letter-spacing: -1px;
+        }
+
+        .logo-img {
+            width: 6rem;
+            margin-top: 8px;
+        }
+
+        /* --- Desktop Menu --- */
+        .desktop-menu {
+            display: none;
+            /* Hidden on mobile by default */
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-link {
+            color: #4b5563;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #3d4094;
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover,
+        .dropdown-trigger:hover {
+            color: #3d4094;
+        }
+
+        .dropdown-trigger {
+            display: flex;
+            align-items: center;
+            color: #4b5563;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+            gap: 4px;
+        }
+
+        .caret-icon {
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        /* --- Desktop Dropdown --- */
+        .dropdown-parent {
+            position: relative;
+            padding: 10px 0;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 0px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f3f4f6;
+            overflow: hidden;
+
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.2s ease;
+
+            min-width: 180px;
+            z-index: 100;
+        }
+
+        .dropdown-menu.right-align {
+            left: auto;
+            right: 0;
+        }
+
+        .dropdown-menu.wide {
+            width: 288px;
+        }
+
+        .dropdown-menu.medium {
+            width: 240px;
+        }
+
+        .dropdown-parent:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-parent:hover .caret-icon {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 10px 16px;
+            font-size: 14px;
+            color: #374151;
+            margin: 4px;
+            border-radius: 8px;
+            transition: background-color 0.15s, color 0.15s;
+            white-space: nowrap;
+        }
+
+        .dropdown-item:hover {
+            background-color: #eef2ff;
+            color: #4f46e5;
+        }
+
+        /* --- Mobile Menu Button --- */
+        .mobile-menu-btn-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .mobile-menu-btn {
+            color: #4b5563;
+            padding: 8px;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-menu-btn:hover {
+            color: #111827;
+        }
+
+        /* Responsive Breakpoint for Navbar */
+        @media (min-width: 1200px) {
+            .desktop-menu {
+                display: flex;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .mobile-menu-btn-container {
+                display: none;
+            }
+        }
+
+        /* --- Mobile Menu Styles (Redesigned) --- */
+        .mobile-menu {
+            display: block;
+            position: fixed;
+            /* Fixed position for full screen height */
+            top: 80px;
+            /* Starts exactly below the navbar */
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 80px);
+            /* Occupy remaining screen space */
+            background-color: rgba(255, 255, 255, 0.98);
+            /* High opacity white */
+            backdrop-filter: blur(12px);
+            /* Glassmorphism effect */
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 49;
+            /* Below navbar (50) */
+
+            /* Animation States */
+            transform: translateX(100%);
+            /* Hidden to the right */
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+
+            overflow-y: auto;
+            /* Scrollable content */
+            border-top: 1px solid #e5e7eb;
+            box-shadow: none;
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+            /* Slide in */
+            opacity: 1;
+        }
+
+        /* Hide mobile menu on large screens */
+        @media (min-width: 1200px) {
+            .mobile-menu {
+                display: none;
+            }
+        }
+
+        .mobile-nav-container {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            /* Spacing between main items */
+            padding-bottom: 100px;
+            /* Extra space at bottom for scrolling */
+        }
+
+        /* Main Links styling as clickable cards */
+        .mobile-link {
+            display: block;
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+            background-color: #ffffff;
+            border: 1px solid #f3f4f6;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
+        }
+
+        .mobile-link:hover {
+            background-color: #f9fafb;
+            border-color: #3d4094;
+            color: #3d4094;
+            transform: translateX(4px);
+        }
+
+        /* Dropdown Button Styling */
+        .mobile-dropdown-btn {
+            display: flex;
+            justify-content: flex-start;
+            /* Icon next to text */
+            gap: 12px;
+            align-items: center;
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
+            background-color: #ffffff;
+            border: 1px solid #f3f4f6;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
+        }
+
+        .mobile-dropdown-btn:hover {
+            background-color: #f9fafb;
+            border-color: #3d4094;
+            color: #3d4094;
+            transform: translateX(4px);
+        }
+
+        /* Dropdown Content Area */
+        .mobile-dropdown-content {
+            display: none;
+            margin-top: 8px;
+            background-color: #f8fafc;
+            /* Slightly darker inner bg */
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-left: 0;
+            /* Reset margin */
+            padding-left: 0;
+            /* Reset padding */
+            border-left: none;
+        }
+
+        .mobile-dropdown-content.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-sub-link {
+            display: block;
+            padding: 14px 24px;
+            /* Comfortable touch target */
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #4b5563;
+            border-bottom: 1px solid #e2e8f0;
+            transition: color 0.2s, background-color 0.2s, padding-left 0.2s;
+        }
+
+        .mobile-sub-link:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-sub-link:hover {
+            color: #3d4094;
+            background-color: #e0e7ff;
+            padding-left: 30px;
+            /* Slight indentation on hover */
+        }
+
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+
+        /* --- NEW SECTION: Footer --- */
+        .footer-section {
+            background-color: #1f2937;
+            color: #f3f4f6;
+            padding: 80px 0 30px 0;
+            font-family: "Roboto", sans-serif;
+            margin-top: auto;
+            /* Pushes footer to bottom if content is short */
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h3 {
+            color: #ffffff;
+            font-family: "Fredoka", sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #ed3338;
+            border-radius: 2px;
+        }
+
+        /* Logo Col */
+        .footer-logo img {
+            width: 6rem;
+        }
+
+        .footer-about-text {
+            color: #9ca3af;
+            line-height: 1.8;
+            font-size: 1rem;
+            max-width: 300px;
+        }
+
+        /* Links Col */
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #d1d5db;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links a:hover {
+            color: #ed3338;
+            padding-left: 5px;
+        }
+
+        /* Contact Col */
+        .footer-contact {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-contact li {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            color: #d1d5db;
+            align-items: flex-start;
+        }
+
+        .footer-contact i {
+            color: #ed3338;
+            font-size: 1.5rem;
+            margin-top: 3px;
+        }
+
+        .footer-contact span {
+            line-height: 1.6;
+        }
+
+        /* Copyright Bar */
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 30px;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.95rem;
+        }
+
+
+        /* --- ADDED STYLES FOR QUALITY PAGE CONTENT --- */
+
+        /* Video Header Section */
+        .video-header {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .video-header video {
+            object-fit: cover;
+            object-position: top center;
+        }
+
+        .bg-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* important */
+            opacity: 0.9;
+        }
+
+        .video-overlay {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom,
+                    rgba(0, 0, 0, 0.2),
+                    rgba(0, 0, 0, 0.2));
+        }
+
+        /* NEW POLICY SECTION STYLES */
+        .policy-section {
+            padding: 80px 20px;
+            text-align: center;
+            background: #fff;
+        }
+
+        .policy-label {
+            color: #e53935;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: Helvetica, sans-serif;
+        }
+
+        .policy-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: #3d4094;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            font-family: "Fredoka", sans-serif;
+
+        }
+
+        .policy-card {
+            max-width: 900px;
+            margin: auto;
+            background: #f4fbef;
+            border-radius: 30px;
+            padding: 60px 50px;
+            border: 1.5px solid #111;
+            /* Enhance readability on mobile */
+            box-sizing: border-box;
+        }
+
+        .policy-icon {
+            margin-bottom: 30px;
+        }
+
+        .policy-text {
+            font-style: italic;
+            font-size: 18px;
+            line-height: 1.7;
+            color: #555;
+        }
+
+        /* Cards Section */
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 60px auto 0;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background-color: #f0f8ff;
+            border-radius: 12px;
+            padding: 30px;
+            flex: 1;
+            min-width: 250px;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: border-box;
+            /* Ensures padding doesn't affect width calculations */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .card-icon svg {
+            width: 48px;
+            height: 48px;
+        }
+
+        .card h4 {
+            font-size: 22px;
+            color: #003366;
+            margin: 10px 0;
+        }
+
+        .card p {
+            font-size: 15px;
+            color: #666;
+        }
+
+        /* Infrastructure Section */
+        .infrastructure {
+            text-align: center;
+            padding: 80px 20px;
+            background-color: #f9f9f9;
+        }
+
+        .infrastructure h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: #3d4094;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            font-family: "Fredoka", sans-serif;
+
+        }
+
+        .infrastructure>p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 50px;
+            color: #555;
+        }
+
+        .feature-list {
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .feature p {
+            margin: 0;
+        }
+
+        .feature:last-child {
+            margin-bottom: 0;
+        }
+
+        .feature-icon {
+            margin-right: 15px;
+            min-width: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: #28a745;
+        }
+
+        /* Images Section */
+        .images {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .image-placeholder {
+            background-color: #e0e0e0;
+            height: 250px;
+            flex: 1 1 250px;
+            max-width: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .image-placeholder:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .image-placeholder:hover .gallery-img {
+            transform: scale(1.1);
+        }
+
+        .image-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 51, 102, 0.85);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        /* --- RESPONSIVE MEDIA QUERIES (Updated) --- */
+
+        /* Tablets and smaller laptops */
+        @media (max-width: 1024px) {
+            .policy-card {
+                padding: 40px 30px;
+            }
+        }
+
+        /* Mobile Devices */
+        @media (max-width: 768px) {
+            .policy-section {
+                /* Increased side padding to 20px for "gap from all sides" */
+                padding: 50px 20px;
+            }
+
+            .policy-title {
+                font-size: 28px;
+                margin-bottom: 30px;
+            }
+
+            .policy-card {
+                padding: 30px 20px;
+                border-radius: 20px;
+            }
+
+            .policy-text {
+                font-size: 16px;
+            }
+
+            .cards {
+                /* Increased gap to 20px */
+                gap: 20px;
+            }
+
+            .card {
+                /* 2 columns with 20px gap: Width = (100% - 20px) / 2 = 50% - 10px */
+                flex: 0 0 calc(50% - 10px);
+                min-width: calc(50% - 10px);
+                max-width: calc(50% - 10px);
+                /* Uniform padding of 20px on all sides */
+                padding: 20px;
+            }
+
+            .card-icon svg {
+                width: 42px;
+                /* Restore icon size slightly */
+                height: 42px;
+            }
+
+            .card h4 {
+                font-size: 18px;
+                /* Slightly smaller font for tight layout */
+                margin: 10px 0;
+            }
+
+            .card p {
+                font-size: 14px;
+                line-height: 1.4;
+            }
+
+            .infrastructure {
+                padding: 50px 20px;
+            }
+
+            .feature-list {
+                padding: 25px;
+            }
+
+            /* Allow text to wrap nicely next to icon without breaking layout */
+            .feature {
+                align-items: flex-start;
+            }
+
+            .feature-icon {
+                margin-top: 3px;
+                /* visual alignment with first line of text */
+            }
+
+            .images {
+                margin: 40px auto;
+                gap: 15px;
+            }
+
+            .image-placeholder {
+                /* 2 images per row on mobile remains */
+                flex: 1 1 calc(50% - 8px);
+                max-width: calc(50% - 8px);
+                height: 150px;
+            }
+
+            /* Navbar height changes, so adjust body padding */
+            body {
+                padding-top: 70px;
+            }
+
+            .nav-content {
+                height: 70px;
+            }
+
+            /* Adjust mobile menu top to match new nav height */
+            .mobile-menu {
+                top: 70px;
+                height: calc(100vh - 70px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav id="navbar" class="navbar">
+        <div class="container">
+            <div class="nav-content">
+
+                <div class="logo-container">
+                    <a href="../index.html">
+                        <img src="../asset/RRD_LOGO.png" class="logo-img" alt="RRD Logo">
+                    </a>
+                </div>
+
+                <div class="desktop-menu">
+                    <a href="../index.html" class="nav-link">Home</a>
+                    <a href="./Aboutus/index.html" class="nav-link">About</a>
+
+                    <div class="dropdown-parent">
+                        <button class="dropdown-trigger">
+                            <span>Products</span>
+                            <i class="ph ph-caret-down caret-icon"></i>
+                        </button>
+                        <div class="dropdown-menu wide">
+                            <a href="#" class="dropdown-item">Stand Up Pouches</a>
+                            <a href="#" class="dropdown-item">Zipper Pouches</a>
+                            <a href="#" class="dropdown-item">Gussetted Pouches</a>
+                            <a href="#" class="dropdown-item">Centre Seal Pouches</a>
+                            <a href="#" class="dropdown-item">3 Side Seal Pouches</a>
+                            <a href="#" class="dropdown-item">Spout Pouches</a>
+                            <a href="#" class="dropdown-item">Vacuum Pouches</a>
+                            <a href="#" class="dropdown-item">D Cut & Euro Hole Pouches</a>
+                            <a href="#" class="dropdown-item">Shrink Film</a>
+                            <a href="#" class="dropdown-item">Mulching Film</a>
+                            <a href="#" class="dropdown-item">LD Liners</a>
+                            <a href="#" class="dropdown-item">Stretch Film</a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown-parent">
+                        <button class="dropdown-trigger">
+                            <span>Ecosystem</span>
+                            <i class="ph ph-caret-down caret-icon"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">Technology Infrastructure</a>
+                            <a href="#" class="dropdown-item">Manufacturing Process</a>
+                            <a href="#" class="dropdown-item">Strategic Ventures</a>
+                        </div>
+                    </div>
+
+                    <a href="#" class="nav-link">Quality</a>
+                    <a href="#" class="nav-link">Ventures</a>
+                    <a href="#" class="nav-link">Careers</a>
+                    <a href="#" class="nav-link">Contact</a>
+
+                    <!-- Knowledge Center Dropdown -->
+                    <div class="dropdown-parent">
+                        <button class="dropdown-trigger">
+                            <span>Knowledge Center</span>
+                            <i class="ph ph-caret-down caret-icon"></i>
+                        </button>
+                        <div class="dropdown-menu medium right-align">
+                            <a href="#" class="dropdown-item">Insights & Blogs</a>
+                            <a href="#" class="dropdown-item">News & Updates</a>
+                            <a href="#" class="dropdown-item">Certifications & Compliance</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="mobile-menu-btn-container">
+                    <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle menu">
+                        <i id="menu-icon" class="ph ph-list"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu">
+            <div class="mobile-nav-container">
+                <a href="../index.html" class="mobile-link">Home</a>
+                <a href="./Aboutus/index.html" class="mobile-link">About</a>
+
+                <!-- Mobile Dropdown: Products -->
+                <div>
+                    <button class="mobile-dropdown-btn">
+                        <span>Products</span>
+                        <i class="ph ph-caret-down caret-icon"></i>
+                    </button>
+                    <div class="mobile-dropdown-content">
+                        <a href="#" class="dropdown-item">Stand Up Pouches</a>
+                        <a href="#" class="dropdown-item">Zipper Pouches</a>
+                        <a href="#" class="dropdown-item">Gussetted Pouches</a>
+                        <a href="#" class="dropdown-item">Centre Seal Pouches</a>
+                        <a href="#" class="dropdown-item">3 Side Seal Pouches</a>
+                        <a href="#" class="dropdown-item">Spout Pouches</a>
+                        <a href="#" class="dropdown-item">Vacuum Pouches</a>
+                        <a href="#" class="dropdown-item">D Cut & Euro Hole Pouches</a>
+                        <a href="#" class="dropdown-item">Shrink Film</a>
+                        <a href="#" class="dropdown-item">Mulching Film</a>
+                        <a href="#" class="dropdown-item">LD Liners</a>
+                        <a href="#" class="dropdown-item">Stretch Film</a>
+                    </div>
+                </div>
+
+                <!-- Mobile Dropdown: Ecosystem -->
+                <div>
+                    <button class="mobile-dropdown-btn">
+                        <span>Ecosystem</span>
+                        <i class="ph ph-caret-down caret-icon"></i>
+                    </button>
+                    <div class="mobile-dropdown-content">
+                        <a href="#" class="mobile-sub-link">Technology Infrastructure</a>
+                        <a href="#" class="mobile-sub-link">Manufacturing Process</a>
+                        <a href="#" class="mobile-sub-link">Strategic Ventures</a>
+                    </div>
+                </div>
+
+                <a href="#" class="mobile-link">Quality</a>
+                <a href="#" class="mobile-link">Ventures</a>
+                <a href="#" class="mobile-link">Careers</a>
+                <a href="#" class="mobile-link">Contact</a>
+
+                <!-- Mobile Dropdown: Knowledge Center -->
+                <div>
+                    <button class="mobile-dropdown-btn">
+                        <span>Knowledge Center</span>
+                        <i class="ph ph-caret-down caret-icon"></i>
+                    </button>
+                    <div class="mobile-dropdown-content">
+                        <a href="#" class="mobile-sub-link">Insights & Blogs</a>
+                        <a href="#" class="mobile-sub-link">News & Updates</a>
+                        <a href="#" class="mobile-sub-link">Certifications & Compliance</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main>
+        <div class="video-header">
+            <!-- Using a stock video url for preview, replace with ./asset/Home page.mp4 in production -->
+            <video autoplay muted loop playsinline class="bg-video">
+                <source src="../asset/Quality Assure Page (1).mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+
+            <div class="video-overlay">
+                <!-- overlay content -->
+            </div>
+        </div>
+
+        <section class="policy-section reveal">
+            <p class="policy-label">Our Policy</p>
+            <h2 class="policy-title">Commitment to Excellence</h2>
+
+            <div class="policy-card">
+                <div class="policy-icon">
+                    <!-- Medal Icon -->
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#e53935" stroke-width="2">
+                        <circle cx="12" cy="8" r="5"></circle>
+                        <path d="M9 14l-1 7 4-2 4 2-1-7"></path>
+                    </svg>
+                </div>
+
+                <p class="policy-text">
+                    <strong>R.R.D. Flexi Pack</strong> is committed to supply timely and
+                    quality product to its valued customers. We endure to supply
+                    complaint free product to achieve complete customer satisfaction
+                    through continual Improvement.
+                </p>
+            </div>
+
+            <div class="cards">
+                <div class="card reveal reveal-delay-1">
+                    <div class="card-icon">
+                        <!-- Checkmark Shield SVG -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#ff4d4d"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            <path d="m9 12 2 2 4-4" />
+                        </svg>
+                    </div>
+                    <h4>Compliant Free</h4>
+                    <p>We strive to zero defects. Our rigorous testing protocols ensure that every product meets the
+                        highest
+                        standards before it leaves our facility.</p>
+                </div>
+                <div class="card reveal reveal-delay-2">
+                    <div class="card-icon">
+                        <!-- Gears SVG -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#ff4d4d"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                            <circle cx="12" cy="12" r="3" />
+                        </svg>
+                    </div>
+                    <h4>Precision Tech</h4>
+                    <p>Utilizing state-of-the-art machinery like Pelican and SOLOMARK 6450, we achieve precision in
+                        printing, lamination, and pouching.</p>
+                </div>
+                <div class="card reveal reveal-delay-3">
+                    <div class="card-icon">
+                        <!-- People/Team SVG -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#ff4d4d"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                    </div>
+                    <h4>Skilled Workforce</h4>
+                    <p>Business consistency supported by highly skilled professionals who are committed to quality and
+                        superior workmanship.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="infrastructure reveal">
+            <h2>World-Class Infrastructure</h2>
+            <p>We have well-established and modern production support systems that help us successfully handle present
+                and
+                emerging packaging requirements.</p>
+            <div class="feature-list">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <!-- Checkmark SVG -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="3"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                    </div>
+                    <p>Pelican Rotogravure: High-speed precision printing for vibrant, durable packaging.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <!-- Checkmark SVG -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="3"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                    </div>
+                    <p>Solomark 6450: Advanced lamination technology ensuring superior barrier properties.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <!-- Checkmark SVG -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="3"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                    </div>
+                    <p>Integrated Process: From extrusion to final pouching, we control every step.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="images reveal">
+            <div class="image-placeholder">
+                <img src="https://images.unsplash.com/photo-1565514020176-6c2235b8b3a9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                    alt="Rotogravure Printing Machine" class="gallery-img">
+                <div class="image-label">Rotogravure Printing</div>
+            </div>
+            <div class="image-placeholder">
+                <img src="https://images.unsplash.com/photo-1605218427368-4621c54625d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                    alt="Lamination Process Rolls" class="gallery-img">
+                <div class="image-label">Lamination Process</div>
+            </div>
+            <div class="image-placeholder">
+                <img src="https://images.unsplash.com/photo-1581093458891-9f3022072599?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                    alt="Quality Checks Engineer" class="gallery-img">
+                <div class="image-label">Quality Checks</div>
+            </div>
+            <div class="image-placeholder">
+                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                    alt="Final Inspection Warehouse" class="gallery-img">
+                <div class="image-label">Final Inspection</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-section reveal">
+        <div class="container">
+            <div class="footer-content">
+                <!-- Column 1: Logo & About -->
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <!-- Using Placehold.co for logo -->
+                        <img src="../asset/RRD_LOGO.png" alt="RRD Logo">
+                    </div>
+                    <p class="footer-about-text">
+                        Flexible Packaging Manufacturer delivering quality-driven packaging solutions.
+                    </p>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="./Aboutus/index.html">About Us</a></li>
+                        <li><a href="#">Products</a></li>
+                        <li><a href="#">Quality</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Contact Info -->
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="ph ph-map-pin"></i>
+                            <span>
+                                <strong>Factory Address:</strong><br>
+                                A-13/14, Old MIDC Area,<br>
+                                Jalna – 431203, Maharashtra, India
+                            </span>
+                        </li>
+                        <li>
+                            <i class="ph ph-phone"></i>
+                            <span>
+                                <strong>Phone:</strong><br>
+                                +91 9422291368
+                            </span>
+                        </li>
+                        <li>
+                            <i class="ph ph-envelope"></i>
+                            <span>
+                                <strong>Email:</strong><br>
+                                info@rrflexipack.com
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p>&copy; R.R.D. Flexi Pack. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Initialize Lenis Smooth Scroll ---
+            const lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Exponential easing
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                mouseMultiplier: 1,
+                smoothTouch: false,
+                touchMultiplier: 2,
+            });
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+
+            requestAnimationFrame(raf);
+
+            // --- Mobile Menu Toggle Logic ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIcon = document.getElementById('menu-icon');
+
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('open');
+
+                    // Toggle Icon between List and X (Close)
+                    const isOpen = mobileMenu.classList.contains('open');
+                    if (isOpen) {
+                        menuIcon.classList.remove('ph-list');
+                        menuIcon.classList.add('ph-x');
+                    } else {
+                        menuIcon.classList.remove('ph-x');
+                        menuIcon.classList.add('ph-list');
+                    }
+                });
+            }
+
+            // --- Mobile Dropdown Toggle Logic ---
+            const mobileDropdownBtns = document.querySelectorAll('.mobile-dropdown-btn');
+
+            mobileDropdownBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const content = this.nextElementSibling;
+                    const icon = this.querySelector('.caret-icon');
+
+                    if (content) {
+                        content.classList.toggle('show');
+                    }
+
+                    if (icon) {
+                        icon.classList.toggle('rotate-180');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking a regular link
+            const mobileLinks = document.querySelectorAll('.mobile-link, .mobile-sub-link');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mobileMenu.classList.contains('open')) {
+                        mobileMenu.classList.remove('open');
+                        menuIcon.classList.remove('ph-x');
+                        menuIcon.classList.add('ph-list');
+                    }
+                });
+            });
+
+            // --- Scroll Animation ---
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    } else {
+                        if (entry.boundingClientRect.top > 0) {
+                            entry.target.classList.remove('active');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+            revealElements.forEach(el => observer.observe(el));
+        });
+    </script>
+
+</body>
+
+</html>
