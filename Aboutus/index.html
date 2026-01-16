@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Comic+Neue:wght@400;700&family=Fredoka:wght@400;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Comic+Neue:wght@400;700&family=Fredoka:wght@300;400;500;600&display=swap"
         rel="stylesheet">
 
     <!-- Icons -->
@@ -76,11 +76,6 @@
             min-height: 100vh;
         }
 
-        body.loaded {
-            overflow-y: visible;
-            overflow-x: hidden;
-        }
-
         a {
             text-decoration: none;
             color: inherit;
@@ -97,69 +92,6 @@
             display: block;
         }
 
-        /* --- Loader Styles --- */
-        .loader-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #ffffff;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.6s ease-out, visibility 0.6s;
-        }
-
-        .loader-container.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .loader-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
-
-        .rrd_logo {
-            width: 8rem;
-            margin-top: 16px;
-            height: auto;
-        }
-
-        /* Spinning Box Animation */
-        .box-spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid #3d4094;
-            border-top: 5px solid #00a859;
-            border-right: 5px solid #ed3338;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            animation: box-morph 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        @keyframes box-morph {
-            0% {
-                transform: rotate(0deg) scale(1);
-                border-radius: 8px;
-            }
-
-            50% {
-                transform: rotate(180deg) scale(1.15);
-                border-radius: 50%;
-                border-width: 3px;
-            }
-
-            100% {
-                transform: rotate(360deg) scale(1);
-                border-radius: 8px;
-            }
-        }
 
         /* --- Animations Optimized --- */
         .reveal {
@@ -250,9 +182,8 @@
         }
 
         .logo-img {
-            width: 8rem;
+            width: 6rem;
             margin-top: 8px;
-            object-fit: contain;
         }
 
         /* --- Desktop Menu --- */
@@ -273,10 +204,6 @@
             position: relative;
         }
 
-        .nav-link.active {
-            /* Removed font-weight: 600; as requested */
-        }
-
         .nav-link::after {
             content: '';
             position: absolute;
@@ -288,7 +215,6 @@
             transition: width 0.3s;
         }
 
-        /* Changed: Removed .nav-link.active::after to prevent persistent underline */
         .nav-link:hover::after {
             width: 100%;
         }
@@ -556,43 +482,53 @@
 
         /* --- ABOUT PAGE SPECIFIC STYLES --- */
 
-        /* About Header */
-        .page-header {
+        /* About Header - Updated with new Video Header styles */
+        .video-header {
             width: 100%;
-            height: 60vh;
-            min-height: 400px;
+            height: 100vh;
             position: relative;
             overflow: hidden;
-            background-color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
         }
 
-        .header-bg-img {
+        .video-header video {
+            object-fit: cover;
+            object-position: top center;
+        }
+
+        .bg-video {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.6;
+            /* important */
+            opacity: 0.9;
+            z-index: 0;
         }
 
-        .header-overlay {
+        .video-overlay {
             position: absolute;
+            /* Changed to absolute to overlay on top of video properly */
             top: 0;
             left: 0;
+            z-index: 1;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(61, 64, 148, 0.6));
-            z-index: 1;
+            background: linear-gradient(to bottom,
+                    rgba(0, 0, 0, 0.2),
+                    rgba(0, 0, 0, 0.2));
+            /* Added Flex centering for the content inside */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
 
         .header-content {
             position: relative;
-            z-index: 2;
+            z-index: 3;
             color: white;
             padding: 20px;
             max-width: 800px;
@@ -603,12 +539,14 @@
             font-size: clamp(2.5rem, 5vw, 4rem);
             margin-bottom: 20px;
             line-height: 1.1;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
         .header-content p {
             font-size: clamp(1.1rem, 2vw, 1.4rem);
             font-weight: 300;
-            opacity: 0.9;
+            opacity: 0.95;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
         }
 
         /* --- Who We Are Section --- */
@@ -643,7 +581,9 @@
             border-radius: 4px;
         }
 
-        .img-placeholder img {
+        /* UPDATED: Added video support for the placeholder */
+        .img-placeholder img,
+        .img-placeholder video {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -945,10 +885,7 @@
         }
 
         .footer-logo img {
-            height: 50px;
-            width: auto;
-            margin-bottom: 20px;
-            filter: brightness(0) invert(1);
+            width: 6rem;
         }
 
         .footer-about-text {
@@ -1021,8 +958,10 @@
             }
 
             .about-container {
-                flex-direction: column;
+                flex-direction: column-reverse;
+                /* Changed layout for mobile to show text first */
                 text-align: center;
+                gap: 40px;
             }
 
             .who-we-are {
@@ -1087,28 +1026,22 @@
 
 <body>
 
-    <!-- Loader -->
-    <div id="loader" class="loader-container">
-        <div class="loader-content">
-            <div class="box-spinner"></div>
-            <img src="https://placehold.co/200x80/transparent/3d4094?text=RRD+PACKAGING" class="rrd_logo"
-                alt="RRD Logo">
-        </div>
-    </div>
+
 
     <nav id="navbar" class="navbar">
         <div class="container">
             <div class="nav-content">
 
                 <div class="logo-container">
-                    <img src="https://placehold.co/200x80/transparent/3d4094?text=RRD+PACKAGING" class="logo-img"
-                        alt="RRD Logo">
+                    <a href="../index.html">
+                        <img src="../asset/RRD_LOGO.png" class="logo-img" alt="RRD Logo">
+                    </a>
                 </div>
 
                 <div class="desktop-menu">
-                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="../index.html" class="nav-link">Home</a>
                     <!-- Set About as Active -->
-                    <a href="#" class="nav-link active">About</a>
+                    <a href="#" class="nav-link">About</a>
 
                     <div class="dropdown-parent">
                         <button class="dropdown-trigger">
@@ -1137,16 +1070,16 @@
                             <i class="ph ph-caret-down caret-icon"></i>
                         </button>
                         <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Technology Infrastructure</a>
+                            <a href="#infrastructure" class="dropdown-item">Technology Infrastructure</a>
                             <a href="#" class="dropdown-item">Manufacturing Process</a>
                             <a href="#" class="dropdown-item">Strategic Ventures</a>
                         </div>
                     </div>
 
-                    <a href="#" class="nav-link">Quality</a>
+                    <a href="../Quality-assurance/" class="nav-link">Quality</a>
                     <a href="#" class="nav-link">Ventures</a>
                     <a href="#" class="nav-link">Careers</a>
-                    <a href="#" class="nav-link">Contact</a>
+                    <a href="#contact" class="nav-link">Contact</a>
 
                     <!-- Knowledge Center Dropdown -->
                     <div class="dropdown-parent">
@@ -1174,8 +1107,8 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="mobile-menu" data-lenis-prevent>
             <div class="mobile-nav-container">
-                <a href="index.html" class="mobile-link">Home</a>
-                <a href="#" class="mobile-link" style="color:#3d4094; border-color:#3d4094;">About</a>
+                <a href="../index.html" class="mobile-link">Home</a>
+                <a href="#" class="mobile-link">About</a>
 
                 <!-- Mobile Dropdown: Products -->
                 <div>
@@ -1206,16 +1139,16 @@
                         <i class="ph ph-caret-down caret-icon"></i>
                     </button>
                     <div class="mobile-dropdown-content">
-                        <a href="#" class="mobile-sub-link">Technology Infrastructure</a>
+                        <a href="#infrastructure" class="mobile-sub-link">Technology Infrastructure</a>
                         <a href="#" class="mobile-sub-link">Manufacturing Process</a>
                         <a href="#" class="mobile-sub-link">Strategic Ventures</a>
                     </div>
                 </div>
 
-                <a href="#" class="mobile-link">Quality</a>
+                <a href="../Quality-assurance/index.html" class="mobile-link">Quality</a>
                 <a href="#" class="mobile-link">Ventures</a>
                 <a href="#" class="mobile-link">Careers</a>
-                <a href="#" class="mobile-link">Contact</a>
+                <a href="#contact" class="mobile-link">Contact</a>
 
                 <!-- Mobile Dropdown: Knowledge Center -->
                 <div>
@@ -1236,29 +1169,34 @@
 
     <!-- NEW CONTENT START -->
 
-    <!-- About Header -->
-    <header class="page-header">
-        <div class="header-overlay"></div>
-        <!-- Machinery Image in Header -->
-        <img src="https://images.unsplash.com/photo-1565514020176-892eb1036e67?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
-            class="header-bg-img" alt="Packaging Machinery">
+    <!-- About Header with Video Background -->
+    <div class="video-header">
+        <video autoplay muted loop playsinline class="bg-video">
+            <source src="../asset/About_Us_page.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
 
-        <div class="header-content reveal">
-            <h1>We Are RRD Packaging</h1>
-            <p>Innovating the future of flexible packaging with state-of-the-art technology.</p>
+        <div class="video-overlay">
+            <div class="header-content reveal">
+                <h1>We Are RRD Packaging</h1>
+                <p>Innovating the future of flexible packaging with state-of-the-art technology.</p>
+            </div>
         </div>
-    </header>
+    </div>
 
     <!-- NEW ADDED SECTION: Who We Are -->
-    <section class="about reveal">
+    <section id="about" class="about reveal">
         <div class="about-container">
             <!-- Left Image Box -->
             <div class="image-box reveal-left">
                 <div class="corner top-left"></div>
                 <div class="corner bottom-right"></div>
                 <div class="img-placeholder">
-                    <img src="https://images.unsplash.com/photo-1577412647305-991150c7d163?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-                        alt="Office Interior">
+                    <!-- Replaced Image with Video -->
+                    <video autoplay muted loop playsinline poster="https://placehold.co/300x380?text=Video+Poster">
+                        <source src="../asset/Innovative_packaging_solutions.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
             </div>
 
@@ -1302,7 +1240,7 @@
     </section>
 
     <!-- NEW ADDED SECTION: Mission & Vision -->
-    <section class="mv-section reveal">
+    <section id="mission" class="mv-section reveal">
         <div class="mv-container">
 
             <div class="mv-card reveal-left">
@@ -1332,7 +1270,7 @@
     </section>
 
     <!-- NEW ADDED SECTION: Director's Desk -->
-    <section class="director-section reveal">
+    <section id="leadership" class="director-section reveal">
         <div class="director-overlay">
 
             <p class="label">LEADERSHIP</p>
@@ -1357,7 +1295,7 @@
     </section>
 
     <!-- NEW ADDED SECTION: Infrastructure & Applications -->
-    <section class="infra-section">
+    <section id="infrastructure" class="infra-section reveal">
         <div class="infra-container">
 
             <h2>Our Infrastructure & Applications</h2>
@@ -1402,13 +1340,15 @@
     <!-- NEW CONTENT END -->
 
     <!-- Footer -->
-    <footer class="footer-section reveal">
+    <footer id="contact" class="footer-section reveal">
         <div class="container">
             <div class="footer-content">
                 <!-- Column 1: Logo & About -->
                 <div class="footer-col">
                     <div class="footer-logo">
-                        <img src="https://placehold.co/200x80/transparent/3d4094?text=RRD+PACKAGING" alt="RRD Logo">
+                        <a href="../index.html">
+                            <img src="../asset/RRD_LOGO.png" alt="RRD Logo">
+                        </a>
                     </div>
                     <p class="footer-about-text">
                         Flexible Packaging Manufacturer delivering quality-driven packaging solutions.
@@ -1419,11 +1359,11 @@
                 <div class="footer-col">
                     <h3>Quick Links</h3>
                     <ul class="footer-links">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="#">About Us</a></li>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="#about">About Us</a></li>
                         <li><a href="#">Products</a></li>
-                        <li><a href="#">Quality</a></li>
-                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="../Quality-assurance/index.html">Quality</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
                     </ul>
                 </div>
 
@@ -1490,6 +1430,32 @@
 
             requestAnimationFrame(raf);
 
+            // --- Enable Smooth Anchor Scrolling ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId && targetId !== '#') {
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            e.preventDefault();
+                            lenis.scrollTo(targetId);
+
+                            // --- Mobile Menu Close Logic integration ---
+                            const mobileMenu = document.getElementById('mobile-menu');
+                            const menuIcon = document.getElementById('menu-icon');
+                            if (mobileMenu && mobileMenu.classList.contains('open')) {
+                                mobileMenu.classList.remove('open');
+                                lenis.start();
+                                if (menuIcon) {
+                                    menuIcon.classList.remove('ph-x');
+                                    menuIcon.classList.add('ph-list');
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+
             // --- Loader Logic ---
             const loader = document.getElementById('loader');
 
@@ -1503,10 +1469,6 @@
                         loader.style.display = 'none';
                     }, 600);
                 }
-
-                // Manual card animation logic removed. 
-                // Now handled by scroll observer via 'reveal' class added to HTML elements.
-
             }, 1500); // 1.5 seconds load time
 
             // --- Mobile Menu Toggle Logic ---
@@ -1552,8 +1514,8 @@
                 });
             });
 
-            // Close mobile menu when clicking a regular link
-            const mobileLinks = document.querySelectorAll('.mobile-link, .mobile-sub-link');
+            // Close mobile menu when clicking a regular link (handled in anchor scroll now as well, but keeping specific external links)
+            const mobileLinks = document.querySelectorAll('.mobile-link:not([href^="#"]), .mobile-sub-link:not([href^="#"])');
             mobileLinks.forEach(link => {
                 link.addEventListener('click', () => {
                     if (mobileMenu.classList.contains('open')) {
