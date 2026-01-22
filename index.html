@@ -4,7 +4,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RRD Packaging Solutions</title>
+
+    <!-- PRIMARY SEO DATA -->
+    <title>RRD Flexi Pack | Flexible Packaging Manufacturer in Jalna, India</title>
+    <meta name="description"
+        content="RRD Flexi Pack is a premier manufacturer of flexible packaging in Jalna, Maharashtra. We specialize in Roto-Gravure printing, Stand Up Pouches, Zipper Bags, and custom laminates for food, seeds, and industrial sectors.">
+    <!-- Removed outdated meta keywords tag -->
+    <meta name="author" content="RRD Flexi Pack">
+    <meta name="robots" content="index, follow">
+
+    <!-- OPEN GRAPH (Social Media) -->
+    <meta property="og:title" content="RRD Flexi Pack - Innovative Packaging Solutions">
+    <meta property="og:description"
+        content="Quality flexible packaging solutions: Pouches, Rolls, and Films. Under Promise, Over Delivery.">
+    <meta property="og:image" content="./asset/RRD_LOGO.png">
+    <meta property="og:url" content="https://www.rrdflexipack.com/">
+    <meta property="og:type" content="website">
+
+    <!-- CANONICAL URL -->
+    <link rel="canonical" href="https://www.rrdflexipack.com/">
+
+    <!-- STRUCTURED DATA (Schema.org) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ManufacturingBusiness",
+      "name": "R.R.D. Flexi Pack",
+      "image": "https://www.rrdflexipack.com/asset/RRD_LOGO.png",
+      "@id": "https://www.rrdflexipack.com",
+      "url": "https://www.rrdflexipack.com",
+      "telephone": "+919422291368",
+      "email": "info@rrdflexipack.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "A-13/14, Old MIDC Area",
+        "addressLocality": "Jalna",
+        "addressRegion": "Maharashtra",
+        "postalCode": "431203",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "19.8347", 
+        "longitude": "75.8816"
+      },
+      "founders": [
+        {
+        "@type": "Person",
+        "name": "Amit Ganatra"
+        },
+        {
+        "@type": "Person",
+        "name": "Bhavesh Ganatra"
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/rrdflexipack"
+      ]
+    }
+    </script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -424,6 +482,11 @@
 
             overflow-y: auto;
             /* Scrollable content */
+            -webkit-overflow-scrolling: touch;
+            /* Enable smooth scrolling on iOS */
+            overscroll-behavior: contain;
+            /* Prevent scroll chaining to body */
+
             border-top: 1px solid #e5e7eb;
             box-shadow: none;
         }
@@ -747,7 +810,7 @@
             text-align: center;
         }
 
-        .packaging_soultion h1 {
+        .packaging_soultion h2 {
             margin-bottom: 4rem;
             font-size: clamp(2rem, 4vw, 3rem);
             color: #3d4094;
@@ -800,7 +863,7 @@
         }
 
         /* Heading Styles Scoped */
-        .pkg-section h1 {
+        .pkg-section h2 {
             color: #ffffff;
             font-size: 2.5rem;
             margin-bottom: 40px;
@@ -1001,9 +1064,12 @@
 
         .industry-img {
             width: 100%;
-            height: 140px;
+            height: 250px;
             object-fit: cover;
+            object-position: top center;
         }
+
+
 
         .industry-name {
             padding: 15px 10px;
@@ -1235,7 +1301,8 @@
                 max-width: 800px;
                 /* Limit width when stacked */
                 width: 100%;
-                margin-top: 0 !important;
+                margin-top: 2rem !important;
+                /* Added gap here */
                 flex: none !important;
             }
         }
@@ -1312,7 +1379,8 @@
                 width: 100%;
                 max-width: 100%;
                 padding: 0 1rem;
-                margin-top: 0 !important;
+                margin-top: 2rem !important;
+                /* Added gap here */
                 /* ensure no top margin */
                 height: auto !important;
             }
@@ -1483,12 +1551,90 @@
                 font-size: 1rem;
             }
         }
+
+        /* --- Floating Buttons Styles --- */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background-color: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            z-index: 100;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+            color: white;
+        }
+
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #3d4094;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(61, 64, 148, 0.3);
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            cursor: pointer;
+        }
+
+        .scroll-top-btn.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-top-btn:hover {
+            background-color: #ed3338;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(237, 51, 56, 0.4);
+        }
+
+        /* Adjust positions for mobile to avoid overlap */
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                font-size: 28px;
+                bottom: 20px;
+                left: 20px;
+            }
+
+            .scroll-top-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
     </style>
 </head>
 
 <body>
-
-
 
     <nav id="navbar" class="navbar">
         <div class="container">
@@ -1496,7 +1642,10 @@
 
                 <div class="logo-container">
                     <!-- Using Placehold.co for logo -->
-                    <img src="./asset/RRD_LOGO.png" class="logo-img" alt="RRD Logo">
+                    <a href="/" aria-label="RRD Flexi Pack Home">
+                        <img src="./asset/ventures/rrd-flexi-pack-logo.webp" class="logo-img"
+                            alt="RRD Flexi Pack Logo - Jalna">
+                    </a>
                 </div>
 
                 <div class="desktop-menu">
@@ -1565,7 +1714,8 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="mobile-menu">
+        <!-- Added data-lenis-prevent attribute to fix scrolling issue -->
+        <div id="mobile-menu" class="mobile-menu" data-lenis-prevent>
             <div class="mobile-nav-container">
                 <a href="#" class="mobile-link">Home</a>
                 <a href="./Aboutus/index.html" class="mobile-link">About</a>
@@ -1627,240 +1777,258 @@
         </div>
     </nav>
 
-    <header>
-        <div class="video-header">
-            <video autoplay muted loop playsinline class="bg-video">
-                <source src="./asset/Home page.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+    <!-- WRAPPED IN MAIN TAG FOR SEO -->
+    <main>
+        <header>
+            <div class="video-header">
+                <video autoplay muted loop playsinline class="bg-video">
+                    <source src="./asset/Videos/Home_page.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
 
-            <div class="video-overlay">
-                <!-- overlay content -->
+                <div class="video-overlay">
+                    <!-- overlay content -->
+                </div>
+            </div>
+
+
+            <section class="tagline_container reveal">
+                <!-- H1 Tag is here for Semantic Hierarchy -->
+                <h1 class="tagline">The Packaging which <span>binds together…</span> <br> All your needs..!</h1>
+
+                <p class="sub_tagline reveal reveal-delay-1">
+                    High-quality flexible packaging solutions engineered for durability, clarity, and shelf appeal.
+                    Trusted Manufacturer in Jalna, Maharashtra.
+                </p>
+
+                <div class="tagline_buttons reveal reveal-delay-2">
+                    <button>Request a Quote</button>
+                    <button>View our Product</button>
+                </div>
+            </section>
+
+
+            <div class="what_we_do">
+                <!-- Changed 'reveal' to 'reveal-left' for the image container -->
+                <div class="what_we_do_image-container reveal-left">
+                    <!-- Optimized Alt Text for SEO + Lazy Loading -->
+                    <img src="./asset/printing_machine.png" loading="lazy" class="zoom-img printing_machine"
+                        alt="Pelican Solomark 6450 Roto-Gravure Printing Machine at RRD Flexi Pack Jalna">
+                </div>
+                <div class="what_we_do_content reveal reveal-delay-2">
+                    <h2>What We Do</h2>
+                    <p>We design and manufacture flexible packaging that combines strong material performance with
+                        high-definition Roto-Gravure printing to protect products and enhance brand visibility.</p>
+                </div>
+            </div>
+
+            <!-- Removed 'reveal' from parent to animate children separately -->
+            <div class="packaging_soultion">
+                <h2 class="reveal">Packaging Solutions</h2>
+                <!-- Optimized Alt Text + Lazy Loading -->
+                <img src="./asset/packaging.jpg" loading="lazy"
+                    alt="Various Flexible Packaging Solutions - Pouches, Rolls, and Films" class="reveal-right">
+            </div>
+
+        </header>
+
+        <!-- NEW SECTION ADDED AS REQUESTED -->
+        <!-- Added 'reveal' class for scroll animation (Bottom Up - Default) -->
+        <div class="pkg-section reveal">
+            <div class="pkg-container">
+                <!-- Heading -->
+                <h2 class="reveal">Explore Our High-Quality Packaging Products</h2>
+
+                <!-- Grid Layout -->
+                <div class="pkg-product-grid">
+                    <!-- Item 1: Vacuum Pouches -->
+                    <div class="pkg-product-card reveal" onclick="logClick('Vacuum Pouches')">
+                        <img src="./asset/pouches/1.png" loading="lazy" alt="Vacuum Pouches for extended shelf life"
+                            class="pkg-product-image">
+                        <div class="pkg-product-title">Vacuum Pouches</div>
+                        <i class="ph ph-arrow-right arrow-icon"></i>
+                    </div>
+
+                    <!-- Item 2: Shrink Film -->
+                    <div class="pkg-product-card reveal" onclick="logClick('Shrink Film')">
+                        <img src="./asset/pouches/2.png" loading="lazy" alt="Industrial Shrink Film"
+                            class="pkg-product-image">
+                        <div class="pkg-product-title">Shrink Film</div>
+                        <i class="ph ph-arrow-right arrow-icon"></i>
+                    </div>
+
+                    <!-- Item 3: D Cut & Euro Hole -->
+                    <div class="pkg-product-card reveal" onclick="logClick('D Cut & Euro Hole')">
+                        <img src="./asset/pouches/3.png" loading="lazy"
+                            alt="D Cut & Euro hole pouches for retail display" class="pkg-product-image">
+                        <div class="pkg-product-title">D Cut & Euro hole</div>
+                        <i class="ph ph-arrow-right arrow-icon"></i>
+                    </div>
+
+                    <!-- Item 4: 3 Side Seal -->
+                    <div class="pkg-product-card reveal" onclick="logClick('3 Side Seal')">
+                        <img src="./asset/pouches/4.png" loading="lazy" alt="3 side seal Pouches for food packaging"
+                            class="pkg-product-image">
+                        <div class="pkg-product-title">3 side seal</div>
+                        <i class="ph ph-arrow-right arrow-icon"></i>
+                    </div>
+
+                    <!-- Item 5: Spout Pouches -->
+                    <div class="pkg-product-card reveal" onclick="logClick('Spout Pouches')">
+                        <img src="./asset/pouches/5.png" loading="lazy" alt="Spout Pouches for liquid packaging"
+                            class="pkg-product-image">
+                        <div class="pkg-product-title">Spout Pouches</div>
+                        <i class="ph ph-arrow-right arrow-icon"></i>
+                    </div>
+
+                    <!-- Item 6: Stand Up -->
+                    <div class="pkg-product-card reveal" onclick="logClick('Stand Up')">
+                        <img src="./asset/pouches/6.png" loading="lazy" alt="Stand Up Pouches with high visibility"
+                            class="pkg-product-image">
+                        <div class="pkg-product-title">Stand Up Pouches</div>
+                        <i class="ph ph-arrow-right arrow-icon"></i>
+                    </div>
+
+                    <!-- Item 7: Zipper Pouches -->
+                    <div class="pkg-product-card reveal" onclick="logClick('Zipper Pouches')">
+                        <img src="./asset/pouches/7.png" loading="lazy" alt="Resealable Zipper Pouches"
+                            class="pkg-product-image">
+                        <div class="pkg-product-title">Zipper Pouches</div>
+                        <i class="ph ph-arrow-right arrow-icon"></i>
+                    </div>
+
+                    <!-- Item 8: Gussetted Pouches -->
+                    <div class="pkg-product-card reveal" onclick="logClick('Gussetted Pouches')">
+                        <img src="./asset/pouches/8.png" loading="lazy" alt="Side Gusset Pouches for bulk packaging"
+                            class="pkg-product-image">
+                        <div class="pkg-product-title">Gussetted Pouches</div>
+                        <i class="ph ph-arrow-right arrow-icon"></i>
+                    </div>
+
+                    <!-- Item 9: Laminated Rolls -->
+                    <div class="pkg-product-card reveal" onclick="logClick('Laminated Rolls')">
+                        <img src="./asset/pouches/9.png" loading="lazy" alt="Printed Laminated Rolls"
+                            class="pkg-product-image">
+                        <div class="pkg-product-title">Laminated Rolls</div>
+                        <i class="ph ph-arrow-right arrow-icon"></i>
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="pkg-button-container">
+                    <a href="./Products/index.html">
+                        <button class="pkg-view-all-btn" id="viewAllBtn">View All</button>
+                    </a>
+                </div>
+
+                <!-- New Custom Info Heading -->
+                <h3 class="pkg-custom-info">Custom sizes, materials, and laminations available.</h3>
             </div>
         </div>
 
+        <!-- NEW SECTION: Industries We Serve -->
+        <section class="industries-section reveal">
+            <h2 class="industries-title">Industries We Serve</h2>
 
-        <section class="tagline_container reveal">
-            <h1 class="tagline">The Packaging which <span>binds together…</span> <br> All your needs..!</h1>
+            <!-- Image + Orange Box Layout -->
+            <div class="industries-header-layout">
+                <video autoplay muted loop playsinline>
+                    <source src="./asset/Industries we serve.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
 
-            <p class="sub_tagline reveal reveal-delay-1">
-                High-quality flexible packaging solutions engineered for durability, clarity, and shelf appeal
-            </p>
+                <div class="industries-orange-box">
+                    <h3>Versatile Packaging for Every Sector</h3>
+                    <p>We provide specialized packaging solutions tailored to the unique requirements of diverse
+                        industries.</p>
+                </div>
+            </div>
 
-            <div class="tagline_buttons reveal reveal-delay-2">
-                <button>Request a Quote</button>
-                <button>View our Product</button>
+            <!-- Small Grid Boxes -->
+            <div class="industries-grid">
+                <!-- 1. Food & Snacks -->
+                <div class="industry-card">
+                    <img src="./asset/Industries-we-server/food-and-snacks.png" loading="lazy"
+                        alt="Flexible packaging for Food & Snacks" class="industry-img">
+                    <div class="industry-name">Food & Snacks</div>
+                </div>
+
+                <!-- 2. Spices & Grains -->
+                <div class="industry-card">
+                    <img src="./asset/Industries-we-server/spices-and-grain.png" loading="lazy"
+                        alt="Packaging for Spices & Grains" class="industry-img">
+                    <div class="industry-name">Spices & Grains</div>
+                </div>
+
+                <!-- 3. Dry Fruits -->
+                <div class="industry-card">
+                    <img src=" ./asset/Industries-we-server/dry-fruites.png" loading="lazy"
+                        alt="Premium packaging for Dry Fruits" class="industry-img">
+                    <div class="industry-name">Dry Fruits</div>
+                </div>
+
+                <!-- 4. Tea & Coffee -->
+                <div class="industry-card">
+                    <img src="./asset/Industries-we-server/tea-and-coffee.png" loading="lazy"
+                        alt="Aroma retaining packaging for Tea & Coffee" class="industry-img">
+                    <div class="industry-name">Tea & Coffee</div>
+                </div>
+
+                <!-- 5. FMCG Products -->
+                <div class="industry-card">
+                    <img src="./asset/Industries-we-server/FMCG-products.png" loading="lazy"
+                        alt="Packaging for FMCG Products" class="industry-img">
+                    <div class="industry-name">FMCG Products</div>
+                </div>
+
+                <!-- 6. Pharmaceuticals -->
+                <div class="industry-card">
+                    <img src="./asset/Industries-we-server/Pharmaceuticals.png" loading="lazy"
+                        alt="Safe packaging for Pharmaceuticals" class="industry-img">
+                    <div class="industry-name">Pharmaceuticals</div>
+                </div>
+
+                <!-- 7. Seeds & Fertilizers -->
+                <div class="industry-card">
+                    <img src="./asset/Industries-we-server/Seeds-&-Fertilizers.png" loading="lazy"
+                        alt="Heavy duty packaging for Seeds & Fertilizers" class="industry-img">
+                    <div class="industry-name">Seeds & Fertilizers</div>
+                </div>
+
+                <!-- 8. Industrial Packaging -->
+                <div class="industry-card">
+                    <img src="./asset/Industries-we-server/Industrial-Packaging.png" loading="lazy"
+                        alt="Custom Industrial Packaging Solutions" class="industry-img">
+                    <div class="industry-name">Industrial Packaging</div>
+                </div>
             </div>
         </section>
 
-
-        <div class="what_we_do">
-            <!-- Changed 'reveal' to 'reveal-left' for the image container -->
-            <div class="what_we_do_image-container reveal-left">
-                <!-- Updated with a new, highly reliable image of industrial packaging machinery/rolls -->
-                <img src="./asset/printing_machine.png" class="zoom-img printing_machine alt=" Industrial Printing
-                    Machine">
-            </div>
-            <div class="what_we_do_content reveal reveal-delay-2">
-                <h2>What We Do</h2>
-                <p>We design and manufacture flexible packaging that combines strong material performance with
-                    high-definition printing to protect products and enhance brand visibility.</p>
-            </div>
-        </div>
-
-        <!-- Removed 'reveal' from parent to animate children separately -->
-        <div class="packaging_soultion">
-            <h1 class="reveal">Packaging Solutions</h1>
-            <!-- Updated to match the What We Do image as requested -->
-            <img src="./asset/packaging.jpg" alt="Various Packaging Solutions" class="reveal-right">
-        </div>
-
-    </header>
-
-    <!-- NEW SECTION ADDED AS REQUESTED -->
-    <!-- Added 'reveal' class for scroll animation (Bottom Up - Default) -->
-    <div class="pkg-section reveal">
-        <div class="pkg-container">
-            <!-- Heading -->
-            <h1 class="reveal">Explore Our High-Quality Packaging Products</h1>
-
-            <!-- Grid Layout -->
-            <div class="pkg-product-grid">
-                <!-- Item 1: Vacuum Pouches -->
-                <div class="pkg-product-card reveal" onclick="logClick('Vacuum Pouches')">
-                    <img src="./asset/pouches/1.png" alt="Vacuum Pouches" class="pkg-product-image">
-                    <div class="pkg-product-title">Vacuum Pouches</div>
-                    <i class="ph ph-arrow-right arrow-icon"></i>
+        <!-- NEW SECTION: Quality & Promise -->
+        <section class="quality-section reveal">
+            <div class="container">
+                <!-- Image: Quality Inspection -->
+                <div class="quality-image-container">
+                    <img src="./asset/quality_assurance.png" loading="lazy"
+                        alt="Quality Assurance Inspection at RRD Flexi Pack" class="quality-img">
                 </div>
 
-                <!-- Item 2: Shrink Film -->
-                <div class="pkg-product-card reveal" onclick="logClick('Shrink Film')">
-                    <img src="./asset/pouches/2.png" alt="Shrink Film" class="pkg-product-image">
-                    <div class="pkg-product-title">Shrink Film</div>
-                    <i class="ph ph-arrow-right arrow-icon"></i>
-                </div>
-
-                <!-- Item 3: D Cut & Euro Hole -->
-                <div class="pkg-product-card reveal" onclick="logClick('D Cut & Euro Hole')">
-                    <img src="./asset/pouches/3.png" alt="D Cut & Euro hole pouches" class="pkg-product-image">
-                    <div class="pkg-product-title">D Cut & Euro hole</div>
-                    <i class="ph ph-arrow-right arrow-icon"></i>
-                </div>
-
-                <!-- Item 4: 3 Side Seal -->
-                <div class="pkg-product-card reveal" onclick="logClick('3 Side Seal')">
-                    <img src="./asset/pouches/4.png" alt="3 side seal Pouches" class="pkg-product-image">
-                    <div class="pkg-product-title">3 side seal</div>
-                    <i class="ph ph-arrow-right arrow-icon"></i>
-                </div>
-
-                <!-- Item 5: Spout Pouches -->
-                <div class="pkg-product-card reveal" onclick="logClick('Spout Pouches')">
-                    <img src="./asset/pouches/5.png" alt="Spout Pouches" class="pkg-product-image">
-                    <div class="pkg-product-title">Spout Pouches</div>
-                    <i class="ph ph-arrow-right arrow-icon"></i>
-                </div>
-
-                <!-- Item 6: Stand Up -->
-                <div class="pkg-product-card reveal" onclick="logClick('Stand Up')">
-                    <img src="./asset/pouches/6.png" alt="Stand Up Pouches" class="pkg-product-image">
-                    <div class="pkg-product-title">Stand Up Pouches</div>
-                    <i class="ph ph-arrow-right arrow-icon"></i>
-                </div>
-
-                <!-- Item 7: Zipper Pouches -->
-                <div class="pkg-product-card reveal" onclick="logClick('Zipper Pouches')">
-                    <img src="./asset/pouches/7.png" alt="Zipper Pouches" class="pkg-product-image">
-                    <div class="pkg-product-title">Zipper Pouches</div>
-                    <i class="ph ph-arrow-right arrow-icon"></i>
-                </div>
-
-                <!-- Item 8: Gussetted Pouches -->
-                <div class="pkg-product-card reveal" onclick="logClick('Gussetted Pouches')">
-                    <img src="./asset/pouches/8.png" alt="Gussetted Pouches" class="pkg-product-image">
-                    <div class="pkg-product-title">Gussetted Pouches</div>
-                    <i class="ph ph-arrow-right arrow-icon"></i>
-                </div>
-
-                <!-- Item 9: Laminated Rolls -->
-                <div class="pkg-product-card reveal" onclick="logClick('Laminated Rolls')">
-                    <img src="./asset/pouches/9.png" alt="Laminated Rolls" class="pkg-product-image">
-                    <div class="pkg-product-title">Laminated Rolls</div>
-                    <i class="ph ph-arrow-right arrow-icon"></i>
+                <!-- Red Box Heading -->
+                <div class="promise-box">
+                    <h2>Under Promise, Over Delivery</h2>
                 </div>
             </div>
+        </section>
 
-            <!-- Button -->
-            <div class="pkg-button-container">
-                <button class="pkg-view-all-btn" id="viewAllBtn">View All</button>
+        <!-- NEW SECTION: Contact CTA -->
+        <section class="contact-cta-section reveal">
+            <div class="container">
+                <h2 class="contact-cta-heading">Looking for dependable flexible packaging for your products?</h2>
+                <p class="contact-cta-text">Contact RRD Flexi Pack Jalna today to discuss your requirements.</p>
+                <button class="contact-cta-btn">Get In Touch</button>
             </div>
-
-            <!-- New Custom Info Heading -->
-            <h3 class="pkg-custom-info">Custom sizes, materials, and laminations available.</h3>
-        </div>
-    </div>
-
-    <!-- NEW SECTION: Industries We Serve -->
-    <section class="industries-section reveal">
-        <h2 class="industries-title">Industries We Serve</h2>
-
-        <!-- Image + Orange Box Layout -->
-        <div class="industries-header-layout">
-            <video autoplay muted loop playsinline>
-                <source src="./asset/Industries we serve.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-
-            <div class="industries-orange-box">
-                <h3>Versatile Packaging for Every Sector</h3>
-                <p>We provide specialized packaging solutions tailored to the unique requirements of diverse industries.
-                </p>
-            </div>
-        </div>
-
-        <!-- Small Grid Boxes -->
-        <div class="industries-grid">
-            <!-- 1. Food & Snacks -->
-            <div class="industry-card">
-                <img src="https://images.unsplash.com/photo-1621939514649-28b5fe22d8bb?auto=format&fit=crop&w=300&q=80"
-                    alt="Food & Snacks" class="industry-img">
-                <div class="industry-name">Food & Snacks</div>
-            </div>
-
-            <!-- 2. Spices & Grains -->
-            <div class="industry-card">
-                <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80"
-                    alt="Spices & Grains" class="industry-img">
-                <div class="industry-name">Spices & Grains</div>
-            </div>
-
-            <!-- 3. Dry Fruits -->
-            <div class="industry-card">
-                <img src="https://images.unsplash.com/photo-1509456578036-7495d43c8d38?auto=format&fit=crop&w=300&q=80"
-                    alt="Dry Fruits" class="industry-img">
-                <div class="industry-name">Dry Fruits</div>
-            </div>
-
-            <!-- 4. Tea & Coffee -->
-            <div class="industry-card">
-                <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=300&q=80"
-                    alt="Tea & Coffee" class="industry-img">
-                <div class="industry-name">Tea & Coffee</div>
-            </div>
-
-            <!-- 5. FMCG Products -->
-            <div class="industry-card">
-                <img src="https://images.unsplash.com/photo-1626806775351-538af7101402?auto=format&fit=crop&w=300&q=80"
-                    alt="FMCG Products" class="industry-img">
-                <div class="industry-name">FMCG Products</div>
-            </div>
-
-            <!-- 6. Pharmaceuticals -->
-            <div class="industry-card">
-                <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=300&q=80"
-                    alt="Pharmaceuticals" class="industry-img">
-                <div class="industry-name">Pharmaceuticals</div>
-            </div>
-
-            <!-- 7. Seeds & Fertilizers -->
-            <div class="industry-card">
-                <img src="https://images.unsplash.com/photo-1492496913980-501348b61469?auto=format&fit=crop&w=300&q=80"
-                    alt="Seeds & Fertilizers" class="industry-img">
-                <div class="industry-name">Seeds & Fertilizers</div>
-            </div>
-
-            <!-- 8. Industrial Packaging -->
-            <div class="industry-card">
-                <img src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=300&q=80"
-                    alt="Industrial Packaging" class="industry-img">
-                <div class="industry-name">Industrial Packaging</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- NEW SECTION: Quality & Promise -->
-    <section class="quality-section reveal">
-        <div class="container">
-            <!-- Image: Quality Inspection -->
-            <div class="quality-image-container">
-                <img src="./asset/quality_assurance.png" alt="Quality Inspection" class="quality-img">
-            </div>
-
-            <!-- Red Box Heading -->
-            <div class="promise-box">
-                <h2>Under Promise, Over Delivery</h2>
-            </div>
-        </div>
-    </section>
-
-    <!-- NEW SECTION: Contact CTA -->
-    <section class="contact-cta-section reveal">
-        <div class="container">
-            <h2 class="contact-cta-heading">Looking for dependable flexible packaging for your products?</h2>
-            <p class="contact-cta-text">Contact Us today to discuss your requirements.</p>
-            <button class="contact-cta-btn">Get In Touch</button>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- NEW SECTION: Footer -->
     <!-- Added 'reveal' class for scroll animation -->
@@ -1871,10 +2039,11 @@
                 <div class="footer-col">
                     <div class="footer-logo">
                         <!-- Using Placehold.co for logo -->
-                        <img src="./asset/RRD_LOGO.png" alt="RRD Logo">
+                        <img src="./asset/ventures/rrd-flexi-pack-logo.webp" loading="lazy" alt="RRD Flexi Pack Logo">
                     </div>
                     <p class="footer-about-text">
-                        Flexible Packaging Manufacturer delivering quality-driven packaging solutions.
+                        RRD Flexi Pack: Leading Flexible Packaging Manufacturer delivering quality-driven packaging
+                        solutions in Jalna, India.
                     </p>
                 </div>
 
@@ -1913,7 +2082,7 @@
                             <i class="ph ph-envelope"></i>
                             <span>
                                 <strong>Email:</strong><br>
-                                info@rrflexipack.com
+                                info@rrdflexipack.com
                             </span>
                         </li>
                     </ul>
@@ -1922,7 +2091,7 @@
 
             <!-- Footer Bottom -->
             <div class="footer-bottom">
-                <p>&copy; R.R.D. Flexi Pack. All rights reserved.</p>
+                <p>&copy; 2024 R.R.D. Flexi Pack. All rights reserved. | Flexible Packaging Manufacturer India</p>
             </div>
         </div>
     </footer>
@@ -1930,7 +2099,20 @@
     <!-- Spacer removed as Footer is now the bottom -->
     <!-- <div class="spacer"></div> -->
 
+    <!-- FLOATING ACTION BUTTONS -->
+    <!-- WhatsApp Button (Bottom Left) -->
+    <a href="https://wa.me/919421832446" target="_blank" class="whatsapp-float" aria-label="Chat with us on WhatsApp">
+        <!-- Replaced font icon with official high-quality SVG -->
+        <svg viewBox="0 0 24 24" width="35" height="35" fill="currentColor">
+            <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471.148-.67.445-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+        </svg>
+    </a>
 
+    <!-- Scroll To Top Button (Bottom Right) -->
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top">
+        <i class="ph ph-arrow-up"></i>
+    </button>
 
 
     <script>
@@ -1958,6 +2140,26 @@
             }
 
             requestAnimationFrame(raf);
+
+            // --- Scroll to Top Logic ---
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+            if (scrollTopBtn) {
+                // Show/Hide button on scroll
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        scrollTopBtn.classList.add('visible');
+                    } else {
+                        scrollTopBtn.classList.remove('visible');
+                    }
+                });
+
+                // Smooth scroll to top on click
+                scrollTopBtn.addEventListener('click', () => {
+                    // Use Lenis for consistency with the rest of the site
+                    lenis.scrollTo(0);
+                });
+            }
 
             // --- Loader Logic ---
             const loader = document.getElementById('loader');
