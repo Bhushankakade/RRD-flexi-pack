@@ -19,10 +19,10 @@
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "R.R.D. Flexi Pack",
-      "image": "https://www.rrdflexipack.com/asset/RRD_LOGO.png",
+      "image": "https://www.rrdflexipack.com/asset/ventures/rrd-flexi-pack-logo.webp",
       "@id": "https://www.rrdflexipack.com/#organization",
       "url": "https://www.rrdflexipack.com",
-      "telephone": "+919422291368",
+      "telephone": "+919421832446",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "A-13/14, Old MIDC Area",
@@ -137,7 +137,7 @@
             transform: translateY(0);
         }
 
-        /* --- Navbar (Original Styles Restored) --- */
+        /* --- Navbar --- */
         .navbar {
             position: fixed;
             top: 0;
@@ -474,10 +474,9 @@
             margin-bottom: 50px;
         }
 
-        /* --- FIXED BOXES: 2 per row on small screens, 3 on large --- */
+        /* --- FIXED BOXES --- */
         .pkg-product-card {
             width: calc(50% - 9px);
-            /* Default: 2 per row */
             background: rgba(247, 241, 241, 0.38);
             border-radius: 15px;
             padding: 20px;
@@ -491,19 +490,19 @@
             transform: translateY(40px);
             display: flex;
             flex-direction: column;
+            align-items: center;
+            position: relative;
         }
 
         @media (min-width: 992px) {
             .pkg-product-card {
                 width: calc(33.333% - 17px);
-                /* 3 per row on desktop */
             }
         }
 
         @media (max-width: 480px) {
             .pkg-product-card {
                 padding: 12px;
-                gap: 10px;
             }
         }
 
@@ -521,7 +520,6 @@
         .pkg-product-image {
             width: 100%;
             height: 200px;
-            /* Reduced for 2-column mobile */
             object-fit: cover;
             border-radius: 10px;
             margin-bottom: 15px;
@@ -531,14 +529,29 @@
         @media (min-width: 992px) {
             .pkg-product-image {
                 height: 250px;
-                /* Taller on desktop */
             }
+        }
+
+        /* --- Red Arrow Icon Logic --- */
+        .arrow-icon {
+            margin-top: 8px;
+            font-size: 24px;
+            color: #ed3338;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .pkg-product-card:hover .arrow-icon {
+            opacity: 1;
+            transform: translateX(0);
         }
 
         .pkg-product-card h3 {
             font-size: 1rem;
             color: #3d4094;
             line-height: 1.2;
+            text-align: center;
         }
 
         @media (min-width: 768px) {
@@ -626,32 +639,6 @@
             margin-bottom: 30px;
         }
 
-        /* Loader */
-        #loader {
-            position: fixed;
-            inset: 0;
-            background: #fff;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.6s;
-        }
-
-        #loader.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .box-spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid #3d4094;
-            border-top-color: #00a859;
-            border-right-color: #ed3338;
-            border-radius: 8px;
-            animation: box-morph 1.5s infinite;
-        }
 
         @keyframes box-morph {
             0% {
@@ -706,7 +693,7 @@
             transform: translateY(0);
         }
 
-        /* --- Footer (Original Styles) --- */
+        /* --- Footer --- */
         .footer-section {
             background-color: #1f2937;
             color: #f3f4f6;
@@ -800,48 +787,52 @@
 
 <body>
 
-    <div id="loader">
-        <div class="box-spinner"></div>
-    </div>
-
     <!-- NAVBAR -->
     <nav id="navbar" class="navbar">
         <div class="container">
             <div class="nav-content">
                 <div class="logo-container" onclick="showHome()">
-                    <img src="./asset/RRD_LOGO.png" class="logo-img" alt="RRD Logo"
-                        onerror="this.src='https://placehold.co/150x50/3d4094/ffffff?text=RRD';">
+                    <a href="../index.html">
+                        <img src="../asset/ventures/rrd-flexi-pack-logo.webp" class="logo-img"
+                            alt="RRD Flexi pack Logo">
+                    </a>
                 </div>
 
                 <div class="desktop-menu">
-                    <a href="#" onclick="showHome(); return false;" class="nav-link">Home</a>
-                    <a href="./Aboutus/index.html" class="nav-link">About</a>
+                    <a href="../index.html" class="nav-link">Home</a>
+                    <a href="../Aboutus/index.html" class="nav-link">About</a>
 
                     <div class="dropdown-parent">
                         <button class="dropdown-trigger">
-                            <span>Products</span>
-                            <i class="ph ph-caret-down caret-icon"></i>
+                            <a href="../Products/index.html">
+                                <span>Products</span>
+                                <i class="ph ph-caret-down caret-icon"></i>
+                            </a>
                         </button>
                         <div class="dropdown-menu wide">
                             <a href="#" class="dropdown-item"
                                 onclick="openProductByName('Stand Up Pouches', event); return false;">Stand Up
                                 Pouches</a>
                             <a href="#" class="dropdown-item"
-                                onclick="openProductByName('Zipper Pouches', event); return false;">Zipper Pouches</a>
-                            <a href="#" class="dropdown-item"
-                                onclick="openProductByName('Gussetted Pouches', event); return false;">Gussetted
+                                onclick="openProductByName('Zipper Pouches', event); return false;">Zipper
                                 Pouches</a>
+                            <a href="#" class="dropdown-item"
+                                onclick="openProductByName('Gusseted Pouches', event); return false;">Gusseted Pouches
+                            </a>
                             <a href="#" class="dropdown-item"
                                 onclick="openProductByName('Centre Seal Pouches', event); return false;">Centre Seal
                                 Pouches</a>
                             <a href="#" class="dropdown-item"
-                                onclick="openProductByName('3 Side Seal', event); return false;">3 Side Seal Pouches</a>
+                                onclick="openProductByName('3 Side Seal', event); return false;">3 Side Seal
+                                Pouches</a>
                             <a href="#" class="dropdown-item"
                                 onclick="openProductByName('Spout Pouches', event); return false;">Spout Pouches</a>
                             <a href="#" class="dropdown-item"
-                                onclick="openProductByName('Vacuum Pouches', event); return false;">Vacuum Pouches</a>
+                                onclick="openProductByName('Vacuum Pouches', event); return false;">Vacuum
+                                Pouches</a>
                             <a href="#" class="dropdown-item"
-                                onclick="openProductByName('D Cut & Euro Hole', event); return false;">D Cut & Euro Hole
+                                onclick="openProductByName('D Cut & Euro Hole', event); return false;">D Cut & Euro
+                                Hole
                                 Pouches</a>
                             <a href="#" class="dropdown-item"
                                 onclick="openProductByName('Shrink Film', event); return false;">Shrink Film</a>
@@ -854,34 +845,12 @@
                         </div>
                     </div>
 
-                    <div class="dropdown-parent">
-                        <button class="dropdown-trigger">
-                            <span>Ecosystem</span>
-                            <i class="ph ph-caret-down caret-icon"></i>
-                        </button>
-                        <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Technology Infrastructure</a>
-                            <a href="#" class="dropdown-item">Manufacturing Process</a>
-                            <a href="#" class="dropdown-item">Strategic Ventures</a>
-                        </div>
-                    </div>
 
-                    <a href="./Quality-assurance/index.html" class="nav-link">Quality</a>
-                    <a href="./ventures/index.html" class="nav-link">Ventures</a>
-                    <a href="#" class="nav-link">Careers</a>
-                    <a href="./Contact-us/index.html" class="nav-link">Contact</a>
 
-                    <div class="dropdown-parent">
-                        <button class="dropdown-trigger">
-                            <span>Knowledge Center</span>
-                            <i class="ph ph-caret-down caret-icon"></i>
-                        </button>
-                        <div class="dropdown-menu medium right-align">
-                            <a href="#" class="dropdown-item">Insights & Blogs</a>
-                            <a href="#" class="dropdown-item">News & Updates</a>
-                            <a href="#" class="dropdown-item">Certifications & Compliance</a>
-                        </div>
-                    </div>
+                    <a href="../Quality-assurance/index.html" class="nav-link">Quality</a>
+                    <a href="../ventures/index.html" class="nav-link">Ventures</a>
+                    <a href="../Contact-us/index.html" class="nav-link">Contact</a>
+
                 </div>
 
                 <div class="mobile-menu-btn-container">
@@ -895,16 +864,19 @@
         <!-- MOBILE MENU -->
         <div id="mobile-menu" class="mobile-menu" data-lenis-prevent>
             <div class="mobile-nav-container">
-                <a href="#" onclick="showHome(); return false;" class="mobile-link">Home</a>
-                <a href="./Aboutus/index.html" class="mobile-link">About</a>
+                <a href="../index.html" class="mobile-link">Home</a>
+                <a href="../Aboutus/index.html" class="mobile-link">About</a>
                 <div>
                     <button class="mobile-dropdown-btn">
-                        <span>Products</span>
-                        <i class="ph ph-caret-down caret-icon"></i>
+                        <a href="../Products/index.html">
+                            <span>Products</span>
+                            <i class="ph ph-caret-down caret-icon"></i>
+                        </a>
                     </button>
                     <div class="mobile-dropdown-content">
                         <a href="#" class="mobile-sub-link"
-                            onclick="openProductByName('Stand Up Pouches', event); return false;">Stand Up Pouches</a>
+                            onclick="openProductByName('Stand Up Pouches', event); return false;">Stand Up
+                            Pouches</a>
                         <a href="#" class="mobile-sub-link"
                             onclick="openProductByName('Zipper Pouches', event); return false;">Zipper Pouches</a>
                         <a href="#" class="mobile-sub-link"
@@ -914,7 +886,8 @@
                         <a href="#" class="mobile-sub-link"
                             onclick="openProductByName('Shrink Film', event); return false;">Shrink Film</a>
                         <a href="#" class="mobile-sub-link"
-                            onclick="openProductByName('Gussetted Pouches', event); return false;">Gussetted Pouches</a>
+                            onclick="openProductByName('Gusseted Pouches', event); return false;">Gusseted Pouches
+                        </a>
                         <a href="#" class="mobile-sub-link"
                             onclick="openProductByName('Centre Seal Pouches', event); return false;">Centre Seal
                             Pouches</a>
@@ -931,32 +904,10 @@
                             onclick="openProductByName('Stretch Film', event); return false;">Stretch Film</a>
                     </div>
                 </div>
-                <div>
-                    <button class="mobile-dropdown-btn">
-                        <span>Ecosystem</span>
-                        <i class="ph ph-caret-down caret-icon"></i>
-                    </button>
-                    <div class="mobile-dropdown-content">
-                        <a href="#" class="mobile-sub-link">Technology Infrastructure</a>
-                        <a href="#" class="mobile-sub-link">Manufacturing Process</a>
-                        <a href="#" class="mobile-sub-link">Strategic Ventures</a>
-                    </div>
-                </div>
-                <a href="./Quality-assurance/index.html" class="mobile-link">Quality</a>
-                <a href="./ventures/index.html" class="mobile-link">Ventures</a>
-                <a href="#" class="mobile-link">Careers</a>
-                <a href="./Contact-us/index.html" class="mobile-link">Contact</a>
-                <div>
-                    <button class="mobile-dropdown-btn">
-                        <span>Knowledge Center</span>
-                        <i class="ph ph-caret-down caret-icon"></i>
-                    </button>
-                    <div class="mobile-dropdown-content">
-                        <a href="#" class="mobile-sub-link">Insights & Blogs</a>
-                        <a href="#" class="mobile-sub-link">News & Updates</a>
-                        <a href="#" class="mobile-sub-link">Certifications & Compliance</a>
-                    </div>
-                </div>
+                <a href="../Quality-assurance/index.html" class="mobile-link">Quality</a>
+                <a href="../ventures/index.html" class="mobile-link">Ventures</a>
+                <a href="../Contact-us/index.html" class="mobile-link">Contact</a>
+
             </div>
         </div>
     </nav>
@@ -1033,8 +984,10 @@
             <div class="footer-content">
                 <div class="footer-col">
                     <div class="footer-logo">
-                        <img src="./asset/RRD_LOGO.png" alt="RRD Logo"
-                            onerror="this.onerror=null; this.src='https://placehold.co/150x50/ffffff/3d4094?text=RRD';">
+                        <a href="../index.html">
+                            <img src="../asset/ventures/rrd-flexi-pack-logo.webp" class="logo-img"
+                                alt="RRD Flexi pack Logo">
+                        </a>
                     </div>
                     <p class="footer-about-text">
                         Flexible Packaging Manufacturer delivering quality-driven packaging solutions.
@@ -1043,11 +996,11 @@
                 <div class="footer-col">
                     <h3>Quick Links</h3>
                     <ul class="footer-links">
-                        <li><a href="#" onclick="showHome()">Home</a></li>
-                        <li><a href="./Aboutus/index.html">About Us</a></li>
-                        <li><a href="#" onclick="showHome()">Products</a></li>
-                        <li><a href="./Quality-assurance/index.html">Quality</a></li>
-                        <li><a href="./Contact-us/index.html">Contact Us</a></li>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../Aboutus/index.html">About Us</a></li>
+                        <li><a href="../Products/index.html">Products</a></li>
+                        <li><a href="../Quality-assurance/index.html">Quality</a></li>
+                        <li><a href="../Contact-us/index.html">Contact Us</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -1063,11 +1016,11 @@
                         </li>
                         <li>
                             <i class="ph ph-phone"></i>
-                            <span><strong>Phone:</strong><br>+91 9422291368</span>
+                            <span><strong>Phone:</strong><br>+91 9421832446</span>
                         </li>
                         <li>
                             <i class="ph ph-envelope"></i>
-                            <span><strong>Email:</strong><br>info@rrflexipack.com</span>
+                            <span><strong>Email:</strong><br>rrdflexipack@gmail.com</span>
                         </li>
                     </ul>
                 </div>
@@ -1080,18 +1033,78 @@
 
     <script>
         const productData = [
-            { title: 'Stand Up Pouches', slug: 'stand-up-pouches', image: 'https://images.unsplash.com/photo-1601612447953-b09b5523dc17?auto=format&fit=crop&w=800&q=80', specs: 'A pouch with the ability to stand-up and is sealed from both sides and from the bottom. Various sizes suitable to pack 2 gms to 25 Kgs.' },
-            { title: 'Zipper Pouches', slug: 'zipper-pouches', image: 'https://images.unsplash.com/photo-1596547608882-6b941c411475?auto=format&fit=crop&w=800&q=80', specs: '3 side seal or stand-up pouch having zipper on top for reuse of pouches. Ideal for dry fruits, snacks, and namkeens.' },
-            { title: 'Gussetted Pouches', slug: 'gussetted-pouches', image: 'https://images.unsplash.com/photo-1607613009820-a29f7bb6dc2d?auto=format&fit=crop&w=800&q=80', specs: 'Side gusset bag, heat sealed side gusset bag, laminated side gusset bag. Perfect for high-volume products.' },
-            { title: 'Centre Seal Pouches', slug: 'centre-seal-pouches', image: 'https://images.unsplash.com/photo-1632511046738-9273c333066d?auto=format&fit=crop&w=800&q=80', specs: 'Packaging pouches made from quality poly material with a seal in the center of the pouch. Popular for pulses and granulates.' },
-            { title: '3 Side Seal', slug: '3-side-seal', image: 'https://images.unsplash.com/photo-1629196929940-2792d2422700?auto=format&fit=crop&w=800&q=80', specs: 'Sealed from 3 sides and is excellent for vacuum packing. Used widely for pharmaceutical and dairy products.' },
-            { title: 'Spout Pouches', slug: 'spout-pouches', image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80', specs: '3 side seal spout pouch or stand up pouch. Heat sealed laminated spout pouch for liquid form products like oils and beverages.' },
-            { title: 'Vacuum Pouches', slug: 'vacuum-pouches', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=800&q=80', specs: 'Removing atmospheric oxygen and limiting growth of aerobic bacteria. Excellent for vacuum packing perishable items.' },
-            { title: 'D Cut & Euro Hole', slug: 'd-cut-euro-hole', image: 'https://images.unsplash.com/photo-1606296319806-253c528ce07c?auto=format&fit=crop&w=800&q=80', specs: 'Range of D Cut & Euro Hole available in different customized specifications such as sizes for hanging retail displays.' },
-            { title: 'Shrink Film', slug: 'shrink-film', image: 'https://images.unsplash.com/photo-1595348092801-6c4596d11566?auto=format&fit=crop&w=800&q=80', specs: 'Premium PVC Sleeves and Shrink films for bundling and tamper-evident packaging. High-clarity bundling solutions.' },
-            { title: 'Mulching Film', slug: 'mulching-film', image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80', specs: 'Agricultural grade UV-stabilized films designed to suppress weeds and conserve soil moisture for better crop yield.' },
-            { title: 'LD Liners', slug: 'ld-liners', image: 'https://images.unsplash.com/photo-1603565983578-8321648d8883?auto=format&fit=crop&w=800&q=80', specs: 'Heavy-duty LDPE liners for bulk storage, industrial drums, and transport packaging.' },
-            { title: 'Stretch Film', slug: 'stretch-film', image: 'https://images.unsplash.com/photo-1587595431973-160d0d94add1?auto=format&fit=crop&w=800&q=80', specs: 'Industrial grade LLDPE Stretch Film with high puncture resistance for secure pallet wrapping.' }
+            {
+                title: 'Stand Up Pouches',
+                slug: 'stand-up-pouches',
+                image: '../asset/Pouches/stand-up-pouches.webp',
+                specs: 'A pouch with the ability to stand up and is sealed from both the sides and from the bottom.'
+            },
+            {
+                title: 'Zipper Pouches',
+                slug: 'zipper-pouches',
+                image: '../asset/Pouches/zipper-pouches.webp',
+                specs: '3 side seal or stand up pouch having zipper on top for reuse of pouches.'
+            },
+            {
+                title: 'Gusseted Pouches',
+                slug: 'gusseted-pouches',
+                image: '../asset/Pouches/gusseted-pouches.webp',
+                specs: 'Side gusset bag, heat sealed side gusset bag, laminated side gusset bag.'
+            },
+            {
+                title: 'Centre Seal Pouches',
+                slug: 'centre-seal-pouches',
+                image: '../asset/Pouches/centre-seal-pouches.webp',
+                specs: 'Packaging pouches made from quality poly material with a seal in the center of the pouch.'
+            },
+            {
+                title: '3 Side Seal Pouches',
+                slug: '3-side-seal-pouches',
+                image: '../asset/Pouches/3-side-seal-poches.webp',
+                specs: 'Packaging pouches that are sealed from 3 sides and are excellent for vacuum packing.'
+            },
+            {
+                title: 'Spout Pouches',
+                slug: 'spout-pouches',
+                image: '../asset/Pouches/spout-pouches.webp',
+                specs: '3 side seal spout pouch or stand up pouch, heat sealed laminated spout pouch.'
+            },
+            {
+                title: 'Vacuum Pouches',
+                slug: 'vacuum-pouches',
+                image: '../asset/Pouches/vaccum-pouches.webp',
+                specs: 'Preventing the growth of microorganisms, removing atmospheric oxygen, limiting the growth of aerobic bacteria or fungi, and preventing the evaporation of volatile components.'
+            },
+            {
+                title: 'D Cut & Euro Hole Pouches',
+                slug: 'd-cut-euro-hole-pouches',
+                image: '../asset/Pouches/d-cut-and-euro-hole-pouches.webp',
+                specs: 'Available in different customized specifications such as sizes for easy carrying and hanging display.'
+            },
+            {
+                title: 'Shrink Film',
+                slug: 'shrink-film',
+                image: '../asset/Pouches/shrink-film.webp',
+                specs: 'Lorem Ipsum is simply dummy text of the printing and typesetting'
+            },
+            {
+                title: 'Mulching Film',
+                slug: 'mulching-film',
+                image: '../asset/Pouches/mulching-film.webp',
+                specs: 'Lorem Ipsum is simply dummy text of the printing and typesetting'
+            },
+            {
+                title: 'LD Liners',
+                slug: 'ld-liners',
+                image: '../asset/Pouches/ld-liners.webp',
+                specs: 'Lorem Ipsum is simply dummy text of the printing and typesetting'
+            },
+            {
+                title: 'Stretch Film',
+                slug: 'stretch-film',
+                image: '../asset/Pouches/shrink-film.webp',
+                specs: 'Lorem Ipsum is simply dummy text of the printing and typesetting'
+            },
         ];
 
         let lenis;
@@ -1207,12 +1220,12 @@
                 const delay = (i % 6) * 0.1;
                 return `
                 <div class="pkg-product-card reveal" style="transition-delay: ${delay}s" onclick="navigateToProduct(${globalIndex})">
-                    <img src="${p.image}" alt="${p.title}" class="pkg-product-image">
+                    <img src="${p.image}" alt="${p.specs}" class="pkg-product-image">
                     <h3>${p.title}</h3>
+                    <i class="ph ph-arrow-right arrow-icon"></i>
                 </div>
             `}).join('');
 
-            // Re-observe elements
             document.querySelectorAll('.reveal, .pkg-product-card').forEach(el => observer.observe(el));
         }
 
@@ -1223,9 +1236,6 @@
             } else { showHome(); }
         });
 
-        // RE-TRIGGER ANIMATION LOGIC:
-        // By checking current position relative to viewport, we only reset 
-        // the animation class if the element leaves the view from the BOTTOM.
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1241,7 +1251,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             renderGrid(productData);
 
-            // Lenis Initialization
             lenis = new Lenis({
                 duration: 1.4,
                 easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -1260,13 +1269,7 @@
             }
             requestAnimationFrame(raf);
 
-            // Hide Loader
-            setTimeout(() => {
-                document.getElementById('loader').classList.add('hidden');
-                document.body.classList.add('loaded');
-            }, 800);
 
-            // Initial Reveal Observe
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         });
 
