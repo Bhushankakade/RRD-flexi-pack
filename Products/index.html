@@ -51,6 +51,28 @@
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
 
     <style>
+        /* --- Smooth Scroll Recommended CSS --- */
+        html.lenis,
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
         /* --- Reset & Base Styles --- */
         * {
             box-sizing: border-box;
@@ -101,11 +123,12 @@
             display: block;
         }
 
-        /* --- Animations --- */
+        /* --- Animations & Repeatable Reveals --- */
         .reveal {
             opacity: 0;
-            transform: translateY(60px);
-            transition: opacity 1.2s cubic-bezier(0.215, 0.61, 0.355, 1), transform 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+            transform: translateY(50px);
+            transition: opacity 1.4s cubic-bezier(0.25, 1, 0.5, 1),
+                transform 1.4s cubic-bezier(0.25, 1, 0.5, 1);
             will-change: opacity, transform;
         }
 
@@ -114,7 +137,7 @@
             transform: translateY(0);
         }
 
-        /* --- Navbar (RESTORED ORIGINAL STYLE) --- */
+        /* --- Navbar (Original Styles Restored) --- */
         .navbar {
             position: fixed;
             top: 0;
@@ -398,96 +421,6 @@
             transform: rotate(180deg);
         }
 
-        /* --- Footer (RESTORED ORIGINAL STYLE) --- */
-        .footer-section {
-            background-color: #1f2937;
-            color: #f3f4f6;
-            padding: 80px 0 30px 0;
-            font-family: "Roboto", sans-serif;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 60px;
-        }
-
-        .footer-col h3 {
-            color: #ffffff;
-            font-family: "Fredoka", sans-serif;
-            font-size: 1.5rem;
-            margin-bottom: 25px;
-            position: relative;
-            padding-bottom: 10px;
-        }
-
-        .footer-col h3::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 50px;
-            height: 3px;
-            background-color: #ed3338;
-            border-radius: 2px;
-        }
-
-        .footer-logo img {
-            width: 6rem;
-        }
-
-        .footer-about-text {
-            color: #9ca3af;
-            line-height: 1.8;
-            font-size: 1rem;
-            max-width: 300px;
-        }
-
-        .footer-links,
-        .footer-contact {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-
-        .footer-links a {
-            color: #d1d5db;
-            transition: color 0.3s ease;
-            display: flex;
-            align-items: center;
-        }
-
-        .footer-links a:hover {
-            color: #ed3338;
-            padding-left: 5px;
-        }
-
-        .footer-contact li {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            color: #d1d5db;
-            align-items: flex-start;
-        }
-
-        .footer-contact i {
-            color: #ed3338;
-            font-size: 1.5rem;
-            margin-top: 3px;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid #374151;
-            padding-top: 30px;
-            text-align: center;
-            color: #9ca3af;
-            font-size: 0.95rem;
-        }
-
         /* --- Grid & Detail View --- */
         .pkg-section {
             background: linear-gradient(180deg, #00b0f0 0%, #b1eaff 100%);
@@ -501,7 +434,7 @@
 
         .pkg-section h1 {
             color: #ffffff;
-            font-size: 2.5rem;
+            font-size: clamp(1.5rem, 4vw, 2rem);
             margin-bottom: 40px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             font-weight: 700;
@@ -537,19 +470,46 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 25px;
+            gap: 10px;
             margin-bottom: 50px;
         }
 
+        /* --- FIXED BOXES: 2 per row on small screens, 3 on large --- */
         .pkg-product-card {
-            width: calc(33.333% - 17px);
+            width: calc(50% - 9px);
+            /* Default: 2 per row */
             background: rgba(247, 241, 241, 0.38);
             border-radius: 15px;
             padding: 20px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1),
+                opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1),
+                box-shadow 0.3s;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             cursor: pointer;
+            opacity: 0;
+            transform: translateY(40px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 992px) {
+            .pkg-product-card {
+                width: calc(33.333% - 17px);
+                /* 3 per row on desktop */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pkg-product-card {
+                padding: 12px;
+                gap: 10px;
+            }
+        }
+
+        .pkg-product-card.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .pkg-product-card:hover {
@@ -560,11 +520,31 @@
 
         .pkg-product-image {
             width: 100%;
-            height: 250px;
+            height: 200px;
+            /* Reduced for 2-column mobile */
             object-fit: cover;
             border-radius: 10px;
             margin-bottom: 15px;
             background: #fff;
+        }
+
+        @media (min-width: 992px) {
+            .pkg-product-image {
+                height: 250px;
+                /* Taller on desktop */
+            }
+        }
+
+        .pkg-product-card h3 {
+            font-size: 1rem;
+            color: #3d4094;
+            line-height: 1.2;
+        }
+
+        @media (min-width: 768px) {
+            .pkg-product-card h3 {
+                font-size: 1.2rem;
+            }
         }
 
         .product-details-section {
@@ -572,7 +552,7 @@
             max-width: 1000px;
             margin: 0 auto;
             display: none;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.8s ease;
         }
 
         @keyframes fadeIn {
@@ -725,6 +705,96 @@
         .modal-overlay.open .modal-content {
             transform: translateY(0);
         }
+
+        /* --- Footer (Original Styles) --- */
+        .footer-section {
+            background-color: #1f2937;
+            color: #f3f4f6;
+            padding: 80px 0 30px 0;
+            font-family: "Roboto", sans-serif;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h3 {
+            color: #ffffff;
+            font-family: "Fredoka", sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #ed3338;
+            border-radius: 2px;
+        }
+
+        .footer-logo img {
+            width: 6rem;
+        }
+
+        .footer-about-text {
+            color: #9ca3af;
+            line-height: 1.8;
+            font-size: 1rem;
+            max-width: 300px;
+        }
+
+        .footer-links,
+        .footer-contact {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #d1d5db;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-links a:hover {
+            color: #ed3338;
+            padding-left: 5px;
+        }
+
+        .footer-contact li {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            color: #d1d5db;
+            align-items: flex-start;
+        }
+
+        .footer-contact i {
+            color: #ed3338;
+            font-size: 1.5rem;
+            margin-top: 3px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 30px;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.95rem;
+        }
     </style>
 </head>
 
@@ -734,7 +804,7 @@
         <div class="box-spinner"></div>
     </div>
 
-    <!-- NAVBAR (RESTORED ORIGINAL) -->
+    <!-- NAVBAR -->
     <nav id="navbar" class="navbar">
         <div class="container">
             <div class="nav-content">
@@ -822,7 +892,7 @@
             </div>
         </div>
 
-        <!-- MOBILE MENU (FIXED WITH data-lenis-prevent) -->
+        <!-- MOBILE MENU -->
         <div id="mobile-menu" class="mobile-menu" data-lenis-prevent>
             <div class="mobile-nav-container">
                 <a href="#" onclick="showHome(); return false;" class="mobile-link">Home</a>
@@ -895,7 +965,7 @@
         <!-- HOME VIEW -->
         <div id="home-view" class="pkg-section">
             <div class="container pkg-container">
-                <h1 class="reveal">Custom Engineered Packaging Solutions</h1>
+                <h1 class="reveal">Explore Our High-Quality Packaging Products</h1>
                 <div class="search-container reveal">
                     <input type="text" id="searchInput" class="search-input"
                         placeholder="Search for Pouches, Rolls or Films...">
@@ -935,7 +1005,8 @@
     <div id="quoteModal" class="modal-overlay">
         <div class="modal-content">
             <h3 style="font-family: 'Fredoka'; color: #3d4094; font-size: 1.5rem; margin-bottom: 20px;">Inquiry for
-                <span id="targetProd"></span></h3>
+                <span id="targetProd"></span>
+            </h3>
             <form id="quoteForm" onsubmit="event.preventDefault(); alert('Request Sent!'); closeQuoteModal();">
                 <div style="margin-bottom: 15px;">
                     <label style="display: block; font-size: 14px; margin-bottom: 5px;">Your Name</label>
@@ -956,7 +1027,7 @@
         </div>
     </div>
 
-    <!-- FOOTER (RESTORED ORIGINAL) -->
+    <!-- FOOTER -->
     <footer class="footer-section reveal">
         <div class="container">
             <div class="footer-content">
@@ -1009,78 +1080,18 @@
 
     <script>
         const productData = [
-            {
-                title: 'Stand Up Pouches',
-                slug: 'stand-up-pouches',
-                image: 'https://images.unsplash.com/photo-1601612447953-b09b5523dc17?auto=format&fit=crop&w=800&q=80',
-                specs: 'A pouch with the ability to stand-up and is sealed from both sides and from the bottom. Various sizes suitable to pack 2 gms to 25 Kgs.'
-            },
-            {
-                title: 'Zipper Pouches',
-                slug: 'zipper-pouches',
-                image: 'https://images.unsplash.com/photo-1596547608882-6b941c411475?auto=format&fit=crop&w=800&q=80',
-                specs: '3 side seal or stand-up pouch having zipper on top for reuse of pouches. Ideal for dry fruits, snacks, and namkeens.'
-            },
-            {
-                title: 'Gussetted Pouches',
-                slug: 'gussetted-pouches',
-                image: 'https://images.unsplash.com/photo-1607613009820-a29f7bb6dc2d?auto=format&fit=crop&w=800&q=80',
-                specs: 'Side gusset bag, heat sealed side gusset bag, laminated side gusset bag. Perfect for high-volume products.'
-            },
-            {
-                title: 'Centre Seal Pouches',
-                slug: 'centre-seal-pouches',
-                image: 'https://images.unsplash.com/photo-1632511046738-9273c333066d?auto=format&fit=crop&w=800&q=80',
-                specs: 'Packaging pouches made from quality poly material with a seal in the center of the pouch. Popular for pulses and granulates.'
-            },
-            {
-                title: '3 Side Seal',
-                slug: '3-side-seal',
-                image: 'https://images.unsplash.com/photo-1629196929940-2792d2422700?auto=format&fit=crop&w=800&q=80',
-                specs: 'Sealed from 3 sides and is excellent for vacuum packing. Used widely for pharmaceutical and dairy products.'
-            },
-            {
-                title: 'Spout Pouches',
-                slug: 'spout-pouches',
-                image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80',
-                specs: '3 side seal spout pouch or stand up pouch. Heat sealed laminated spout pouch for liquid form products like oils and beverages.'
-            },
-            {
-                title: 'Vacuum Pouches',
-                slug: 'vacuum-pouches',
-                image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=800&q=80',
-                specs: 'Removing atmospheric oxygen and limiting growth of aerobic bacteria. Excellent for vacuum packing perishable items.'
-            },
-            {
-                title: 'D Cut & Euro Hole',
-                slug: 'd-cut-euro-hole',
-                image: 'https://images.unsplash.com/photo-1606296319806-253c528ce07c?auto=format&fit=crop&w=800&q=80',
-                specs: 'Range of D Cut & Euro Hole available in different customized specifications such as sizes for hanging retail displays.'
-            },
-            {
-                title: 'Shrink Film',
-                slug: 'shrink-film',
-                image: 'https://images.unsplash.com/photo-1595348092801-6c4596d11566?auto=format&fit=crop&w=800&q=80',
-                specs: 'Premium PVC Sleeves and Shrink films for bundling and tamper-evident packaging. High-clarity bundling solutions.'
-            },
-            {
-                title: 'Mulching Film',
-                slug: 'mulching-film',
-                image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80',
-                specs: 'Agricultural grade UV-stabilized films designed to suppress weeds and conserve soil moisture for better crop yield.'
-            },
-            {
-                title: 'LD Liners',
-                slug: 'ld-liners',
-                image: 'https://images.unsplash.com/photo-1603565983578-8321648d8883?auto=format&fit=crop&w=800&q=80',
-                specs: 'Heavy-duty LDPE liners for bulk storage, industrial drums, and transport packaging.'
-            },
-            {
-                title: 'Stretch Film',
-                slug: 'stretch-film',
-                image: 'https://images.unsplash.com/photo-1587595431973-160d0d94add1?auto=format&fit=crop&w=800&q=80',
-                specs: 'Industrial grade LLDPE Stretch Film with high puncture resistance for secure pallet wrapping.'
-            }
+            { title: 'Stand Up Pouches', slug: 'stand-up-pouches', image: 'https://images.unsplash.com/photo-1601612447953-b09b5523dc17?auto=format&fit=crop&w=800&q=80', specs: 'A pouch with the ability to stand-up and is sealed from both sides and from the bottom. Various sizes suitable to pack 2 gms to 25 Kgs.' },
+            { title: 'Zipper Pouches', slug: 'zipper-pouches', image: 'https://images.unsplash.com/photo-1596547608882-6b941c411475?auto=format&fit=crop&w=800&q=80', specs: '3 side seal or stand-up pouch having zipper on top for reuse of pouches. Ideal for dry fruits, snacks, and namkeens.' },
+            { title: 'Gussetted Pouches', slug: 'gussetted-pouches', image: 'https://images.unsplash.com/photo-1607613009820-a29f7bb6dc2d?auto=format&fit=crop&w=800&q=80', specs: 'Side gusset bag, heat sealed side gusset bag, laminated side gusset bag. Perfect for high-volume products.' },
+            { title: 'Centre Seal Pouches', slug: 'centre-seal-pouches', image: 'https://images.unsplash.com/photo-1632511046738-9273c333066d?auto=format&fit=crop&w=800&q=80', specs: 'Packaging pouches made from quality poly material with a seal in the center of the pouch. Popular for pulses and granulates.' },
+            { title: '3 Side Seal', slug: '3-side-seal', image: 'https://images.unsplash.com/photo-1629196929940-2792d2422700?auto=format&fit=crop&w=800&q=80', specs: 'Sealed from 3 sides and is excellent for vacuum packing. Used widely for pharmaceutical and dairy products.' },
+            { title: 'Spout Pouches', slug: 'spout-pouches', image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=80', specs: '3 side seal spout pouch or stand up pouch. Heat sealed laminated spout pouch for liquid form products like oils and beverages.' },
+            { title: 'Vacuum Pouches', slug: 'vacuum-pouches', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=800&q=80', specs: 'Removing atmospheric oxygen and limiting growth of aerobic bacteria. Excellent for vacuum packing perishable items.' },
+            { title: 'D Cut & Euro Hole', slug: 'd-cut-euro-hole', image: 'https://images.unsplash.com/photo-1606296319806-253c528ce07c?auto=format&fit=crop&w=800&q=80', specs: 'Range of D Cut & Euro Hole available in different customized specifications such as sizes for hanging retail displays.' },
+            { title: 'Shrink Film', slug: 'shrink-film', image: 'https://images.unsplash.com/photo-1595348092801-6c4596d11566?auto=format&fit=crop&w=800&q=80', specs: 'Premium PVC Sleeves and Shrink films for bundling and tamper-evident packaging. High-clarity bundling solutions.' },
+            { title: 'Mulching Film', slug: 'mulching-film', image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80', specs: 'Agricultural grade UV-stabilized films designed to suppress weeds and conserve soil moisture for better crop yield.' },
+            { title: 'LD Liners', slug: 'ld-liners', image: 'https://images.unsplash.com/photo-1603565983578-8321648d8883?auto=format&fit=crop&w=800&q=80', specs: 'Heavy-duty LDPE liners for bulk storage, industrial drums, and transport packaging.' },
+            { title: 'Stretch Film', slug: 'stretch-film', image: 'https://images.unsplash.com/photo-1587595431973-160d0d94add1?auto=format&fit=crop&w=800&q=80', specs: 'Industrial grade LLDPE Stretch Film with high puncture resistance for secure pallet wrapping.' }
         ];
 
         let lenis;
@@ -1142,6 +1153,7 @@
             openProductView(index);
         }
 
+        // Navigation Controls
         const mobileMenu = document.getElementById('mobile-menu');
         const menuIcon = document.getElementById('menu-icon');
         const mobileBtn = document.getElementById('mobile-menu-btn');
@@ -1169,6 +1181,7 @@
             });
         });
 
+        // Image Zoom Logic
         const zoomContainer = document.getElementById('zoomContainer');
         const pdImage = document.getElementById('pd-image');
         zoomContainer.addEventListener('mousemove', (e) => {
@@ -1180,6 +1193,7 @@
         });
         zoomContainer.addEventListener('mouseleave', () => { pdImage.style.transform = 'scale(1)'; });
 
+        // Search Logic
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
             const filtered = productData.filter(p => p.title.toLowerCase().includes(term));
@@ -1190,34 +1204,69 @@
             const grid = document.getElementById('productGrid');
             grid.innerHTML = data.map((p, i) => {
                 const globalIndex = productData.findIndex(item => item.slug === p.slug);
+                const delay = (i % 6) * 0.1;
                 return `
-                <div class="pkg-product-card reveal active" onclick="navigateToProduct(${globalIndex})">
+                <div class="pkg-product-card reveal" style="transition-delay: ${delay}s" onclick="navigateToProduct(${globalIndex})">
                     <img src="${p.image}" alt="${p.title}" class="pkg-product-image">
                     <h3>${p.title}</h3>
                 </div>
             `}).join('');
+
+            // Re-observe elements
+            document.querySelectorAll('.reveal, .pkg-product-card').forEach(el => observer.observe(el));
         }
 
+        // Popstate for Browser Navigation
         window.addEventListener('popstate', (e) => {
             if (e.state && e.state.index !== undefined) {
                 openProductView(e.state.index);
             } else { showHome(); }
         });
 
+        // RE-TRIGGER ANIMATION LOGIC:
+        // By checking current position relative to viewport, we only reset 
+        // the animation class if the element leaves the view from the BOTTOM.
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                } else {
+                    if (entry.boundingClientRect.top > 0) {
+                        entry.target.classList.remove('active');
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
         document.addEventListener('DOMContentLoaded', () => {
             renderGrid(productData);
-            lenis = new Lenis({ duration: 1.2 });
-            function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+
+            // Lenis Initialization
+            lenis = new Lenis({
+                duration: 1.4,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                mouseMultiplier: 1,
+                smoothTouch: false,
+                touchMultiplier: 2,
+                infinite: false,
+            });
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
             requestAnimationFrame(raf);
 
+            // Hide Loader
             setTimeout(() => {
                 document.getElementById('loader').classList.add('hidden');
                 document.body.classList.add('loaded');
             }, 800);
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
-            }, { threshold: 0.1 });
+            // Initial Reveal Observe
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         });
 
