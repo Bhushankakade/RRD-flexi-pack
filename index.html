@@ -689,7 +689,12 @@
         }
 
         .printing_machine {
-            object-fit: contain;
+            object-fit: cover;
+            width: 100%;
+            height: 450px;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+
         }
 
         .what_we_do_image-container::before {
@@ -707,14 +712,6 @@
 
         .what_we_do_image-container:hover::before {
             transform: translate(10px, -10px);
-        }
-
-        .what_we_do_image-container img {
-            width: 100%;
-            height: 450px;
-            object-fit: cover;
-            border-radius: 10px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
         .what_we_do_content {
@@ -1518,7 +1515,7 @@
                 display: none;
             }
 
-            .what_we_do_image-container img {
+            .what_we_do_image-container video {
                 height: 250px;
                 margin-top: 0;
             }
@@ -1944,8 +1941,10 @@
                 <div class="what_we_do">
                     <!-- Changed 'reveal' to 'reveal-left' for the image container -->
                     <div class="what_we_do_image-container reveal-left">
-                        <!-- Optimized Alt Text for SEO + Lazy Loading -->
-                        <img src="./asset/printing_machine.png" loading="lazy" class="zoom-img printing_machine" alt="">
+                        <!-- Converted to Video: Autoplay, Muted, Loop -->
+                        <video autoplay muted loop playsinline class="zoom-img printing_machine">
+                            <source src="./asset/Videos/Printing.mp4" type="video/mp4">
+                        </video>
                     </div>
                     <div class="what_we_do_content reveal reveal-delay-2">
                         <h2>What We Do</h2>
@@ -2065,10 +2064,11 @@
             <!-- NEW SECTION: Quality & Promise -->
             <section class="quality-section reveal">
                 <div class="container">
-                    <!-- Image: Quality Inspection -->
+                    <!-- Video: Quality Inspection (Converted from Image) -->
                     <div class="quality-image-container">
-                        <img src="./asset/quality_assurance.png" loading="lazy"
-                            alt="Quality Assurance Inspection at RRD Flexi Pack" class="quality-img">
+                        <video autoplay muted loop playsinline class="quality-img">
+                            <source src="./asset/Videos/Lamination_.mp4" type="video/mp4">
+                        </video>
                     </div>
 
                     <!-- Red Box Heading -->
@@ -2646,17 +2646,6 @@
             const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
             revealElements.forEach(el => observer.observe(el));
 
-            // 8. View All Button Logic
-            const viewAllBtn = document.getElementById('viewAllBtn');
-            if (viewAllBtn) {
-                viewAllBtn.addEventListener('click', function () {
-                    this.textContent = "Loading...";
-                    setTimeout(() => {
-                        console.log("Redirecting to full catalog...");
-                        this.textContent = "View All";
-                    }, 500);
-                });
-            }
 
             // 9. Zoom Logic
             const zoomContainer = document.getElementById('zoomContainer');
