@@ -179,8 +179,8 @@
         }
 
         .logo-img {
-            height: 42px;
-            width: auto;
+            width: 6rem;
+            margin-top: 8px;
         }
 
         .desktop-menu {
@@ -235,10 +235,6 @@
             .mobile-menu-btn {
                 display: none;
             }
-
-            .logo-img {
-                height: 48px;
-            }
         }
 
         /* --- Mobile Menu --- */
@@ -281,6 +277,11 @@
             position: relative;
             overflow: hidden;
             background: #000;
+        }
+
+        .video-header video {
+            object-fit: cover;
+            object-position: top center;
         }
 
         .bg-video {
@@ -519,8 +520,11 @@
             border-radius: 2px;
         }
 
+        /* Fixed stretch by adding height: auto and object-fit */
         .footer-logo img {
-            width: 5.5rem;
+            width: 6rem;
+            height: auto;
+            object-fit: contain;
         }
 
         .footer-about-text {
@@ -667,8 +671,8 @@
                         <a href="../index.html" class="nav-link">Home</a>
                         <a href="../Aboutus/index.html" class="nav-link">About</a>
                         <a href="../Aboutus/index.html" class="nav-link">Products</a>
-                        <a data-scroll-to="#solomark" class="nav-link" style="color: var(--primary);">Quality</a>
-                        <a href="#" class="nav-link">Ventures</a>
+                        <a data-scroll-to="../quality-assurance/index.html" class="nav-link">Quality</a>
+                        <a href="../ventures/index.html" class="nav-link">Ventures</a>
                         <a href="../Contact-us/index.html" class="nav-link">Contact</a>
                     </div>
 
@@ -683,8 +687,8 @@
                     <a href="../index.html" class="mobile-link">Home</a>
                     <a href="../Aboutus/index.html" class="mobile-link">About</a>
                     <a href="../Aboutus/index.html" class="mobile-link">Products</a>
-                    <a data-scroll-to="#solomark" class="mobile-link">Quality</a>
-                    <a href="#" class="mobile-link">Ventures</a>
+                    <a data-scroll-to="../Quality-assurance/index.html" class="mobile-link">Quality</a>
+                    <a href="../ventures/index.html" class="mobile-link">Ventures</a>
                     <a href="../Contact-us/index.html" class="mobile-link">Contact</a>
                 </div>
             </div>
@@ -695,18 +699,18 @@
         <!-- Header Section -->
         <section class="video-header">
             <video autoplay muted loop playsinline class="bg-video">
-                <source src="../asset/Quality Assure Page (1).mp4" type="video/mp4">
+                <source src="../asset/Videos/Quality Assure Page.mp4" type="video/mp4">
             </video>
         </section>
 
         <!-- Solomark Section -->
         <section id="solomark" class="machine-section">
             <div class="container">
-                <span class="machine-name reveal">Printing Excellence</span>
-                <h2 class="machine-spec-title reveal">Solomark Rotogravure Printing Press with Servo Technology</h2>
+
+                <h2 class="machine-spec-title reveal">Printing Solomark</h2>
 
                 <div class="machine-image-wrapper reveal">
-                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80"
+                    <img src="../asset/Machines images/Printing Solomark.webp"
                         alt="Solomark Rotogravure Printing Press Machine - RRD Flexi Pack Manufacturing">
                 </div>
 
@@ -721,11 +725,10 @@
         <!-- Sololam Section -->
         <section id="sololam" class="machine-section alt-bg">
             <div class="container">
-                <span class="machine-name reveal">Lamination Technology</span>
-                <h2 class="machine-spec-title reveal">Sololam Advanced Solvent-Based Laminating Solution</h2>
+                <h2 class="machine-spec-title reveal">Lamination Sololam</h2>
 
                 <div class="machine-image-wrapper reveal">
-                    <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80"
+                    <img src="../asset/Machines images/Lamination Sololam.webp"
                         alt="Sololam Laminating Machine for Plastic Films - RRD Flexi Pack">
                 </div>
 
@@ -742,11 +745,10 @@
         <!-- Slitting Machine Section -->
         <section id="slitting" class="machine-section">
             <div class="container">
-                <span class="machine-name reveal">Finishing Precision</span>
-                <h2 class="machine-spec-title reveal">High-Precision Splitting and Rewinding System</h2>
+                <h2 class="machine-spec-title reveal">Slitting Machine</h2>
 
                 <div class="machine-image-wrapper reveal">
-                    <img src="https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80"
+                    <img src="../asset/Machines images/Slitting Machine.webp"
                         alt="Industrial Slitting Machine for High Precision Packaging Rolls">
                 </div>
 
@@ -774,11 +776,10 @@
         <!-- 3 Layer Plant Section -->
         <section id="3layer" class="machine-section alt-bg">
             <div class="container">
-                <span class="machine-name reveal">Extrusion Plant</span>
-                <h2 class="machine-spec-title reveal">Windsor's REX Multilayer Co-extrusion Blown Film Plant</h2>
+                <h2 class="machine-spec-title reveal">3 Layer Plant</h2>
 
                 <div class="machine-image-wrapper reveal">
-                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80"
+                    <img src="../asset/Machines images/3 Layer Plant.webp"
                         alt="Windsor REX 3-Layer Co-extrusion Blown Film Plant Manufacturing Line">
                 </div>
 
@@ -801,7 +802,7 @@
                 <div class="footer-col">
                     <div class="footer-logo">
                         <a href="../index.html">
-                            <img src="../asset/RRD_LOGO.png" alt="R.R.D. Flexi Pack Logo">
+                            <img src="../asset/ventures/rrd-flexi-pack-logo.webp" alt="R.R.D. Flexi Pack Logo">
                         </a>
                     </div>
                     <p class="footer-about-text">
@@ -815,8 +816,8 @@
                     <ul class="footer-links">
                         <li><a href="../index.html">Home</a></li>
                         <li><a href="../Aboutus/index.html">About Us</a></li>
-                        <li><a href="#">Products</a></li>
-                        <li><a href="#">Quality</a></li>
+                        <li><a href="../Products/index.html">Products</a></li>
+                        <li><a href="../Quality-assurance/index.html">Quality</a></li>
                         <li><a href="../Contact-us/index.html">Contact Us</a></li>
                     </ul>
                 </div>
